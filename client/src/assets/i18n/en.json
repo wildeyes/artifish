@@ -1,0 +1,49 @@
+{
+	"an_unexpected_error_occurred": "An unexpected error occurred",
+	"auth": {
+		"oauth": {
+			"must_grant_permissions": "You must grant permissions to this application in order to login"
+		}
+	},
+	"common": {
+		"cancel": "Cancel",
+		"date": "Date",
+		"email": "Email",
+		"first_name": "First Name",
+		"last_name": "Last Name",
+		"login": "Login",
+		"sign_up": "Sign Up",
+		"next": "Next",
+		"page_was_not_found": "Page was not found",
+		"password": "Password"
+	},
+	"home": {
+		"welcome_to_artista": "Welcome to ARTISTA"
+	},
+	"sign_up": {
+		"a_valid_email_is_required": "A valid email is required",
+		"confirm_password": "Confirm Password",
+		"first_name_is_required": "First Name is required",
+		"last_name_is_required": "Last Name is required",
+		"password_confirmation_does_not_match_password": "Password confirmation does not match password",
+		"password_confirmation_is_required": "Password confirmation is required",
+		"password_is_required": "Password is required",
+		"password_should_be_at_least_x_characters": "Password should be at leat {{characters}} characters",
+		"some_of_the_input_fields_are_invalid": "Some of the input fields are invalid"
+	},
+	"login": {
+		"email_is_required": "Email is required",
+		"invalid_credentials": "Invalid credentials",
+		"password_is_required": "Password is required"
+	},
+	"verify": {
+		"user_was_verified": "User was verified",
+		"verification_code_is_incorrect": "Verification code is incorrect"
+	},
+	"navbar": {
+		"contact_us": "Contact Us",
+		"home": "Home",
+		"login": "Login",
+		"logout": "Logout"
+	}
+}

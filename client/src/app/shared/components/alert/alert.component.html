@@ -1,0 +1,11 @@
+<div
+  #messageDiv
+  *ngIf="message"
+  [ngClass]="{
+    'alert': message,
+    'alert-success': message.type === 'success',
+    'alert-danger': message.type === 'error'
+  }"
+  tabindex="-1">
+  {{ message.text | translate:{'params':message.params} }}
+</div>

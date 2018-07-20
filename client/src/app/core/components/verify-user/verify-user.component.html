@@ -1,0 +1,45 @@
+<div class="col-md-6 offset-md-3">
+  <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-3x"></i>
+  <ng-container *ngIf="invitation">
+    bla
+  </ng-container>
+</div>
+
+
+<!-- <div class="row mb-4">
+  <div class="col-md-6 offset-md-3">
+    <img src="assets/images/SMS-512.png" class="img-fluid mx-auto d-block mb-4" style="width:200px; height:200px">
+    <h1 class="text-center mb-4">{{'verify.verify_your_mobile_number' | translate}}</h1>
+    <ng-container *ngIf="!verificationSent; else verificationCodeSection">
+      <form #f="ngForm">
+        <div class="form-row">
+          <div class="form-group col-sm-9">
+            <label for="phoneNumber">{{'verify.enter_your_phone_number' | translate}}</label>
+            <int-phone-prefix #phoneNumberInput="ngModel" name="phoneNumber" [(ngModel)]="phoneNumber" required pattern="^\+[1-9].*"></int-phone-prefix>
+            <div *ngIf="phoneNumberInput.errors?.pattern || phoneNumberInput.errors?.requiredCountryCode" class="help-block text-danger">{{'verify.country_code_is_missing' | translate}}</div>
+          </div>
+          <div class="form-group col-sm-3 align-self-end">
+            <button *ngIf="!isLoading; else loading" class="btn btn-primary" [disabled]="f.invalid" (click)="sendVerificationCode(phoneNumberInput)">{{'common.send' | translate}}</button>
+            <ng-template #loading>
+              <i class="fa fa-spinner fa-spin fa-2x align-middle"></i>
+            </ng-template>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+    <ng-template #verificationCodeSection>
+      <h4>{{'verify.verification_code_sent_to_your_phone' | translate}}</h4>
+      <form class="form-inline" #f="ngForm">
+        <div class="form-group">
+          <label for="phoneNumber">{{'verify.enter_verification_code' | translate}}</label>
+          <input type="text" class="form-control mx-sm-3" [(ngModel)]="verificationCode" name="verificationCode" #verificationCodeInput="ngModel"
+            autocomplete="off" required>
+          <button *ngIf="!isLoading; else loading" class="btn btn-primary" [disabled]="f.invalid" (click)="verify()">{{'common.submit' | translate}}</button>
+          <ng-template #loading>
+            <i class="fa fa-spinner fa-spin fa-2x align-middle"></i>
+          </ng-template>
+        </div>
+      </form>
+    </ng-template>
+  </div>
+</div> -->

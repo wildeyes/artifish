@@ -1,0 +1,30 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "assets/css/bootstrap/bootstrap.css";
+@import "~font-awesome/css/font-awesome.css";
+@import "~bootstrap-social/bootstrap-social.css";
+
+body {
+  padding-top: 80px;
+  padding-bottom: 10px;
+  font-family: sans-serif
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.help-block {
+  font-size: 12px;
+}
+
+.dropdown-toggle {
+  -webkit-user-select: none;
+  /* Safari */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* IE10+/Edge */
+  user-select: none;
+  /* Standard */
+}

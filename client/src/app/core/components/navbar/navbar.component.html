@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-sm navbar-light bg-light fixed-top">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/"  (click)='close()'>
+      {{'navbar.home' | translate}}
+    </a>
+    <button class="navbar-toggler" type="button" (click)="toggleCollapse()" aria-expanded="false" aria-label="Toggle navigation">
+      <i *ngIf="!show" class="fa fa-bars" aria-hidden="true"></i>
+      <i *ngIf="show" class="fa fa-times" aria-hidden="true"></i>
+    </button>
+
+    <div class="navbar-collapse" [class.collapse]="!show">
+      <ul class="navbar-nav mr-auto"  (click)='close()'>
+        <ng-container *ngIf='authService.isLoggedIn()'>
+          <!-- Put links for logged in users -->
+        </ng-container>
+      </ul>
+      <ul class="navbar-nav">
+        <ng-template #annonymousUser>
+          <li class="nav-item" routerLinkActive="active" (click)='close()'>
+            <a routerLink="/login" class="nav-link">{{'navbar.login' | translate}}</a>
+          </li>
+          <li class="nav-item" routerLinkActive="active" (click)='close()'>
+            <a routerLink="/contact-us" class="nav-link">{{'navbar.contact_us' | translate}}</a>
+          </li>
+        </ng-template>
+        <li *ngIf='authService.isLoggedIn(); else annonymousUser' ngbDropdown class="nav-item dropdown">
+          <a class="nav-link" unselectable="on" id="dropdownBasic1" ngbDropdownToggle>
+            {{authService.currentUser.first_name}}
+          </a>
+          <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdownBasic1">
+            <a class="dropdown-item clickable" (click)="logout()" (click)='close()'>{{'navbar.logout' | translate}}</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
