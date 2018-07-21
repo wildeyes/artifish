@@ -7,7 +7,7 @@
     <h2>{{'common.login' | translate}}</h2>
     <div class="row">
       <!-- Credentials login -->
-      <div class="col-md-8">
+      <div class="col-md-8 border-right">
         <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
           <div class="form-group">
             <label for="email">{{'common.email' | translate}}</label>
@@ -29,30 +29,19 @@
         </form>
       </div>
       <!-- OAuth buttons -->
-      <div class="col-md-4">
+      <div class="col-md-4 my-auto">
+        <div class="mb-3">
+          <button class="btn btn-social btn-facebook" (click)='loginWithFacebookPopup()'>
+            <span class="fa fa-facebook"></span> Login with Facebook
+          </button>
+        </div>
+
         <div>
           <button class="btn btn-social btn-google" (click)='loginWithGooglePopup()'>
-            <span class="fa fa-google"></span> Login with Google Popup
+            <span class="fa fa-google"></span> Login with Google
           </button>
         </div>
 
-        <div class="mt-2">
-          <button class="btn btn-social btn-google" (click)='loginWithGoogleRedirect()'>
-            <span class="fa fa-google"></span> Login with Google Redirect
-          </button>
-        </div>
-
-        <div class="mt-4">
-          <button class="btn btn-social btn-facebook" (click)='loginWithFacebookPopup()'>
-            <span class="fa fa-facebook"></span> Login with Facebook Popup
-          </button>
-        </div>
-
-        <div class="mt-2">
-          <button class="btn btn-social btn-facebook" (click)='loginWithFacebookRedirect()'>
-            <span class="fa fa-facebook"></span> Login with Facebook Redirect
-          </button>
-        </div>
       </div>
     </div>
   </ng-template>
