@@ -44,6 +44,11 @@
 		"contact_us": "Contact Us",
 		"home": "Home",
 		"login": "Login",
-		"logout": "Logout"
+		"logout": "Logout",
+		"collections": "Collections"
+	},
+	"collection": {
+		"name_is_required": "Name is required",
+		"failed_to_delete_collection": "Failed to delete collection"
 	}
 }

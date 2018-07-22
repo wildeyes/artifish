@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
 import { AppErrorHandler } from './core/helpers/app-error-handler';
 import { SharedModule } from './shared/shared.module';
+import { CollectionModule } from './collection/collection.module';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { SharedModule } from './shared/shared.module';
     SharedModule,
     CoreModule,
     AuthModule,
+    CollectionModule
   ],
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler }

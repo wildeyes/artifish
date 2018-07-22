@@ -1,0 +1,18 @@
+<h1 *ngIf="collections?.length > 0">Your Collections</h1>
+<h1 *ngIf="collections?.length == 0">You don't have any collections</h1>
+<button class="btn btn-primary mb-4" [routerLink]="['new']">Add Collection</button>
+
+<div *ngFor="let collection of collections" class="card" style="width: 18rem;">
+  <img class="card-img-top" [src]="collection.workspaceImageUrl" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">{{collection.name}}</h5>
+    <div class="text-right">
+      <a [routerLink]="['/collections/', collection.id]" class="btn btn-primary">
+        <i class="fa fa-pencil" aria-hidden="true"></i>
+      </a>
+      <a (click)="deleteCollection(collection)" class="btn btn-primary">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+      </a>
+    </div>
+  </div>
+</div>

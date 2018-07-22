@@ -2,7 +2,7 @@
 #
 # Table name: users
 #
-#  id                :integer          not null, primary key
+#  id                :bigint(8)        not null, primary key
 #  email             :string(255)
 #  password_digest   :string(255)
 #  is_verified       :boolean
@@ -18,6 +18,9 @@
 class User < ApplicationRecord
   # encrypt password
   has_secure_password
+
+  # associations
+  has_many :collections
 
   # validations
   validates_presence_of :email, :password_digest

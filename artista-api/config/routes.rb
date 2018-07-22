@@ -8,4 +8,6 @@ Rails.application.routes.draw do
   # User credentials signup
   resources :users, only: [:create], defaults: {format: :json}
   post '/users/verify', to: 'users#verify'
+
+  resources :collections, defaults: {format: :json}
 end

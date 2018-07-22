@@ -11,7 +11,11 @@
     <div class="navbar-collapse" [class.collapse]="!show">
       <ul class="navbar-nav mr-auto"  (click)='close()'>
         <ng-container *ngIf='authService.isLoggedIn()'>
-          <!-- Put links for logged in users -->
+          <li class="nav-item" routerLinkActive="active">
+            <a routerLink="/collections" class="nav-link">
+              {{'navbar.collections' | translate}}
+            </a>
+          </li>
         </ng-container>
       </ul>
       <ul class="navbar-nav">
