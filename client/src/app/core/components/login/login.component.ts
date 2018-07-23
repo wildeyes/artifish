@@ -5,7 +5,7 @@ import { AlertService } from '../../../shared/services/alert.service';
 import { AuthError } from '../../../auth/models/auth-error';
 import { UnauthorizedError } from '../../../auth/models/unauthorized-error';
 import { TRANSLATE } from '../../../translation-marker';
-import { Observable } from '../../../../../node_modules/rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import { OAuthAccessDenied, OAuthCanceled } from '../../../auth/models/oauth-errors';
 
 @Component({

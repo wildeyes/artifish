@@ -12,6 +12,7 @@
 class Collection < ApplicationRecord
   has_one_attached :workspace_image
   belongs_to :user
+  has_many :items, :class_name => "CollectionItem"
   attr_accessor :workspace_image_contents
 
   after_create :parse_image

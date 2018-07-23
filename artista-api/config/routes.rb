@@ -9,5 +9,9 @@ Rails.application.routes.draw do
   resources :users, only: [:create], defaults: {format: :json}
   post '/users/verify', to: 'users#verify'
 
-  resources :collections, defaults: {format: :json}
+  resources :collections, defaults: {format: :json} do
+    resources :items, only: [:index, :create, :destroy], controller: 'collection_items', defaults: {format: :json}
+  end
+
+  get 'linked_images/search', to: 'linked_images#external_search'
 end

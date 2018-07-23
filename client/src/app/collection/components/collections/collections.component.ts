@@ -4,7 +4,6 @@ import { AppError } from '../../../shared/models/app-error';
 import { NotFoundError } from '../../../shared/models/not-found-error';
 import { AlertService } from '../../../shared/services/alert.service';
 import { TRANSLATE } from '../../../translation-marker';
-import { templateJitUrl } from '../../../../../node_modules/@angular/compiler';
 
 @Component({
   selector: 'app-collections',

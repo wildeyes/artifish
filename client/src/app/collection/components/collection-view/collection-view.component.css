@@ -1,0 +1,12 @@
+.selected-image {
+  border: 3px solid gray;
+}
+
+.sticky-top {
+  top: 80px;
+}
+
+.img-close {
+  top: 5px;
+  right: 5px;
+}

@@ -1,0 +1,44 @@
+<i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-3x"></i>
+<ng-container *ngIf="collection">
+  <h1>{{collection.name}}</h1>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="sticky-top">
+        <img [src]="collection.workspaceImageUrl" class="img-fluid" [alt]="collection.name">
+        <div *ngIf="collectionItems.length > 0" class="row no-gutters mt-2">
+           <div class="col-5 pt-2">
+             You have selected {{collectionItems.length}} items
+           </div>
+           <div class="col-4 offset-3">
+            <button class="btn btn-primary" [routerLink]="['purchase']">Proceed to Purchase</button>
+           </div>
+        </div>
+        <div *ngIf="collectionItems.length > 0" class="row no-gutters mt-2">
+          <div *ngFor="let collectionItem of collectionItems" class="col-md-3 mb-4 position-relative">
+            <img [src]="collectionItem.imageLink" class="img-fluid" alt="">
+            <i class="fa fa-times-circle position-absolute img-close clickable" (click)="removeCollectionItemById(collectionItem)" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <form (ngSubmit)="externalSearch(keywords.value)">
+        <div class="form-group row">
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="keywords" name="keywords" #keywords placeholder="keywords">
+          </div>
+          <button *ngIf="!searchLoading" type="submit" class="btn btn-primary">Search</button>
+          <i *ngIf="searchLoading" class="fa fa-spinner fa-spin fa-2x align-middle"></i>
+        </div>
+      </form>
+
+      <div class="row">
+        <div *ngFor="let linkedImage of linkedImages" class="col-4 mb-2">
+          <img [src]="linkedImage.imageLink"
+               class="img-fluid clickable" [ngClass]="{ 'selected-image': linkedImage.selected }"
+               (click)="imageSelected(linkedImage)" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
