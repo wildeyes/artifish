@@ -35,6 +35,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   isEditName: boolean = false;
   unsavedChanges: boolean = false;
   modalErrorMessage: string;
+  modalNavigateUrlOnSuccess: string;
 
   constructor(
     private alertService: AlertService,
@@ -124,13 +125,14 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   saveCollection(saveModal) {
     if (this.authService.isLoggedIn()) {
       this.saveLoading = true;
-      this.saveCollectionToServer();
+      this.saveCollectionToServer('/collections/');
     } else {
+      this.modalNavigateUrlOnSuccess = '/collections/';
       this.openModal(saveModal);
     }
   }
 
-  saveCollectionToServer() {
+  saveCollectionToServer(navigateUrlOnSuccess: string) {
     let collectionId = this.route.snapshot.paramMap.get('id');
     this.collection.itemsAttributes = this.collectionItems;
     if (collectionId) {
@@ -141,7 +143,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
           this.alertService.success(TRANSLATE('collection.collection_was_saved'));
           this.saveLoading = false;
           this.unsavedChanges = false;
-          this.router.navigate(['/collections/']);
+          this.router.navigate([navigateUrlOnSuccess]);
         }, (error: AppError) => {
           this.alertService.error(TRANSLATE('collection.error_saving_collection'));
           this.saveLoading = false;
@@ -153,9 +155,14 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
           this.collectionItems = this.collection.items;
           this.alertService.success(TRANSLATE('collection.collection_was_saved'), true);
           this.saveLoading = false;
+          debugger;
           this.clearCollection(true);
           this.unsavedChanges = false;
-          this.router.navigate(['/collections/']);
+          if (navigateUrlOnSuccess == 'purchase') {
+            this.router.navigate(['/collections/', res.id, 'purchase']);
+          } else {
+            this.router.navigate([navigateUrlOnSuccess]);
+          }
         }, (error: AppError) => {
           this.alertService.error(TRANSLATE('collection.error_saving_collection'));
           this.saveLoading = false;
@@ -168,13 +175,14 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
     this.modalService.open(content);
   }
 
-  signupAndSaveCollection() {
+  signupAndSaveCollection(callback: () => void) {
     this.signupLoading = true;
     this.userService.create(this.user)
       .subscribe(
         data => {
+          callback();
           localStorage.setItem("token", data['auth_token']);
-          this.saveCollectionToServer();
+          this.saveCollectionToServer(this.modalNavigateUrlOnSuccess);
         },
         (error: AppError) => {
           this.signupLoading = false;
@@ -184,6 +192,30 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
           } else throw error;
         }
       );
+  }
+
+  navigateToPurchase(saveModal) {
+    if (this.authService.isLoggedIn()) {
+      let collectionId = this.route.snapshot.paramMap.get('id');
+      if (collectionId) {
+        debugger;
+        this.router.navigate(['/collections/', collectionId, 'purchase']);
+      } else {
+        this.saveLoading = true;
+        this.saveCollectionToServer('purchase');
+      }
+    } else {
+      this.modalNavigateUrlOnSuccess = 'purchase';
+      this.openModal(saveModal);
+    }
+  }
+
+  updateCollectionName() {
+    let collectionId = this.route.snapshot.paramMap.get('id');
+    if (collectionId) {
+      this.collectionService.update({ id: this.collection.id, name: this.collection.name })
+        .subscribe();
+    }
   }
 
   private initializeCollection() {
@@ -208,7 +240,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
 
   private loadCollectionFromLocalStorage() {
     let data: any = localStorage.getItem('collectionData');
-    if (!data) {
+    if (!data || data.indexOf('"collection":') == 0) {
       data = {
         collection: this.collection,
         collectionItems: this.collectionItems

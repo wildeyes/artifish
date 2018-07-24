@@ -7,8 +7,8 @@
 #  password_digest   :string(255)
 #  is_verified       :boolean
 #  verification_code :string(255)
-#  first_name        :string(255)      not null
-#  last_name         :string(255)      not null
+#  first_name        :string(255)
+#  last_name         :string(255)
 #  provider          :string(255)      default("email"), not null
 #  uid               :string(255)      not null
 #  created_at        :datetime         not null
@@ -21,6 +21,7 @@ class User < ApplicationRecord
 
   # associations
   has_many :collections
+  has_many :orders
 
   # validations
   validates_presence_of :email, :password_digest

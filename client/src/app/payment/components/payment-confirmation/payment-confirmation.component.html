@@ -1,0 +1,31 @@
+<ng-container *ngIf="payment && order">
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="card-title mb-4">
+        <h3 class="text-center">{{'payment_confirmation.thank_you_for_your_payment' | translate}}</h3>
+      </div>
+      <div class="card-text">
+        <dl class="row">
+          <dt class="col-sm-3">{{'payment_confirmation.payment_amount' | translate}}</dt>
+          <dd class="col-sm-9">{{ payment.amountFormatted }}</dd>
+          <dt class="col-sm-3">{{'payment_confirmation.payment_unique_id' | translate}}</dt>
+          <dd class="col-sm-9">{{ payment.id }}</dd>
+
+          <dt class="col-sm-3">{{'payment_confirmation.name' | translate}}</dt>
+          <dd class="col-sm-9">{{ order.firstName }} {{order.lastName}}</dd>
+          <dt class="col-sm-3">{{'payment_confirmation.address' | translate}}</dt>
+          <dd class="col-sm-9">{{ order.address }}, {{ order.city }}, {{ order.zipCode }}</dd>
+          <dt class="col-sm-3">{{'payment_confirmation.phone_number' | translate}}</dt>
+          <dd class="col-sm-9">{{ order.phoneNumber }}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <h4>{{'payment_confirmation.items_ordered' | translate}}</h4>
+  <div class="row">
+    <div *ngFor="let orderItem of order.items" class="col-md-4 mb-4">
+      <img [src]="orderItem.imageLink" class="img-fluid" alt="">
+    </div>
+  </div>
+</ng-container>

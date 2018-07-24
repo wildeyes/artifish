@@ -8,6 +8,7 @@ import { CoreModule } from './core/core.module';
 import { AppErrorHandler } from './core/helpers/app-error-handler';
 import { SharedModule } from './shared/shared.module';
 import { CollectionModule } from './collection/collection.module';
+import { PaymentModule } from './payment/payment.module';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { CollectionModule } from './collection/collection.module';
     SharedModule,
     CoreModule,
     AuthModule,
-    CollectionModule
+    CollectionModule,
+    PaymentModule
   ],
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler }

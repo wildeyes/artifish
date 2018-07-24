@@ -3,7 +3,50 @@
   <div class="row mb-4">
     <div class="col-md-4 border-right">
       <h2>Total amount: {{totalAmount / 100.0 | currency:currencyCode:'symbol':'1.2-2'}}</h2>
-      <button class="btn btn-primary">Checkout</button>
+      <form #f="ngForm" (ngSubmit)='f.form.valid && saveOrder()'>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="firstName">{{'common.first_name' | translate}}</label>
+            <input type="text" [ngClass]="{ 'is-invalid': f.submitted && !firstName.valid }" class="form-control" name="firstName" [(ngModel)]="order.firstName"
+              #firstName="ngModel" required />
+            <div *ngIf="f.submitted && !firstName.valid" class="help-block text-danger">{{'common.first_name_is_required' | translate}}</div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="lastName">{{'common.last_name' | translate}}</label>
+            <input type="text" [ngClass]="{ 'is-invalid': f.submitted && !lastName.valid }" class="form-control" name="lastName" [(ngModel)]="order.lastName"
+              #lastName="ngModel" required />
+            <div *ngIf="f.submitted && !lastName.valid" class="help-block text-danger">{{'common.last_name_is_required' | translate}}</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="city">{{'common.city' | translate}}</label>
+          <input type="text" [ngClass]="{ 'is-invalid': f.submitted && !city.valid }" class="form-control" name="city" [(ngModel)]="order.city"
+            #city="ngModel" required />
+          <div *ngIf="f.submitted && !city.valid" class="help-block text-danger">{{'purchase.city_is_required' | translate}}</div>
+        </div>
+        <div class="form-group">
+          <label for="address">{{'common.address' | translate}}</label>
+          <input type="text" [ngClass]="{ 'is-invalid': f.submitted && !address.valid }" class="form-control" name="address" [(ngModel)]="order.address"
+            #address="ngModel" required />
+          <div *ngIf="f.submitted && !address.valid" class="help-block text-danger">{{'purchase.address_is_required' | translate}}</div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="zipCode">{{'common.zip_code' | translate}}</label>
+            <input type="text" [ngClass]="{ 'is-invalid': f.submitted && !zipCode.valid }" class="form-control" name="zipCode" [(ngModel)]="order.zipCode"
+              #zipCode="ngModel" required />
+            <div *ngIf="f.submitted && !zipCode.valid" class="help-block text-danger">{{'purchase.zip_code_is_required' | translate}}</div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="phoneNumber">{{'common.phone_number' | translate}}</label>
+            <input type="text" [ngClass]="{ 'is-invalid': f.submitted && !phoneNumber.valid }" class="form-control" name="phoneNumber"
+              [(ngModel)]="order.phoneNumber" #phoneNumber="ngModel" required />
+            <div *ngIf="f.submitted && !phoneNumber.valid" class="help-block text-danger">{{'purchase.phone_number_is_required' | translate}}</div>
+          </div>
+        </div>
+        <button [disabled]="isLoadingPaypal" class="btn btn-primary">{{'purchase.pay_with_paypal' | translate}}</button>
+        <i *ngIf="isLoadingPaypal" class="fa fa-spinner fa-spin fa-2x align-middle"></i>
+      </form>
     </div>
     <div class="col-md-8">
       <div class="row">

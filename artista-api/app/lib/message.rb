@@ -4,6 +4,10 @@ class Message
       { message: :not_found, description: "Sorry, #{record} not found" }.to_json
     end
 
+    def already_exists(record = 'Record')
+      { message: :already_exists, description: "#{record} is not unique" }.to_json
+    end
+
     def invalid_credentials
       { message: :invalid_credentials, description: 'Invalid credentials' }.to_json
     end
@@ -49,6 +53,14 @@ class Message
 
     def user_not_verified
       { message: :user_not_verified, description: "User is not verified" }.to_json
+    end
+
+    def payment_processor_general_error
+      { message: :payment_processor_general_error, description: "Payment error. Please contact us or try again later" }.to_json
+    end
+
+    def payment_was_already_processed
+      { message: :payment_was_already_processed, description: "Payment was already processed" }.to_json
     end
   end
 end

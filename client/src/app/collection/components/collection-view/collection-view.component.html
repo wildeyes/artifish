@@ -1,14 +1,14 @@
 <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-3x"></i>
 <ng-container *ngIf="!isLoading && collection">
   <h3 class="editable-text" [ngClass]="{ 'd-none': isEditName, 'd-inline-block': !isEditName }" (click)="editName(true)">{{collection.name}}</h3>
-  <input type="text" autofocus (blur)="editName(false)" [(ngModel)]="collection.name" name="name" #name id="name" class="form-control mb-2" [ngClass]="{ 'd-none': !isEditName }">
+  <input type="text" autofocus (blur)="editName(false)" (blur)="updateCollectionName()" [(ngModel)]="collection.name" name="name" #name id="name" class="form-control mb-2" [ngClass]="{ 'd-none': !isEditName }">
   <div class="row">
     <div class="col-lg-5">
       <div class="sticky-top">
         <div class="position-relative">
           <img [src]="collection.workspaceImageUrl || 'assets/images/placeholder.png'" class="img-fluid" [alt]="collection.name">
           <i class="fa fa-upload position-absolute img-upload clickable" [class.disabled]="saveLoading" (click)="!saveLoading && imageFile.click()" aria-hidden="true"></i>
-          <i class="fa fa-floppy-o position-absolute img-save clickable" [class.disabled]="saveLoading || collectionItems.length == 0" (click)="!saveLoading && saveCollection(saveModal)" [ngClass]="{ 'fa-spinner fa-spin': saveLoading }" aria-hidden="true"></i>
+          <i class="fa fa-floppy-o position-absolute img-save clickable" [class.disabled]="saveLoading || collectionItems.length == 0" (click)="!saveLoading && collectionItems.length > 0 && saveCollection(saveModal)" [ngClass]="{ 'fa-spinner fa-spin': saveLoading }" aria-hidden="true"></i>
           <i class="fa fa-trash-o position-absolute img-clear clickable" [class.disabled]="saveLoading" (click)="!saveLoading && clearCollection()" aria-hidden="true"></i>
           <input type="file" (change)="readURL($event)" name="imageFile" #imageFile class="form-control-file d-none" id="inputWorkspaceImage">
         </div>
@@ -17,7 +17,7 @@
              You have selected {{collectionItems.length}} items
            </div>
            <div class="col-3 offset-1">
-            <button class="btn btn-primary" [routerLink]="['purchase']">Proceed to Purchase</button>
+            <button class="btn btn-primary" (click)="navigateToPurchase(saveModal)">Proceed to Purchase</button>
            </div>
         </div>
         <div *ngIf="collectionItems.length > 0" class="row no-gutters mt-2">
@@ -60,7 +60,7 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <form name="form" (ngSubmit)="f.form.valid && signupAndSaveCollection(); c('Save click')" #f="ngForm" novalidate>
+  <form name="form" (ngSubmit)="f.form.valid && signupAndSaveCollection(c)" #f="ngForm" novalidate>
     <div class="modal-body">
       <div *ngIf="modalErrorMessage" class="help-block text-danger">{{modalErrorMessage | translate}}</div>
 

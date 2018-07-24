@@ -20,6 +20,7 @@ Bundler.require(*Rails.groups)
 module ArtistaApi
   class Application < Rails::Application
     config.autoload_paths << "#{Rails.root}/app/auth/providers"
+    config.autoload_paths << "#{Rails.root}/app/payments/processors"
 
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1

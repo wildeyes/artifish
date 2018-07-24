@@ -14,4 +14,10 @@ Rails.application.routes.draw do
   end
 
   get 'linked_images/search', to: 'linked_images#external_search'
+
+  post 'payments/generate_paypal_link', to: 'payments#generate_paypal_link'
+
+  resources :orders, only: [:create], defaults: {format: :json}
+
+  post 'payments/paypal_transactions', to: 'payments#create', defaults: {format: :json}
 end

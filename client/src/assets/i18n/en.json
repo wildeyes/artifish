@@ -11,12 +11,18 @@
 		"email": "Email",
 		"first_name": "First Name",
 		"last_name": "Last Name",
+		"city": "City",
+		"address": "Address",
+		"zip_code": "Zip Code",
+		"phone_number": "Phone Number",
 		"login": "Login",
 		"sign_up": "Sign Up",
 		"next": "Next",
 		"page_was_not_found": "Page was not found",
 		"password": "Password",
-		"save": "Save"
+		"save": "Save",
+		"first_name_is_required": "First Name is required",
+		"last_name_is_required": "Last Name is required"
 	},
 	"home": {
 		"welcome_to_artista": "Welcome to ARTISTA"
@@ -60,6 +66,23 @@
 		"login_with_this_info_to_load_collection": "You will be able to login with this information to load your saved work"
 	},
 	"purchase": {
-		"pay_with_paypal": "Pay with PayPal"
+		"pay_with_paypal": "Pay with PayPal",
+		"city_is_required": "City is required",
+		"address_is_required": "Address is required",
+		"zip_code_is_required": "Zip Code is required",
+		"phone_number_is_required": "Phone Number is required"
+	},
+	"paypal_callback": {
+		"error_has_occured_in_paypal_payment": "Error has occured in paypal payment",
+		"processing": "Processing"
+	},
+	"payment_confirmation": {
+		"thank_you_for_your_payment": "Thank you for your payment!",
+		"payment_amount": "Payment Amount",
+		"payment_unique_id": "Payment Unique ID",
+		"name": "Name",
+		"address": "Address",
+		"phone_number": "Phone number",
+		"items_ordered": "Items Ordered"
 	}
 }

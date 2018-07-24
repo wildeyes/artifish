@@ -23,9 +23,12 @@ class CollectionsController < ApplicationController
 
   # PATCH/PUT /collections/1
   def update
-    # delete collection items which does not appear in request
-    items_to_delete = @collection.items.where.not(:id => collection_params[:items_attributes].map{|i| i[:id]})
-    @collection.items -= items_to_delete
+    if collection_params[:items_attributes].present?
+      # delete collection items which does not appear in request
+      items_to_delete = @collection.items.where.not(:id => collection_params[:items_attributes].map{|i| i[:id]})
+      @collection.items -= items_to_delete
+    end
+
     if @collection.update(collection_params)
       render :show, status: :ok, location: @collection
     else
