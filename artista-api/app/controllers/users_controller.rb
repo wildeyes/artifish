@@ -1,14 +1,22 @@
 class UsersController < ApplicationController
   skip_before_action :authorize_request, only: [:create, :verify]
 
-  # POST /signup
-  def create
-    code = generate_email_verification_code
-    user = User.create!(user_params.merge(verification_code: code))
-    payload = {id: user.id, code: code}.to_json
-    send_verification_code_email(payload)
+  # TODO: Uncomment when you want verification code...
+  # # POST /signup
+  # def create
+  #   code = generate_email_verification_code
+  #   user = User.create!(user_params.merge(verification_code: code))
+  #   payload = {id: user.id, code: code}.to_json
+  #   send_verification_code_email(payload)
 
-    response = { message: Message.user_created }
+  #   response = { message: Message.user_created }
+  #   json_response(response, :created)
+  # end
+
+  def create
+    User.create!(user_params.merge(is_verified: true))
+    token = AuthenticateUser.new(user_params[:email], user_params[:password]).call
+    response = Message.user_created(token)
     json_response(response, :created)
   end
 

@@ -24,8 +24,15 @@ class Message
       { message: :internal_error, description: 'Sorry, an internal server error has occured' }.to_json
     end
 
-    def user_created
-      { message: :user_created, description: 'User created successfully' }.to_json
+    # TODO: Uncomment when you want verification code...
+    # def user_created
+    #   { message: :user_created, description: 'User created successfully' }.to_json
+    # end
+
+    def user_created(auth_token = nil)
+      json = { message: :user_created, description: 'User created successfully' }
+      json[:auth_token] = auth_token if auth_token
+      json.to_json
     end
 
     def expired_token

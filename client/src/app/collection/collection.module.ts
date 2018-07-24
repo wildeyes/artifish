@@ -1,17 +1,18 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CollectionsComponent } from './components/collections/collections.component';
-import { CollectionService } from './services/collection.service';
-import { SharedModule } from '../shared/shared.module';
-import { AuthGuard } from '../auth/services/auth-guard.service';
-import { VerifiedUserGuard } from '../core/services/verified-user-guard.service';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthModule } from 'angular2-jwt';
-import { CollectionFormComponent } from './components/collection-form/collection-form.component';
+
+import { AuthGuard } from '../auth/services/auth-guard.service';
+import { VerifiedUserGuard } from '../core/services/verified-user-guard.service';
+import { SharedModule } from '../shared/shared.module';
 import { CollectionViewComponent } from './components/collection-view/collection-view.component';
-import { LinkedImageService } from './services/linked-image.service';
-import { CollectionItemService } from './services/collection-item.service';
+import { CollectionsComponent } from './components/collections/collections.component';
 import { PurchaseComponent } from './components/purchase/purchase.component';
+import { CollectionItemService } from './services/collection-item.service';
+import { SaveCollectionDataGuard } from './services/collection-view-can-deactivate.service';
+import { CollectionService } from './services/collection.service';
+import { LinkedImageService } from './services/linked-image.service';
 
 @NgModule({
   imports: [
@@ -19,17 +20,18 @@ import { PurchaseComponent } from './components/purchase/purchase.component';
     SharedModule,
     AuthModule,
     RouterModule.forChild([
+      { path: '', component: CollectionViewComponent, canDeactivate: [SaveCollectionDataGuard] },
       { path: 'collections', component: CollectionsComponent, canActivate: [AuthGuard, VerifiedUserGuard] },
-      { path: 'collections/new', component: CollectionFormComponent, canActivate: [AuthGuard, VerifiedUserGuard] },
-      { path: 'collections/:id', component: CollectionViewComponent, canActivate: [AuthGuard, VerifiedUserGuard] },
+      { path: 'collections/:id', component: CollectionViewComponent, canActivate: [AuthGuard, VerifiedUserGuard], canDeactivate: [SaveCollectionDataGuard] },
       { path: 'collections/:id/purchase', component: PurchaseComponent, canActivate: [AuthGuard, VerifiedUserGuard] },
     ]),
   ],
-  declarations: [CollectionsComponent, CollectionFormComponent, CollectionViewComponent, PurchaseComponent],
+  declarations: [CollectionsComponent, CollectionViewComponent, PurchaseComponent],
   providers: [
     CollectionService,
     CollectionItemService,
-    LinkedImageService
+    LinkedImageService,
+    SaveCollectionDataGuard
   ]
 })
 export class CollectionModule { }

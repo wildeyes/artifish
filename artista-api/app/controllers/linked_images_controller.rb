@@ -1,4 +1,6 @@
 class LinkedImagesController < ApplicationController
+  skip_before_action :authorize_request
+
   def external_search
     @images = []
     keywords = params[:keywords].gsub(' ', '+')

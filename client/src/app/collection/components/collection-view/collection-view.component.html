@@ -1,15 +1,22 @@
 <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-3x"></i>
-<ng-container *ngIf="collection">
-  <h1>{{collection.name}}</h1>
+<ng-container *ngIf="!isLoading && collection">
+  <h3 class="editable-text" [ngClass]="{ 'd-none': isEditName, 'd-inline-block': !isEditName }" (click)="editName(true)">{{collection.name}}</h3>
+  <input type="text" autofocus (blur)="editName(false)" [(ngModel)]="collection.name" name="name" #name id="name" class="form-control mb-2" [ngClass]="{ 'd-none': !isEditName }">
   <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-5">
       <div class="sticky-top">
-        <img [src]="collection.workspaceImageUrl" class="img-fluid" [alt]="collection.name">
+        <div class="position-relative">
+          <img [src]="collection.workspaceImageUrl || 'assets/images/placeholder.png'" class="img-fluid" [alt]="collection.name">
+          <i class="fa fa-upload position-absolute img-upload clickable" [class.disabled]="saveLoading" (click)="!saveLoading && imageFile.click()" aria-hidden="true"></i>
+          <i class="fa fa-floppy-o position-absolute img-save clickable" [class.disabled]="saveLoading || collectionItems.length == 0" (click)="!saveLoading && saveCollection(saveModal)" [ngClass]="{ 'fa-spinner fa-spin': saveLoading }" aria-hidden="true"></i>
+          <i class="fa fa-trash-o position-absolute img-clear clickable" [class.disabled]="saveLoading" (click)="!saveLoading && clearCollection()" aria-hidden="true"></i>
+          <input type="file" (change)="readURL($event)" name="imageFile" #imageFile class="form-control-file d-none" id="inputWorkspaceImage">
+        </div>
         <div *ngIf="collectionItems.length > 0" class="row no-gutters mt-2">
-           <div class="col-5 pt-2">
+           <div class="col-6 pt-2">
              You have selected {{collectionItems.length}} items
            </div>
-           <div class="col-4 offset-3">
+           <div class="col-3 offset-1">
             <button class="btn btn-primary" [routerLink]="['purchase']">Proceed to Purchase</button>
            </div>
         </div>
@@ -21,7 +28,7 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-7">
       <form (ngSubmit)="externalSearch(keywords.value)">
         <div class="form-group row">
           <div class="col-sm-10">
@@ -33,7 +40,7 @@
       </form>
 
       <div class="row">
-        <div *ngFor="let linkedImage of linkedImages" class="col-4 mb-2">
+        <div *ngFor="let linkedImage of linkedImages" class="col-3 mb-2">
           <img [src]="linkedImage.imageLink"
                class="img-fluid clickable" [ngClass]="{ 'selected-image': linkedImage.selected }"
                (click)="imageSelected(linkedImage)" alt="">
@@ -42,3 +49,50 @@
     </div>
   </div>
 </ng-container>
+
+<ng-template #saveModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <div>
+      <h4 class="modal-title" id="modal-basic-title">{{'collection.save_your_work' | translate}}</h4>
+      <div class="help-block">{{'collection.login_with_this_info_to_load_collection' | translate}}</div>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form name="form" (ngSubmit)="f.form.valid && signupAndSaveCollection(); c('Save click')" #f="ngForm" novalidate>
+    <div class="modal-body">
+      <div *ngIf="modalErrorMessage" class="help-block text-danger">{{modalErrorMessage | translate}}</div>
+
+      <div class="form-group">
+        <label for="email">{{'common.email' | translate}}</label>
+        <input type="text" [ngClass]="{ 'is-invalid': f.submitted && (!email.valid || validationErrors.email) }" class="form-control"
+          name="email" [(ngModel)]="user.email" #email="ngModel" required email />
+        <div *ngIf="f.submitted && !email.valid" class="help-block text-danger">{{'sign_up.a_valid_email_is_required' | translate}}</div>
+        <div *ngIf="validationErrors.email">
+          <div *ngFor="let error of validationErrors.email" class="help-block text-danger">{{'common.email' | translate}} {{error}}</div>
+          <!-- TODO: translate the error message comes from the server -->
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">{{'common.password' | translate}}</label>
+        <input type="password" [ngClass]="{ 'is-invalid': f.submitted && (!password.valid || validationErrors.password) }" class="form-control"
+          name="password" [(ngModel)]="user.password" #password="ngModel" required minlength="6" />
+        <div *ngIf="f.submitted && password.errors?.required" class="help-block text-danger">{{'sign_up.password_is_required' | translate}}</div>
+        <div *ngIf="f.submitted && !password.errors?.required && password.errors?.minlength" class="help-block text-danger">{{ 'sign_up.password_should_be_at_least_x_characters' | translate:{'characters':password.errors.minlength.requiredLength}
+          }}
+        </div>
+        <div *ngIf="validationErrors.password">
+          <div *ngFor="let error of validationErrors.password" class="help-block text-danger">{{'common.password' | translate}} {{error}}</div>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <!-- <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Save</button> -->
+      <button [disabled]="signupLoading" class="btn btn-primary">{{'common.save' | translate}}</button>
+      <i *ngIf="signupLoading" class="fa fa-spinner fa-spin fa-2x align-middle"></i>
+    </div>
+  </form>
+</ng-template>
+

@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../auth/services/auth.service';
 import { AlertService } from '../../../shared/services/alert.service';
-import { AuthError } from '../../../auth/models/auth-error';
-import { UnauthorizedError } from '../../../auth/models/unauthorized-error';
 import { TRANSLATE } from '../../../translation-marker';
 import { UserService } from '../../services/user.service';
 import { AppError } from '../../../shared/models/app-error';
@@ -19,8 +17,10 @@ export class SignUpComponent implements OnInit {
   model: any = {};
   loading = false;
   validationErrors = {};
+  returnUrl: string;
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
     private userService: UserService,
@@ -31,6 +31,8 @@ export class SignUpComponent implements OnInit {
     // reset login status
     if (this.authService.isLoggedIn())
       this.router.navigate(['/']);
+
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   signup() {
@@ -39,7 +41,8 @@ export class SignUpComponent implements OnInit {
       .subscribe(
         data => {
           this.dataService.data = this.model.email;
-          this.router.navigate(['signup/success']);
+          localStorage.setItem("token", data['auth_token']);
+          this.router.navigateByUrl(this.returnUrl);
         },
       (error: AppError) => {
         this.loading = false;

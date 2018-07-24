@@ -15,7 +15,8 @@
 		"sign_up": "Sign Up",
 		"next": "Next",
 		"page_was_not_found": "Page was not found",
-		"password": "Password"
+		"password": "Password",
+		"save": "Save"
 	},
 	"home": {
 		"welcome_to_artista": "Welcome to ARTISTA"
@@ -49,6 +50,16 @@
 	},
 	"collection": {
 		"name_is_required": "Name is required",
-		"failed_to_delete_collection": "Failed to delete collection"
+		"failed_to_delete_collection": "Failed to delete collection",
+		"clear_collection_alert": "Are you sure you want to clear collection?",
+		"delete_collection_alert": "Are you sure you want to delete collection {{collection}}?",
+		"collection_was_saved": "Collection was saved!",
+		"error_saving_collection": "There was an error saving the collection",
+		"discard_unsaved_changes": "WARNING: You have unsaved changes. Press Cancel to go back and save these changes, or OK to lose these changes",
+		"save_your_work": "Save your work",
+		"login_with_this_info_to_load_collection": "You will be able to login with this information to load your saved work"
+	},
+	"purchase": {
+		"pay_with_paypal": "Pay with PayPal"
 	}
 }

@@ -5,8 +5,8 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.string :password_digest
       t.boolean :is_verified
       t.string :verification_code
-      t.string :first_name, :null => false
-      t.string :last_name, :null => false
+      t.string :first_name
+      t.string :last_name
 
       ## unique oauth id
       t.string :provider, :null => false, :default => "email"

@@ -10,3 +10,40 @@
   top: 5px;
   right: 5px;
 }
+
+.img-upload, .img-save, .img-clear {
+  top: 5px;
+  border-radius: 40px;
+  background-color: #c8c9ff;
+  padding: 8px;
+}
+
+.img-upload.disabled, .img-save.disabled, .img-clear.disabled {
+  color: #808080
+}
+
+.img-upload {
+  left: 5px;
+}
+
+.img-save {
+  left: 45px;
+}
+
+.img-clear {
+  left: 85px;
+}
+
+.img-upload:hover:not(.disabled), .img-save:hover:not(.disabled), .img-clear:hover:not(.disabled) {
+  background-color: #81b3ff;
+}
+
+.editable-text {
+  border: 1px solid transparent;
+  padding: 4px;
+}
+
+.editable-text:hover {
+  border: 1px solid #cbcbcb;
+  border-radius: 5px;
+}

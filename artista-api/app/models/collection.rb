@@ -12,10 +12,11 @@
 class Collection < ApplicationRecord
   has_one_attached :workspace_image
   belongs_to :user
-  has_many :items, :class_name => "CollectionItem"
+  has_many :items, :class_name => "CollectionItem", dependent: :destroy
+  accepts_nested_attributes_for :items, :allow_destroy => true
   attr_accessor :workspace_image_contents
 
-  after_create :parse_image
+  after_save :parse_image
 
   validates_presence_of :name
 

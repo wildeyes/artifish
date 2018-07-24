@@ -1,19 +1,19 @@
 <h1 *ngIf="collections?.length > 0">Your Collections</h1>
 <h1 *ngIf="collections?.length == 0">You don't have any collections</h1>
-<button class="btn btn-primary mb-4" [routerLink]="['new']">Add Collection</button>
+<button class="btn btn-primary mb-4" [routerLink]="['']">Add Collection</button>
 
 <div class="row">
-  <div *ngFor="let collection of collections" class="col-md-4">
-    <div class="card" style="width: 18rem;">
-      <img class="card-img-top" [src]="collection.workspaceImageUrl" alt="Card image cap">
+  <div *ngFor="let collection of collections" class="col-md-4 mb-3">
+    <div class="card">
+      <img class="card-img-top clickable no-focus" [routerLink]="['/collections/', collection.id]" [src]="collection.workspaceImageUrl || 'assets/images/placeholder.png'" [alt]="collection.name">
       <div class="card-body">
-        <h5 class="card-title">{{collection.name}}</h5>
+        <h5 class="card-title clickable d-inline-block no-focus" [routerLink]="['/collections/', collection.id]">{{collection.name}}</h5>
         <div class="text-right">
-          <a [routerLink]="['/collections/', collection.id]" class="btn btn-primary">
-            <i class="fa fa-pencil" aria-hidden="true"></i>
+          <a [routerLink]="['/collections/', collection.id]" class="btn btn-link">
+            <i class="fa fa-pencil edit-collection" aria-hidden="true"></i>
           </a>
-          <a (click)="deleteCollection(collection)" class="btn btn-primary">
-            <i class="fa fa-trash" aria-hidden="true"></i>
+          <a (click)="deleteCollection(collection)" class="btn btn-link">
+            <i class="fa fa-trash-o delete-collection" aria-hidden="true"></i>
           </a>
         </div>
       </div>

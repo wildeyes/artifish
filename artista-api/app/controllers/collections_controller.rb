@@ -23,6 +23,9 @@ class CollectionsController < ApplicationController
 
   # PATCH/PUT /collections/1
   def update
+    # delete collection items which does not appear in request
+    items_to_delete = @collection.items.where.not(:id => collection_params[:items_attributes].map{|i| i[:id]})
+    @collection.items -= items_to_delete
     if @collection.update(collection_params)
       render :show, status: :ok, location: @collection
     else
@@ -41,6 +44,6 @@ class CollectionsController < ApplicationController
     end
 
     def collection_params
-      params.require(:collection).permit(:name).merge(params.permit(:workspace_image_contents))
+      params.require(:collection).permit(:name, items_attributes: [:id, :name, :image_link, :url_link, :price]).merge(params.permit(:workspace_image_contents))
     end
 end
