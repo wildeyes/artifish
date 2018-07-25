@@ -16,7 +16,7 @@ import { DataService } from '../../../shared/services/data.service';
 export class SignUpComponent implements OnInit {
   model: any = {};
   loading = false;
-  validationErrors = {};
+  validationErrors:any = {};
   returnUrl: string;
 
   constructor(

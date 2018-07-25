@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AuthModule } from 'angular2-jwt';
 
+import { AuthModule } from '../auth/auth.module';
 import { AuthGuard } from '../auth/services/auth-guard.service';
 import { VerifiedUserGuard } from '../core/services/verified-user-guard.service';
 import { SharedModule } from '../shared/shared.module';
