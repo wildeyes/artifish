@@ -1,0 +1,88 @@
+{
+	"an_unexpected_error_occurred": "An unexpected error occurred",
+	"auth": {
+		"oauth": {
+			"must_grant_permissions": "You must grant permissions to this application in order to login"
+		}
+	},
+	"common": {
+		"cancel": "Cancel",
+		"date": "Date",
+		"email": "Email",
+		"first_name": "First Name",
+		"last_name": "Last Name",
+		"city": "City",
+		"address": "Address",
+		"zip_code": "Zip Code",
+		"phone_number": "Phone Number",
+		"login": "Login",
+		"sign_up": "Sign Up",
+		"next": "Next",
+		"page_was_not_found": "Page was not found",
+		"password": "Password",
+		"save": "Save",
+		"first_name_is_required": "First Name is required",
+		"last_name_is_required": "Last Name is required"
+	},
+	"home": {
+		"welcome_to_artista": "Welcome to ARTISTA"
+	},
+	"sign_up": {
+		"a_valid_email_is_required": "A valid email is required",
+		"confirm_password": "Confirm Password",
+		"first_name_is_required": "First Name is required",
+		"last_name_is_required": "Last Name is required",
+		"password_confirmation_does_not_match_password": "Password confirmation does not match password",
+		"password_confirmation_is_required": "Password confirmation is required",
+		"password_is_required": "Password is required",
+		"password_should_be_at_least_x_characters": "Password should be at leat {{characters}} characters",
+		"some_of_the_input_fields_are_invalid": "Some of the input fields are invalid"
+	},
+	"login": {
+		"email_is_required": "Email is required",
+		"invalid_credentials": "Invalid credentials",
+		"password_is_required": "Password is required"
+	},
+	"verify": {
+		"user_was_verified": "User was verified",
+		"verification_code_is_incorrect": "Verification code is incorrect"
+	},
+	"navbar": {
+		"contact_us": "Contact Us",
+		"home": "Home",
+		"login": "Login",
+		"logout": "Logout",
+		"collections": "Collections"
+	},
+	"collection": {
+		"name_is_required": "Name is required",
+		"failed_to_delete_collection": "Failed to delete collection",
+		"clear_collection_alert": "Are you sure you want to clear collection?",
+		"delete_collection_alert": "Are you sure you want to delete collection {{collection}}?",
+		"collection_was_saved": "Collection was saved!",
+		"error_saving_collection": "There was an error saving the collection",
+		"discard_unsaved_changes": "WARNING: You have unsaved changes. Press Cancel to go back and save these changes, or OK to lose these changes",
+		"save_your_work": "Save your work",
+		"login_with_this_info_to_load_collection": "You will be able to login with this information to load your saved work"
+	},
+	"purchase": {
+		"pay_with_paypal": "Pay with PayPal",
+		"city_is_required": "City is required",
+		"address_is_required": "Address is required",
+		"zip_code_is_required": "Zip Code is required",
+		"phone_number_is_required": "Phone Number is required"
+	},
+	"paypal_callback": {
+		"error_has_occured_in_paypal_payment": "Error has occured in paypal payment",
+		"processing": "Processing"
+	},
+	"payment_confirmation": {
+		"thank_you_for_your_payment": "Thank you for your payment!",
+		"payment_amount": "Payment Amount",
+		"payment_unique_id": "Payment Unique ID",
+		"name": "Name",
+		"address": "Address",
+		"phone_number": "Phone number",
+		"items_ordered": "Items Ordered"
+	}
+}
