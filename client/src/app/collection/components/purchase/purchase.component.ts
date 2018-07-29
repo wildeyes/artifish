@@ -16,11 +16,12 @@ import { CollectionService } from '../../services/collection.service';
 export class PurchaseComponent implements OnInit {
   collection: any;
   collectionItems: any[];
-  totalAmount: number = 0;
+  totalAmountCents: number = 0;
   currencyCode: string;
   isLoading: boolean = false;
   isLoadingPaypal: boolean = false;
   order: any = {};
+  selectionPerItemMapping = new Object();
 
   constructor(
     private route: ActivatedRoute,
@@ -40,28 +41,88 @@ export class PurchaseComponent implements OnInit {
       this.collectionItemService.getAll(this.collection.id)
         .subscribe(items => {
           this.collectionItems = items;
+          for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+            const firstPurchaseOption = item.purchaseOptions[0]
+            this.selectionPerItemMapping[item.id] = {
+              selectedMaterial: firstPurchaseOption,
+              selectedPrice: firstPurchaseOption.prices[0],
+              selectedSizeId: firstPurchaseOption.prices[0].sizeId
+            };
+
+          }
           this.sumTotalAmount();
-          this.currencyCode = 'USD';
-          if (this.collectionItems.length > 0) this.currencyCode = this.collectionItems[0].currencyCode
+          this.currencyCode = items[0].purchaseOptions[0].prices[0].currencyCode;
           this.isLoading = false;
         })
     });
   }
 
   saveOrder() {
-    this.order.itemsAttributes = this.collectionItems;
+    let orderItems = [];
+    for (let i = 0; i < this.collectionItems.length; i++) {
+      const collectionItem = this.collectionItems[i];
+      const itemSelections = this.selectionPerItemMapping[collectionItem.id];
+      const orderItem = {
+        name: collectionItem.name,
+        imageUrl: collectionItem.imageUrl,
+        itemUrl: collectionItem.itemUrl,
+        purchaseOptionId: itemSelections.selectedPrice.id,
+      }
+      orderItems.push(orderItem);
+    }
+    debugger;
+    this.order.itemsAttributes = orderItems;
     this.orderService.create(this.order).subscribe(order => {
       this.generatePaypalLink(order.id);
     })
   }
 
-  generatePaypalLink(orderId) {
+  materialSelected(collectionItem, materialId) {
+    for (let i = 0; i < collectionItem.purchaseOptions.length; i++) {
+      const purchaseOption = collectionItem.purchaseOptions[i];
+      if (purchaseOption.materialId == materialId) {
+        this.selectionPerItemMapping[collectionItem.id].selectedMaterial = purchaseOption
+        break;
+      }
+    }
+    this.sizeSelected(collectionItem, this.selectionPerItemMapping[collectionItem.id].selectedPrice.sizeId);
+    this.sumTotalAmount();
+  }
+
+  sizeSelected(collectionItem, sizeId) {
+    let selectedMaterial = this.selectionPerItemMapping[collectionItem.id].selectedMaterial;
+    if (!selectedMaterial)
+      return;
+
+    for (let i = 0; i < selectedMaterial.prices.length; i++) {
+      const priceOption = selectedMaterial.prices[i];
+      if (priceOption.sizeId == sizeId) {
+        this.selectionPerItemMapping[collectionItem.id].selectedPrice = priceOption;
+        break;
+      }
+    }
+    this.sumTotalAmount();
+  }
+
+  private sumTotalAmount() {
+    this.totalAmountCents = 0;
+    for (const collectionItemId in this.selectionPerItemMapping) {
+      if (this.selectionPerItemMapping.hasOwnProperty(collectionItemId)) {
+        const itemSelections = this.selectionPerItemMapping[collectionItemId];
+        this.totalAmountCents += itemSelections.selectedPrice.priceCents;
+      }
+    }
+  }
+
+  private generatePaypalLink(orderId) {
     this.isLoadingPaypal = true;
     let currentUrl = window.location.href;
-    let amount = this.totalAmount / 100.0;
+    let amount = this.totalAmountCents / 100.0;
     let currencyCode = this.currencyCode;
     let params = {
-      amount: amount,
+      // amount: amount,
+      orderId: orderId,
       returnUrl: window.location.origin + `/callback/paypal?amount=${amount}&currency_code=${currencyCode}&order=${orderId}&returnUrl=${currentUrl}`,
       cancelReturnUrl: currentUrl
     }
@@ -73,12 +134,5 @@ export class PurchaseComponent implements OnInit {
       }
     )
   };
-
-  private sumTotalAmount() {
-    for (let i = 0; i < this.collectionItems.length; i++) {
-      const collectionItem = this.collectionItems[i];
-      this.totalAmount += collectionItem.priceCents;
-    }
-  }
 
 }

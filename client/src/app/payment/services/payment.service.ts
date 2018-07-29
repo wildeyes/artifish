@@ -13,7 +13,7 @@ export class PaymentService {
   private paymentBaseUrl: string = environment.apiHost + "/payments/"
   constructor(private http: HttpClient) { }
 
-  generatePaypalLink(params: {amount: number, returnUrl: string, cancelReturnUrl: string}) {
+  generatePaypalLink(params: {orderId: any, returnUrl: string, cancelReturnUrl: string}) {
     return this.http.post(this.paymentBaseUrl + 'generate_paypal_link', params)
       .catch(this.handleError);
   }

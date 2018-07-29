@@ -12,7 +12,8 @@ import { DataService } from '../../../shared/services/data.service';
 import { TRANSLATE } from '../../../translation-marker';
 import { CollectionViewComponentCanDeactivate } from '../../services/collection-view-can-deactivate.service';
 import { CollectionService } from '../../services/collection.service';
-import { LinkedImageService } from '../../services/linked-image.service';
+import { PortfolioItemService } from '../../services/portfolio-item.service';
+import { TagService } from '../../services/tag.service';
 
 @Component({
   selector: 'app-collection-view',
@@ -25,12 +26,16 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
 
   collection: any = {};
   collectionItems: any[] = [];
-  linkedImages: any[];
+  portfolioItems: any[];
+  filters: { tags: any[]; color: string } = { tags: [], color: null}
+  tags: any[];
+  hexColors: any[] = ['#bcb7b0', '#000000', '#0c2c53', '#444a6d', '#1797b8', '#00a7ed', '#0e59e1', '#2f29e7', '#7327e7', '#c55c9c', '#cd3846', '#e1947f', '#e69f55', '#efd05e', '#9abe45', '#1ec6b7', '#bdfdfc'];//, '#ff0000', '#00ff00', '#0000ff']
 
   isLoading: boolean = true;
   searchLoading: boolean = false;
   saveLoading: boolean = false;
   signupLoading: boolean = false;
+  imageLoading: boolean = false;
 
   isEditName: boolean = false;
   unsavedChanges: boolean = false;
@@ -42,12 +47,13 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
     private router: Router,
     private route: ActivatedRoute,
     private collectionService: CollectionService,
+    private portfolioItemService: PortfolioItemService,
+    private tagService: TagService,
     private dataService: DataService,
     private translate: TranslateService,
     private modalService: NgbModal,
     private userService: UserService,
-    private authService: AuthService,
-    private linkedImageService: LinkedImageService) {
+    private authService: AuthService) {
       this.initializeCollection();
     }
 
@@ -58,32 +64,59 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
 
   ngOnInit() {
     this.loadCollection();
+    this.loadTags();
   }
 
   canDeactivate() {
     return this.handleNavigationAway();
   }
 
-  externalSearch(keywords: string) {
+  arrowClick(toLeft) {
+    const toMove = 500;
+    document.getElementById('tagList').scrollLeft += toLeft ? -toMove : toMove;
+  }
+
+  externalSearch() {
     this.searchLoading = true;
-    this.linkedImageService.externalSearch(keywords).subscribe(res => {
-      this.linkedImages = res;
+    this.portfolioItemService.search(this.filters).subscribe(res => {
+      this.portfolioItems = res;
       this.searchLoading = false;
     })
   }
 
-  imageSelected(linkedImage) {
-    linkedImage.selected = linkedImage.selected === undefined ? true : !linkedImage.selected
-    if (linkedImage.selected) {
-      this.collectionItems.push(linkedImage);
+  selectTagFilter(tagObj) {
+    let selectedTagIndex = this.filters.tags.indexOf(tagObj);
+    if (selectedTagIndex == -1) {
+      this.filters.tags.push(tagObj);
     } else {
-      this.removeCollectionItemById(linkedImage);
+      this.filters.tags.splice(selectedTagIndex, 1);
+    }
+
+    this.externalSearch();
+  }
+
+  selectColorFilter(hexColor) {
+    if (this.filters.color == hexColor) {
+      this.filters.color = null;
+    } else {
+      this.filters.color = hexColor;
+    }
+
+    this.externalSearch();
+  }
+
+  imageSelected(portfolioItem) {
+    portfolioItem.selected = portfolioItem.selected === undefined ? true : !portfolioItem.selected
+    if (portfolioItem.selected) {
+      this.collectionItems.push(portfolioItem);
+    } else {
+      this.removeCollectionItemById(portfolioItem);
     }
     this.unsavedChanges = true;
   }
 
-  removeCollectionItemById(linkedImage) {
-    let index = this.collectionItems.indexOf(linkedImage);
+  removeCollectionItemById(portfolioItem) {
+    let index = this.collectionItems.indexOf(portfolioItem);
     if (index == -1) return;
     this.collectionItems.splice(index, 1);
     this.unsavedChanges = true;
@@ -97,8 +130,10 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
       reader.onload = e => {
         this.collection.workspaceImageContents = reader.result;
         this.collection.workspaceImageUrl = reader.result;
+        this.imageLoading = false;
       };
 
+      this.imageLoading = true;
       reader.readAsDataURL(file);
       this.unsavedChanges = true;
     }
@@ -155,7 +190,6 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
           this.collectionItems = this.collection.items;
           this.alertService.success(TRANSLATE('collection.collection_was_saved'), true);
           this.saveLoading = false;
-          debugger;
           this.clearCollection(true);
           this.unsavedChanges = false;
           if (navigateUrlOnSuccess == 'purchase') {
@@ -198,7 +232,6 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
     if (this.authService.isLoggedIn()) {
       let collectionId = this.route.snapshot.paramMap.get('id');
       if (collectionId) {
-        debugger;
         this.router.navigate(['/collections/', collectionId, 'purchase']);
       } else {
         this.saveLoading = true;
@@ -216,6 +249,10 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
       this.collectionService.update({ id: this.collection.id, name: this.collection.name })
         .subscribe();
     }
+  }
+
+  isTagSelected(tag) {
+    return this.filters.tags.indexOf(tag) != -1;
   }
 
   private initializeCollection() {
@@ -251,6 +288,11 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
       this.collectionItems = data.collectionItems;
     }
     this.dataService.data = data
+  }
+
+  private loadTags() {
+    this.tags = []
+    this.tagService.getAll().subscribe(res => this.tags = res);
   }
 
   private handleNavigationAway() {

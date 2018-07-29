@@ -13,7 +13,7 @@ class PaymentsController < ApplicationController
       :ip => request.remote_ip,
       :token => params[:token],
       :payer_id => params[:payer_id],
-      :order_id => params[:order_id]
+      :app_order_id => params[:order_id]
     }
     @paypal_transaction = Processors::PaypalExpress.new.checkout(checkout_options)
     render(:show, status: :created)
@@ -22,7 +22,8 @@ class PaymentsController < ApplicationController
   private
 
     def setup_express_checkout
-      paypal_express = Processors::PaypalExpress.new(paypal_express_processor_attributes)
+      order = Order.find(params[:order_id])
+      paypal_express = Processors::PaypalExpress.new({amount: order.total_amount})
       token = paypal_express.setup_purchase({
         ip: request.remote_ip,
         return_url: params[:return_url],
@@ -34,6 +35,6 @@ class PaymentsController < ApplicationController
     end
 
     def paypal_express_processor_attributes
-      params.permit(:amount)
+      params.permit(:amount, :currency_code)
     end
 end

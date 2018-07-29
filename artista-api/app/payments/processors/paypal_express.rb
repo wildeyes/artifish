@@ -4,7 +4,7 @@ module Processors
     attr_accessor :amount
 
     def initialize(attributes = {})
-      @amount = Money.from_amount(attributes[:amount].to_f)
+      @amount = attributes[:amount]
     end
 
     def setup_purchase(options = {})
@@ -32,9 +32,9 @@ module Processors
       raise ExceptionHandler::InvalidOperation, Message.payment_was_already_processed if PaypalTransaction.find_by_token(token).present?
 
       details = PAYPAL_GATEWAY.details_for(token)
-      @amount = Money.from_amount(details.params['amount'].to_f)
+      @amount = Money.from_amount(details.params['amount'].to_f, details.params['amount_currency_id'])
       options[:currency] = @amount.currency.iso_code
-      @paypal_transaction = PaypalTransaction.create!(token: token, amount: @amount, order_id: options[:order_id], payer: details.params['payer'])
+      @paypal_transaction = PaypalTransaction.create!(token: token, amount: @amount, order_id: options[:app_order_id], payer: details.params['payer'])
 
       purchase(options)
       @paypal_transaction

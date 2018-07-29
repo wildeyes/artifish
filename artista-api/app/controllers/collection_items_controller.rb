@@ -4,7 +4,7 @@ class CollectionItemsController < ApplicationController
 
   # GET /collections
   def index
-    @collection_items = @collection.items
+    @collection_items = @collection.items.preload([:portfolio_item, {:portfolio_item => [:purchase_options => [:material, :size]]}])
   end
 
   # POST /collections
@@ -33,6 +33,6 @@ class CollectionItemsController < ApplicationController
     end
 
     def collection_item_params
-      params.require(:collection_item).permit(:name, :image_link, :url_link).merge(params.permit(:price))
+      params.require(:collection_item).permit(:name, :image_url, :item_url).merge(params.permit(:price))
     end
 end

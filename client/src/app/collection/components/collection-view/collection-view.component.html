@@ -1,49 +1,71 @@
 <i *ngIf="isLoading" class="fa fa-spinner fa-spin fa-3x"></i>
 <ng-container *ngIf="!isLoading && collection">
   <h3 class="editable-text" [ngClass]="{ 'd-none': isEditName, 'd-inline-block': !isEditName }" (click)="editName(true)">{{collection.name}}</h3>
-  <input type="text" autofocus (blur)="editName(false)" (blur)="updateCollectionName()" [(ngModel)]="collection.name" name="name" #name id="name" class="form-control mb-2" [ngClass]="{ 'd-none': !isEditName }">
+  <input type="text" autofocus (blur)="editName(false)" (blur)="updateCollectionName()" [(ngModel)]="collection.name" name="name"
+    #name id="name" class="form-control mb-2" [ngClass]="{ 'd-none': !isEditName }">
   <div class="row">
     <div class="col-lg-5">
       <div class="sticky-top">
         <div class="position-relative">
-          <img [src]="collection.workspaceImageUrl || 'assets/images/placeholder.png'" class="img-fluid" [alt]="collection.name">
-          <i class="fa fa-upload position-absolute img-upload clickable" [class.disabled]="saveLoading" (click)="!saveLoading && imageFile.click()" aria-hidden="true"></i>
-          <i class="fa fa-floppy-o position-absolute img-save clickable" [class.disabled]="saveLoading || collectionItems.length == 0" (click)="!saveLoading && collectionItems.length > 0 && saveCollection(saveModal)" [ngClass]="{ 'fa-spinner fa-spin': saveLoading }" aria-hidden="true"></i>
-          <i class="fa fa-trash-o position-absolute img-clear clickable" [class.disabled]="saveLoading" (click)="!saveLoading && clearCollection()" aria-hidden="true"></i>
+          <img src="assets/images/placeholder_loading.png" [ngClass]="{ 'd-none': !imageLoading }" class="img-fluid" [alt]="collection.name">
+          <img [src]="collection.workspaceImageUrl || 'assets/images/placeholder.png'" [ngClass]="{ 'd-none': imageLoading }" class="img-fluid"
+            [alt]="collection.name">
+          <i *ngIf="imageLoading" class="img-loader position-absolute fa fa-spinner fa-spin fa-3x"></i>
+          <i class="fa fa-upload position-absolute img-upload clickable" [class.disabled]="saveLoading" (click)="!saveLoading && imageFile.click()"
+            aria-hidden="true"></i>
+          <i class="fa fa-floppy-o position-absolute img-save clickable" [class.disabled]="saveLoading || collectionItems.length == 0"
+            (click)="!saveLoading && collectionItems.length > 0 && saveCollection(saveModal)" [ngClass]="{ 'fa-spinner fa-spin': saveLoading }"
+            aria-hidden="true"></i>
+          <i class="fa fa-trash-o position-absolute img-clear clickable" [class.disabled]="saveLoading" (click)="!saveLoading && clearCollection()"
+            aria-hidden="true"></i>
           <input type="file" (change)="readURL($event)" name="imageFile" #imageFile class="form-control-file d-none" id="inputWorkspaceImage">
         </div>
         <div *ngIf="collectionItems.length > 0" class="row no-gutters mt-2">
-           <div class="col-6 pt-2">
-             You have selected {{collectionItems.length}} items
-           </div>
-           <div class="col-3 offset-1">
+          <div class="col-6 pt-2">
+            You have selected {{collectionItems.length}} items
+          </div>
+          <div class="col-3 offset-1">
             <button class="btn btn-primary" (click)="navigateToPurchase(saveModal)">Proceed to Purchase</button>
-           </div>
+          </div>
         </div>
         <div *ngIf="collectionItems.length > 0" class="row no-gutters mt-2">
-          <div *ngFor="let collectionItem of collectionItems" class="col-md-3 mb-4 position-relative">
-            <img [src]="collectionItem.imageLink" class="img-fluid" alt="">
+          <div *ngFor="let collectionItem of collectionItems" class="col-md-4 mb-4 position-relative">
+            <img [src]="collectionItem.imageUrl" class="img-fluid" alt="">
             <i class="fa fa-times-circle position-absolute img-close clickable" (click)="removeCollectionItemById(collectionItem)" aria-hidden="true"></i>
           </div>
         </div>
       </div>
     </div>
     <div class="col-lg-7">
-      <form (ngSubmit)="externalSearch(keywords.value)">
-        <div class="form-group row">
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="keywords" name="keywords" #keywords placeholder="keywords">
-          </div>
-          <button *ngIf="!searchLoading" type="submit" class="btn btn-primary">Search</button>
-          <i *ngIf="searchLoading" class="fa fa-spinner fa-spin fa-2x align-middle"></i>
+      <div class="mt-2 mb-3 tag-chooser">
+        <div class="arrow-wrapper" (click)="arrowClick(true)">
+          <div class="arrow arrow-left float-left"></div>
         </div>
-      </form>
 
+        <div class="horizontal-slide tag-list" id="tagList">
+          <div *ngFor="let tag of tags" class="tag">
+            <button class="btn btn-light" [ngClass]="{ 'btn-dark': isTagSelected(tag) }" (click)="selectTagFilter(tag)">{{tag.name.replace('_', ' ')}}</button>
+          </div>
+        </div>
+
+        <div class="arrow-wrapper" (click)="arrowClick(false)">
+          <div class="arrow arrow-right float-right"></div>
+        </div>
+      </div>
+
+      <div class="mt-2 mb-3 mx-auto d-table">
+        <div *ngFor="let hexColor of hexColors" class="color clickable d-inline-block" (click)="selectColorFilter(hexColor)" [ngClass]="{ 'active': filters.color == hexColor }"
+          [style.backgroundColor]="hexColor">
+        </div>
+      </div>
+
+      <div *ngIf="searchLoading" class="row">
+        <i class="fa fa-spinner fa-spin fa-3x"></i>
+      </div>
       <div class="row">
-        <div *ngFor="let linkedImage of linkedImages" class="col-3 mb-2">
-          <img [src]="linkedImage.imageLink"
-               class="img-fluid clickable" [ngClass]="{ 'selected-image': linkedImage.selected }"
-               (click)="imageSelected(linkedImage)" alt="">
+        <div *ngFor="let portfolioItem of portfolioItems" class="col-3 mb-2">
+          <img [src]="portfolioItem.imageUrl" class="img-fluid clickable" [ngClass]="{ 'selected-image': portfolioItem.selected }"
+            (click)="imageSelected(portfolioItem)" alt="">
         </div>
       </div>
     </div>
@@ -95,4 +117,3 @@
     </div>
   </form>
 </ng-template>
-

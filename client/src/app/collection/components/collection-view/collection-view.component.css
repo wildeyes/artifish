@@ -11,6 +11,15 @@
   right: 5px;
 }
 
+.arrow-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.tag-chooser {
+  display: table;
+}
+
 .img-upload, .img-save, .img-clear {
   top: 5px;
   border-radius: 40px;
@@ -46,4 +55,64 @@
 .editable-text:hover {
   border: 1px solid #cbcbcb;
   border-radius: 5px;
+}
+
+.img-loader {
+  top: 50%;
+  left: 50%;
+  margin: -20px;
+}
+
+.horizontal-slide {
+  white-space: nowrap;
+  overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
+  width: 600px;
+}
+
+.horizontal-slide .tag {
+  display: inline-block;
+  float: none;
+  margin: 3px;
+}
+
+.tag-list {
+  margin: 0 20px;
+  overflow-x: hidden;
+}
+
+.color {
+  width: 30px;
+  height: 30px;
+}
+
+.color:hover {
+  border: 2px solid #000;
+}
+
+.color.active {
+  border: 2px solid #000;
+}
+
+.item-color {
+  width: 25px;
+  height: 25px;
+}
+
+.arrow {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  cursor: pointer;
+}
+
+.arrow-right {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.arrow-left {
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
 }

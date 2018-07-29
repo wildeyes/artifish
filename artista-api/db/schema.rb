@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_24_095850) do
+ActiveRecord::Schema.define(version: 2018_07_29_211432) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -35,14 +35,16 @@ ActiveRecord::Schema.define(version: 2018_07_24_095850) do
 
   create_table "collection_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
-    t.string "image_link"
-    t.string "url_link"
+    t.string "image_url"
+    t.string "item_url"
     t.integer "price_cents", default: 0, null: false
     t.string "price_currency", default: "USD", null: false
     t.bigint "collection_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "portfolio_item_id"
     t.index ["collection_id"], name: "index_collection_items_on_collection_id"
+    t.index ["portfolio_item_id"], name: "index_collection_items_on_portfolio_item_id"
   end
 
   create_table "collections", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -53,16 +55,41 @@ ActiveRecord::Schema.define(version: 2018_07_24_095850) do
     t.index ["user_id"], name: "index_collections_on_user_id"
   end
 
+  create_table "colors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "r"
+    t.integer "g"
+    t.integer "b"
+    t.float "h"
+    t.float "s"
+    t.float "l"
+  end
+
+  create_table "colors_portfolio_items", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "portfolio_item_id", null: false
+    t.bigint "color_id", null: false
+    t.index ["color_id", "portfolio_item_id"], name: "index_colors_portfolio_items_on_color_id_and_portfolio_item_id"
+    t.index ["portfolio_item_id", "color_id"], name: "index_colors_portfolio_items_on_portfolio_item_id_and_color_id", unique: true
+  end
+
+  create_table "materials", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_materials_on_name", unique: true
+  end
+
   create_table "order_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
-    t.string "image_link"
-    t.string "url_link"
+    t.string "image_url"
+    t.string "item_url"
+    t.bigint "purchase_option_id"
     t.integer "price_cents", default: 0, null: false
     t.string "price_currency", default: "USD", null: false
     t.bigint "order_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["purchase_option_id"], name: "index_order_items_on_purchase_option_id"
   end
 
   create_table "orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -92,6 +119,55 @@ ActiveRecord::Schema.define(version: 2018_07_24_095850) do
     t.index ["token"], name: "index_paypal_transactions_on_token", unique: true
   end
 
+  create_table "portfolio_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.string "product_identifier"
+    t.string "product_url"
+    t.bigint "supplier_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["supplier_id"], name: "index_portfolio_items_on_supplier_id"
+  end
+
+  create_table "portfolio_items_tags", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "tag_id", null: false
+    t.bigint "portfolio_item_id", null: false
+  end
+
+  create_table "purchase_options", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "material_id"
+    t.bigint "size_id"
+    t.bigint "portfolio_item_id"
+    t.integer "price_cents", default: 0, null: false
+    t.string "price_currency", default: "USD", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["material_id"], name: "index_purchase_options_on_material_id"
+    t.index ["portfolio_item_id"], name: "index_purchase_options_on_portfolio_item_id"
+    t.index ["size_id"], name: "index_purchase_options_on_size_id"
+  end
+
+  create_table "sizes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_sizes_on_name", unique: true
+  end
+
+  create_table "suppliers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_suppliers_on_name", unique: true
+  end
+
+  create_table "tags", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_tags_on_name", unique: true
+  end
+
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
@@ -110,6 +186,11 @@ ActiveRecord::Schema.define(version: 2018_07_24_095850) do
   add_foreign_key "collection_items", "collections"
   add_foreign_key "collections", "users"
   add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "purchase_options"
   add_foreign_key "orders", "users"
   add_foreign_key "paypal_transactions", "orders"
+  add_foreign_key "portfolio_items", "suppliers"
+  add_foreign_key "purchase_options", "materials"
+  add_foreign_key "purchase_options", "portfolio_items"
+  add_foreign_key "purchase_options", "sizes"
 end

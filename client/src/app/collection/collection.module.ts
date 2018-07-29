@@ -12,7 +12,8 @@ import { PurchaseComponent } from './components/purchase/purchase.component';
 import { CollectionItemService } from './services/collection-item.service';
 import { SaveCollectionDataGuard } from './services/collection-view-can-deactivate.service';
 import { CollectionService } from './services/collection.service';
-import { LinkedImageService } from './services/linked-image.service';
+import { PortfolioItemService } from './services/portfolio-item.service';
+import { TagService } from './services/tag.service';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { LinkedImageService } from './services/linked-image.service';
   providers: [
     CollectionService,
     CollectionItemService,
-    LinkedImageService,
+    PortfolioItemService,
+    TagService,
     SaveCollectionDataGuard
   ]
 })

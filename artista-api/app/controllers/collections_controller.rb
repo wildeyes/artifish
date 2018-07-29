@@ -47,6 +47,6 @@ class CollectionsController < ApplicationController
     end
 
     def collection_params
-      params.require(:collection).permit(:name, items_attributes: [:id, :name, :image_link, :url_link, :price]).merge(params.permit(:workspace_image_contents))
+      params.require(:collection).permit(:name, items_attributes: [:id, :portfolio_item_id, :name, :image_url, :item_url, :price]).merge(params.permit(:workspace_image_contents))
     end
 end

@@ -2,7 +2,7 @@
 <ng-container *ngIf="collection">
   <div class="row mb-4">
     <div class="col-md-4 border-right">
-      <h2>Total amount: {{totalAmount / 100.0 | currency:currencyCode:'symbol':'1.2-2'}}</h2>
+      <h2>Total amount: {{totalAmountCents / 100.0 | currency:currencyCode:'symbol':'1.2-2'}}</h2>
       <form #f="ngForm" (ngSubmit)='f.form.valid && saveOrder()'>
         <div class="form-row">
           <div class="form-group col-md-6">
@@ -50,9 +50,38 @@
     </div>
     <div class="col-md-8">
       <div class="row">
-        <div *ngFor="let collectionItem of collectionItems" class="col-md-3 mb-4">
-          <img [src]="collectionItem.imageLink" class="img-fluid" alt="">
-          <div>Price: {{collectionItem.priceFormatted}}</div>
+        <div class="col-12">
+          <div *ngFor="let collectionItem of collectionItems" class="row mb-4">
+            <div class="col-sm-4">
+              <img [src]="collectionItem.imageUrl" class="img-fluid" alt="">
+            </div>
+            <div class="col-sm-8">
+              <p><strong>{{collectionItem.name}}</strong></p>
+              <form>
+                <div class="form-group row">
+                  <label for="materialSelect" class="col-form-label col-sm-2">{{'purchase.material' | translate}}</label>
+                  <select class="form-control col-sm-10" id="materialSelect"
+                          (change)="materialSelected(collectionItem, $event.target.value)">
+                    <option *ngFor="let purchaseOption of collectionItem.purchaseOptions"
+                            [value]="purchaseOption.materialId">{{purchaseOption.material}}
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group row">
+                  <label for="sizeSelect" class="col-form-label col-sm-2">{{'purchase.size' | translate}}</label>
+                  <select class="form-control col-sm-10" name="selectedSize" id="sizeSelect"
+                          [(ngModel)]="selectionPerItemMapping[collectionItem.id].selectedSizeId"
+                          (change)="sizeSelected(collectionItem, $event.target.value)">
+                    <option *ngFor="let pricing of selectionPerItemMapping[collectionItem.id].selectedMaterial.prices"
+                             [value]="pricing.sizeId">{{pricing.size}}</option>
+                  </select>
+                </div>
+              </form>
+              <div>
+                <strong>Price: {{selectionPerItemMapping[collectionItem.id].selectedPrice.priceCents / 100.0 | currency:selectionPerItemMapping[collectionItem.id].selectedPrice.currencyCode:'symbol':'1.2-2'}}</strong>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

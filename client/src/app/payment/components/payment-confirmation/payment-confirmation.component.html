@@ -25,7 +25,7 @@
   <h4>{{'payment_confirmation.items_ordered' | translate}}</h4>
   <div class="row">
     <div *ngFor="let orderItem of order.items" class="col-md-4 mb-4">
-      <img [src]="orderItem.imageLink" class="img-fluid" alt="">
+      <img [src]="orderItem.imageUrl" class="img-fluid" alt="">
     </div>
   </div>
 </ng-container>

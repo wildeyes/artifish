@@ -9,6 +9,7 @@ module ExceptionHandler
   class MissingToken < StandardError; end
   class InvalidToken < StandardError; end
   class InvalidOperation < StandardError; end
+  class PaymentProcessingError < StandardError; end
 
   included do
     rescue_from ActiveRecord::RecordInvalid, with: :four_twenty_two_record_invalid
@@ -20,6 +21,7 @@ module ExceptionHandler
     rescue_from ExceptionHandler::MissingToken, with: :four_twenty_two
     rescue_from ExceptionHandler::InvalidToken, with: :four_twenty_two
     rescue_from ExceptionHandler::InvalidOperation, with: :four_twenty_two
+    rescue_from ExceptionHandler::PaymentProcessingError, with: :four_twenty_two
 
     rescue_from ActiveRecord::RecordNotFound do |e|
       json = JSON.parse(e.message) rescue nil || { message: e.message }

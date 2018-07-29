@@ -13,7 +13,8 @@ Rails.application.routes.draw do
     resources :items, only: [:index, :create, :destroy], controller: 'collection_items', defaults: {format: :json}
   end
 
-  get 'linked_images/search', to: 'linked_images#external_search'
+  resources :portfolio_items, only: [:index], defaults: {format: :json}
+  resources :tags, only: [:index], defaults: {format: :json}
 
   post 'payments/generate_paypal_link', to: 'payments#generate_paypal_link'
 
