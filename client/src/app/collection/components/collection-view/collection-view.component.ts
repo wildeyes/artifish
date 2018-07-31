@@ -36,6 +36,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   saveLoading: boolean = false;
   signupLoading: boolean = false;
   imageLoading: boolean = false;
+  loadingTags: boolean = true;
 
   isEditName: boolean = false;
   unsavedChanges: boolean = false;
@@ -292,7 +293,10 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
 
   private loadTags() {
     this.tags = []
-    this.tagService.getAll().subscribe(res => this.tags = res);
+    this.tagService.getAll().subscribe(res => {
+      this.tags = res;
+      this.loadingTags = false;
+    });
   }
 
   private handleNavigationAway() {

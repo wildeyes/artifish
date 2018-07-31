@@ -37,27 +37,30 @@
       </div>
     </div>
     <div class="col-lg-7">
-      <div class="mt-2 mb-3 tag-chooser">
-        <div class="arrow-wrapper" (click)="arrowClick(true)">
-          <div class="arrow arrow-left float-left"></div>
-        </div>
+      <p *ngIf="loadingTags">Loading filters... <i class="fa fa-spinner fa-spin fa-2x"></i></p>
+      <ng-container *ngIf="!loadingTags">
+        <div class="mt-2 mb-3 tag-chooser">
+          <div class="arrow-wrapper" (click)="arrowClick(true)">
+            <div class="arrow arrow-left float-left"></div>
+          </div>
 
-        <div class="horizontal-slide tag-list" id="tagList">
-          <div *ngFor="let tag of tags" class="tag">
-            <button class="btn btn-light" [ngClass]="{ 'btn-dark': isTagSelected(tag) }" (click)="selectTagFilter(tag)">{{tag.name.replace('_', ' ')}}</button>
+          <div *ngIf="!loadingTags" class="horizontal-slide tag-list" id="tagList">
+            <div *ngFor="let tag of tags" class="tag">
+              <button class="btn btn-light" [ngClass]="{ 'btn-dark': isTagSelected(tag) }" (click)="selectTagFilter(tag)">{{tag.name.replace('_', ' ')}}</button>
+            </div>
+          </div>
+
+          <div class="arrow-wrapper" (click)="arrowClick(false)">
+            <div class="arrow arrow-right float-right"></div>
           </div>
         </div>
 
-        <div class="arrow-wrapper" (click)="arrowClick(false)">
-          <div class="arrow arrow-right float-right"></div>
+        <div class="mt-2 mb-3 mx-auto d-table">
+          <div *ngFor="let hexColor of hexColors" class="color clickable d-inline-block" (click)="selectColorFilter(hexColor)" [ngClass]="{ 'active': filters.color == hexColor }"
+            [style.backgroundColor]="hexColor">
+          </div>
         </div>
-      </div>
-
-      <div class="mt-2 mb-3 mx-auto d-table">
-        <div *ngFor="let hexColor of hexColors" class="color clickable d-inline-block" (click)="selectColorFilter(hexColor)" [ngClass]="{ 'active': filters.color == hexColor }"
-          [style.backgroundColor]="hexColor">
-        </div>
-      </div>
+      </ng-container>
 
       <div *ngIf="searchLoading" class="row">
         <i class="fa fa-spinner fa-spin fa-3x"></i>
