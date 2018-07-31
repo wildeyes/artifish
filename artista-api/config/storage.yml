@@ -15,11 +15,21 @@ local:
 #   bucket: your_own_bucket
 
 # Remember not to checkin your GCS keyfile to a repository
-# google:
-#   service: GCS
-#   project: your_project
-#   credentials: <%= Rails.root.join("path/to/gcs.keyfile") %>
-#   bucket: your_own_bucket
+google:
+  service: GCS
+  credentials:
+    type: "service_account"
+    project_id: "artifish-app"
+    private_key_id: <%= ENV['GOOGLE_STORAGE_PRIVATE_KEY_ID'] || 'MISSING_KEY' %>
+    private_key: <%= ENV['GOOGLE_STORAGE_PRIVATE_KEY'] || 'MISSING_KEY' %>
+    client_email: "artifish@artifish-app.iam.gserviceaccount.com"
+    client_id: "113772614427533112492"
+    auth_uri: "https://accounts.google.com/o/oauth2/auth"
+    token_uri: "https://accounts.google.com/o/oauth2/token"
+    auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"
+    client_x509_cert_url: "https://www.googleapis.com/robot/v1/metadata/x509/artifish%40artifish-app.iam.gserviceaccount.com"
+  project: "artifish"
+  bucket: "artifish"
 
 # Use rails credentials:edit to set the Azure Storage secret (as azure_storage:storage_access_key)
 # microsoft:
