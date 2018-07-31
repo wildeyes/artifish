@@ -15,7 +15,6 @@ module SearchProviders
       :humanity => ["photosk/%D7%A2%D7%99%D7%A8%D7%95%D7%9D", "photosc/people"],
       :abstract => ["photosc/urban", "photosc/still-life", "photosk/photos-for-dining-room"]
     }
-    ALLOWED_MATERIALS_IDS = [2, 1]
 
     def initialize
       super
@@ -33,7 +32,6 @@ module SearchProviders
       products_list_items.each do |list_item|
         url_link = get_link(list_item.css('.inbox.ev').css('a').first[:href])
         catalog_num = url_link.split('/').last
-        # next if should_skip_image({url_link: url_link, catalog_num: catalog_num})
         image_hash = {
           :image_url => get_link(list_item.css('.image-link').css('img').first[:src]),
           :url_link => url_link,
@@ -46,7 +44,6 @@ module SearchProviders
     end
 
     def get_next_page_link(page)
-      byebug
       next_page_a_tag = page.css('ul.page-numbers').css('a.next.page-numbers').first
       if next_page_a_tag && next_page_a_tag[:href]
         next_page_link = get_link next_page_a_tag[:href]
@@ -54,24 +51,38 @@ module SearchProviders
       next_page_link
     end
 
-    def get_sizes_hash(page)
-      # page.css('div.tm-extra-product-options-container').css('li').css('input[type=radio]')  'select[name=canvassize]').first.css('option').map { |size_opt| size_opt[:value] }.uniq
-    end
+    def get_materials_with_sizes(page)
+      sections = page.css('div.cpf-section[data-logic]').reject{|x| !x['data-logic'].present?}
+      materials_with_sizes = sections.map do |section|
+        next if section.css('div.cpf-type-select').last.nil?
+        selects = section.css('div.cpf-type-select div.tm-extra-product-options-container select').reject{|s| s.css("option").first['data-imagep'].present?}
+        options = selects.last.css('option')
+        sizes = options.map { |opt| opt['data-text'] }
 
-    def get_materials_hash(page)
-      material_labels = page.css('li.c3').css('label')
-      materials = material_labels.map do |ml|
+        data_logic = JSON.parse(section['data-logic'])
         {
-          material_id: ml.css('input').first[:value].to_i,
-          material_name: ml.text.gsub(/\u00a0/, '').strip
+          material_id: section['data-uniqid'],
+          material_name: URI.decode(data_logic['rules'].first['value']),
+          sizes: sizes
         }
-      end
-      materials
+      end.compact
+      materials_with_sizes
     end
 
-    def get_price(page)
-      response = HTTParty.get(GET_PRICE_URL % [w, h, material_id, product_id])
-      price = /[\d\.]+/.match(response.body).to_s
+    def get_price(page, material_id, w, h)
+      if !@base_price
+        p = page.css('div.summary.entry-summary').css('p.price')
+        amount = p.css('ins').css('span.woocommerce-Price-amount.amount')
+        amount = p.css('span.woocommerce-Price-amount.amount') unless amount.present?
+        @base_price = /[\d\.]+/.match(amount.text).to_s.to_f
+      end
+      section = page.css("div.cpf-section[data-uniqid='#{material_id}']")
+      selects = section.css('div.cpf-type-select div.tm-extra-product-options-container select').reject{|s| s.css("option").first['data-imagep'].present?}
+      option = selects.last.css("option[data-text='#{w}X#{h}']").first || selects.last.css("option[data-text='#{w}x#{h}']").first
+      puts selects.last.inner_html if option.nil?
+      puts "data-text='#{w}x#{h}'" if option.nil?
+      data_price = option['data-price'].to_f
+      @base_price + data_price
     end
   end
 end

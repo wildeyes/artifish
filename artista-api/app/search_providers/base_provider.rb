@@ -8,13 +8,15 @@ module SearchProviders
       @size_cache ||= {}
       @pricing_cache = {}
       @already_loaded_portfolios = {}
-      @restrict_catalog = defined? ALLOWED_CATALOGS
-      get_or_create_supplier
-      PortfolioItem.where(supplier_id: @supplier_id).pluck(:product_url).each { |url| @already_loaded_portfolios[url] = true }
+      @restrict_catalog = defined? self.class::ALLOWED_CATALOGS
       FileUtils.mkdir_p(TEMP_IMAGES_DIR) unless File.directory?(TEMP_IMAGES_DIR)
     end
 
     def run
+      get_or_create_supplier
+      # Load existing portfolios to not reprocess them
+      PortfolioItem.where(supplier_id: @supplier_id).pluck(:product_url).each { |url| @already_loaded_portfolios[url] = true }
+
       self.class::CATEGORIES.each do |category_name, category_identifiers|
         Array(category_identifiers).each do |category_identifier|
           @category_name = category_name
@@ -54,6 +56,7 @@ module SearchProviders
         })
         p.tags << Tag.find_or_create_by(name: @category_name)
         p.save!
+        @already_loaded_portfolios[p.product_url] = true
         attach_image(p, image_hash[:image_url])
         create_purchase_options(p, image_hash[:pricing])
         count += 1
@@ -85,7 +88,7 @@ module SearchProviders
       linked_images_hashes.each do |image_hash|
         image_hash[:pricing] = get_prices_hash_for_product(image_hash[:url_link])
         c += 1
-        puts "-- #{c}/#{total_count} Getting prices" # if c % 10 == 0
+        puts "-- #{c}/#{total_count} Getting prices"
       end
       next_page_link = get_next_page_link(page)
       [linked_images_hashes, next_page_link]
@@ -96,12 +99,13 @@ module SearchProviders
 
       response = HTTParty.get(URI.encode(url))
       page = Nokogiri::HTML(response.body)
-      sizes = get_sizes_hash(page)
-      materials = get_materials_hash(page)
-      materials.reject! {|m_hash| !self.class::ALLOWED_MATERIALS_IDS.include?(m_hash[:material_id])} if self.class::ALLOWED_MATERIALS_IDS.present?
-      materials.each do |m_hash|
-        sizes.each do |size|
+      materials_with_sizes_hashes = get_materials_with_sizes(page)
+      materials_with_sizes_hashes.reject! {|m_hash| !self.class::ALLOWED_MATERIALS_IDS.include?(m_hash[:material_id])} if defined? self.class::ALLOWED_MATERIALS_IDS
+      materials_with_sizes_hashes.each do |m_hash|
+        m_hash[:sizes].each do |size|
           w, h = size.split('x')
+          w, h = size.split('X') if w.nil? || h.nil?
+
           material_id = m_hash[:material_id]
           if self.class::CACHE_PRICE && @pricing_cache[material_id].present? && @pricing_cache[material_id]["#{w}x#{h}"].present?
             pricing << {
@@ -166,8 +170,8 @@ module SearchProviders
     end
 
     def should_skip_image(image_hash)
-      if @restrict_catalog && ALLOWED_CATALOGS[@category_name][image_hash[:catalog_num]].nil?
-        puts "Skipping item with not allowed catalog number (#{catalog_num})"
+      if @restrict_catalog && self.class::ALLOWED_CATALOGS[@category_name][image_hash[:catalog_num]].nil?
+        puts "Skipping item with not allowed catalog number (#{image_hash[:catalog_num]})"
         return true
       end
 

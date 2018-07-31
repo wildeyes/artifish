@@ -34,16 +34,12 @@ module SearchProviders
       item_tables = page.css('.item')
       linked_images = []
       item_tables.each do |item_table|
-        url_link = get_link(item_table.css('.item-category-name').css('a').first[:href])
-        catalog_num = item_table.css('.item-catalognum').first.text.gsub(/\u00a0/, '')
-        # skip item if catalog number is not in the allowed list
-        # next if should_skip_image({url_link: url_link, catalog_num: catalog_num})
         image_hash = {
           :image_url => get_link(item_table.css('.item-zoom').css('a').first[:href]),
           # :thumb_image_url => get_link(item_table.css('.item-pic').css('img').first[:src]),
-          :url_link => url_link,
+          :url_link => get_link(item_table.css('.item-category-name').css('a').first[:href]),
           :name => item_table.css('.item-title').css('a').first.text,
-          :catalog_num => catalog_num
+          :catalog_num => item_table.css('.item-catalognum').first.text.gsub(/\u00a0/, '')
         }
         linked_images << image_hash
       end
@@ -58,16 +54,14 @@ module SearchProviders
       next_page_link
     end
 
-    def get_sizes_hash(page)
-      page.css('select[name=canvassize]').first.css('option').map { |size_opt| size_opt[:value] }.uniq
-    end
-
-    def get_materials_hash(page)
+    def get_materials_with_sizes(page)
       material_labels = page.css('li.c3').css('label')
+      sizes = page.css('select[name=canvassize]').first.css('option').map { |size_opt| size_opt[:value] }.uniq
       materials = material_labels.map do |ml|
         {
           material_id: ml.css('input').first[:value].to_i,
-          material_name: ml.text.gsub(/\u00a0/, '').strip
+          material_name: ml.text.gsub(/\u00a0/, '').strip,
+          sizes: sizes
         }
       end
       materials

@@ -161,7 +161,7 @@ module SearchProviders
         "GA-C1718" => true,
         "GA-C0019" => true
       },
-      :movies_tv => {
+      :movies_and_tv => {
         "GA-C1560" => true,
         "GA-C1643" => true,
         "GA-C0941" => true,
