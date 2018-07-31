@@ -1,5 +1,5 @@
 module SearchProviders
-  class Galmir
+  class Galmir < BaseProvider
     ALLOWED_CATALOGS = {
       :pop_art => {
         "GA-C0940" => true,
