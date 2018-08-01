@@ -10,6 +10,19 @@ class PortfolioItemsController < ApplicationController
     @portfolio_items = PortfolioItem.joins(:tags).where.has{ tags.name.in query_tags } if query_tags.present?
     @portfolio_items = (@portfolio_items || PortfolioItem).joins(:colors).where.has{ colors.id == color.id } if color.present?
 
+    if @portfolio_items.nil?
+      random_tags = Tag.all.sample(5)
+      portfolio_items_ids = []
+      random_tags.each { |tag| portfolio_items_ids += tag.portfolio_items.last(20).pluck(:id).sample(4) }
+      @portfolio_items = PortfolioItem.where(:id => portfolio_items_ids)
+    end
+
+    # Getting starting price
+    @portfolio_items = @portfolio_items.joins(:purchase_options)
+    .select("MIN(purchase_options.price_cents) as starting_price")
+    .select("purchase_options.price_currency")
+    .select("portfolio_items.*").group('portfolio_items.id, purchase_options.price_currency') if @portfolio_items
+
     @portfolio_items
   end
 

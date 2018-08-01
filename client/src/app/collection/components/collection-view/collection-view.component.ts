@@ -35,7 +35,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   hexColors: any[] = ['#bcb7b0', '#000000', '#0c2c53', '#444a6d', '#1797b8', '#00a7ed', '#0e59e1', '#2f29e7', '#7327e7', '#c55c9c', '#cd3846', '#e1947f', '#e69f55', '#efd05e', '#9abe45', '#1ec6b7', '#bdfdfc'];//, '#ff0000', '#00ff00', '#0000ff']
 
   isLoading: boolean = true;
-  searchLoading: boolean = false;
+  searchLoading: boolean = true;
   saveLoading: boolean = false;
   purchaseNavigateLoading: boolean = false;
   signupLoading: boolean = false;
@@ -71,6 +71,10 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   ngOnInit() {
     this.loadCollection();
     this.loadTags();
+    this.portfolioItemService.getRandomly().subscribe(res => {
+      this.portfolioItems = res;
+      this.searchLoading = false;
+    })
   }
 
   canDeactivate() {

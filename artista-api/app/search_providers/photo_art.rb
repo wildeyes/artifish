@@ -2,6 +2,7 @@ require "base_provider"
 
 module SearchProviders
   class PhotoArt < BaseProvider
+    PRICE_CURRENCY = "ILS"
     CACHE_PRICE = true
     SUPPLIER_NAME = "photo_art"
     BASE_URL = "https://www.photo-art.co.il/"

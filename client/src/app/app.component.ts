@@ -17,10 +17,10 @@ export class AppComponent {
     translate.setDefaultLang(environment.defaultLanguage);
     this.direction = environment.rtl ? "rtl" : "ltr";
 
-    if (!isDevMode()) {
-      this.localeLoading = true;
-      this.redirectToLocaleSite();
-    }
+    // if (!isDevMode()) {
+    //   this.localeLoading = true;
+    //   this.redirectToLocaleSite();
+    // }
   }
 
   private redirectToLocaleSite() {
@@ -32,13 +32,10 @@ export class AppComponent {
         let index = pathname.indexOf('/', 1)
         let url = origin + (index == -1 ? pathname : pathname.substring(0, index))
         let hebUrl = origin + "/artifish.il";
-        debugger;
         if (locale == "he" && !url.toLowerCase().startsWith(hebUrl)) {
-          debugger;
           window.location.href = origin + pathname.replace("/artifish", "/artifish.il");
         }
         if (locale == "en" && url.toLowerCase().startsWith(hebUrl)) {
-          debugger;
           window.location.href = origin + pathname.replace("/artifish.il", "/artifish");
         }
       }, err => {

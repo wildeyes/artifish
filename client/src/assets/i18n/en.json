@@ -69,7 +69,10 @@
 		"my_space": "My Space",
 		"proceed_to_purchase": "Proceed to Purchase",
 		"you_have_selected_x_items": "You have selected {{items_count}} items",
-		"choose_a_password": "Choose a password"
+		"choose_a_password": "Choose a password",
+		"starting_at": "Starting at",
+		"project_board": "Project board",
+		"explore_new_art": "Explore new Art"
 	},
 	"collections": {
 		"my_collections": "My Collections",

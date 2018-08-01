@@ -132,6 +132,8 @@ ActiveRecord::Schema.define(version: 2018_07_29_211432) do
   create_table "portfolio_items_tags", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "tag_id", null: false
     t.bigint "portfolio_item_id", null: false
+    t.index ["portfolio_item_id", "tag_id"], name: "index_portfolio_items_tags_on_portfolio_item_id_and_tag_id"
+    t.index ["tag_id", "portfolio_item_id"], name: "index_portfolio_items_tags_on_tag_id_and_portfolio_item_id"
   end
 
   create_table "purchase_options", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

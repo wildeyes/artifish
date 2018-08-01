@@ -70,7 +70,10 @@
 		"my_space": "החלל שלי",
 		"proceed_to_purchase": "המשך לרכישה",
 		"you_have_selected_x_items": "בחרת {{items_count}} פריטים",
-		"choose_a_password": "בחר סיסמא"
+		"choose_a_password": "בחר סיסמא",
+		"starting_at": "החל מ",
+		"project_board": "עריכת פרוייקט",
+		"explore_new_art": "גלה אמנות חדשה"
 	},
 	"collections": {
 		"my_collections": "הפרוייקטים שלי",

@@ -11,6 +11,10 @@
   right: 5px;
 }
 
+.collection-image:hover+.img-close {
+  color: antiquewhite;
+}
+
 .arrow-wrapper {
   display: table-cell;
   vertical-align: middle;
@@ -68,11 +72,6 @@ div.rtl .img-clear {
 .editable-text {
   border: 1px solid transparent;
   padding: 4px;
-}
-
-.editable-text:hover {
-  border: 1px solid #cbcbcb;
-  border-radius: 5px;
 }
 
 .img-loader {
@@ -143,4 +142,20 @@ div.rtl .arrow-right {
 div.rtl .arrow-left {
   transform: rotate(-45deg);
   -webkit-transform: rotate(-45deg);
+}
+
+.collection-panel {
+  background-color: #e2e2e2;
+}
+
+.collection-name {
+  background-color: #7b7b7b;
+  color: #ffffff;
+  width: 100%;
+}
+
+.collection-edit {
+  font-size: 1.2em;
+  line-height: 1.7em;
+  /* width: 100%; */
 }

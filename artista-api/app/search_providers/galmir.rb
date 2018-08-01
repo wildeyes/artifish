@@ -3,6 +3,7 @@ require "galmir_allowed_catalogs"
 
 module SearchProviders
   class Galmir < BaseProvider
+    PRICE_CURRENCY = "ILS"
     CACHE_PRICE = true
     SUPPLIER_NAME = "galmir"
     BASE_URL = "http://www.galmir.co.il/"

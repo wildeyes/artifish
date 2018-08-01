@@ -13,7 +13,10 @@ if collection_item.portfolio_item_id.present?
       json.currency_code purchase_option.price.currency.iso_code
     end
   end
+  starting_price = collection_item.portfolio_item.calculate_starting_price
+  json.startingPriceFormatted starting_price.format if starting_price
 else
+  # For case when we link to other website and not loading photos to our db
   json.extract! collection_item, :id, :portfolio_item_id, :name, :image_url, :item_url, :collection_id, :price_cents, :created_at, :updated_at
   json.price_formatted collection_item.price.format
   json.currency_code collection_item.price.currency.iso_code

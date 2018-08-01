@@ -9,6 +9,7 @@ module SearchProviders
       @pricing_cache = {}
       @already_loaded_portfolios = {}
       @restrict_catalog = defined? self.class::ALLOWED_CATALOGS
+      raise "PRICE_CURRENCY const is not defined" if !defined? self.class::PRICE_CURRENCY
       FileUtils.mkdir_p(TEMP_IMAGES_DIR) unless File.directory?(TEMP_IMAGES_DIR)
     end
 
@@ -156,7 +157,7 @@ module SearchProviders
           @size_cache[size_name] = size
         end
 
-        purchase_options_models << PurchaseOption.new(material_id: material.id, size_id: size.id, portfolio_item_id: portfolio_item.id, price: pricing[:price], price_currency: "ILS")
+        purchase_options_models << PurchaseOption.new(material_id: material.id, size_id: size.id, portfolio_item_id: portfolio_item.id, price: pricing[:price], price_currency: self.class::PRICE_CURRENCY)
       end
       # PurchaseOption.import(purchase_options_models)
       PurchaseOption.transaction do

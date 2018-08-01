@@ -22,6 +22,11 @@ class PortfolioItem < ApplicationRecord
     purchase_options.group_by(&:material_id)
   end
 
+  def calculate_starting_price
+    min_purchase_option = purchase_options.min_by(&:price_cents)
+    min_purchase_option ? min_purchase_option.price : nil
+  end
+
   def extract_colors(color_count = 5)
     @@filter_colors ||= Color.all
 

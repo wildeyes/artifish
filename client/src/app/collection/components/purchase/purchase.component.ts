@@ -71,7 +71,6 @@ export class PurchaseComponent implements OnInit {
       }
       orderItems.push(orderItem);
     }
-    debugger;
     this.order.itemsAttributes = orderItems;
     this.orderService.create(this.order).subscribe(order => {
       this.generatePaypalLink(order.id);
