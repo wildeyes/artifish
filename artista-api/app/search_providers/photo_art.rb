@@ -75,7 +75,7 @@ module SearchProviders
         p = page.css('div.summary.entry-summary').css('p.price')
         amount = p.css('ins').css('span.woocommerce-Price-amount.amount')
         amount = p.css('span.woocommerce-Price-amount.amount') unless amount.present?
-        @base_price = /[\d\.]+/.match(amount.text).to_s.to_f
+        @base_price = /[\d\.]+/.match(amount.text.gsub(',', '')).to_s.to_f
       end
       section = page.css("div.cpf-section[data-uniqid='#{material_id}']")
       selects = section.css('div.cpf-type-select div.tm-extra-product-options-container select').reject{|s| s.css("option").first['data-imagep'].present?}

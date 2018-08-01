@@ -71,7 +71,7 @@ module SearchProviders
     def get_price(page, material_id, w, h)
       product_id = page.css('div.framing-tabs').css('input[name=id]').first[:value]
       response = HTTParty.get(GET_PRICE_AJAX_URL % [w, h, material_id, product_id])
-      price = /[\d\.]+/.match(response.body).to_s
+      price = /[\d\.]+/.match(response.body.gsub(',', '')).to_s
       price
     end
   end
