@@ -10,6 +10,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { UserService } from './services/user.service';
 import { VerifiedUserGuard } from './services/verified-user-guard.service';
+import { LocationService } from './services/location.service';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { VerifiedUserGuard } from './services/verified-user-guard.service';
   ],
   providers: [
     UserService,
-    VerifiedUserGuard
+    VerifiedUserGuard,
+    LocationService
   ],
   exports: [
     NavbarComponent,

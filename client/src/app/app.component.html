@@ -1,6 +1,12 @@
-<app-navbar fixed-top="true">
-</app-navbar>
-<div class="container">
-  <alert></alert>
-  <router-outlet></router-outlet>
+<div *ngIf="!localeLoading" [attr.dir]="direction" [ngClass]="direction">
+  <app-navbar fixed-top="true">
+  </app-navbar>
+  <div class="container">
+    <alert></alert>
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<div *ngIf="localeLoading" class="loader-icon">
+  <i class="fa fa-spinner fa-spin fa-4x"></i>
 </div>

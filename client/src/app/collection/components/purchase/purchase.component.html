@@ -2,7 +2,7 @@
 <ng-container *ngIf="collection">
   <div class="row mb-4">
     <div class="col-md-4 border-right">
-      <h2>Total amount: {{totalAmountCents / 100.0 | currency:currencyCode:'symbol':'1.2-2'}}</h2>
+      <h2>{{'purchase.total_amount' | translate}}: {{totalAmountCents / 100.0 | currency:currencyCode:'symbol':'1.2-2'}}</h2>
       <form #f="ngForm" (ngSubmit)='f.form.valid && saveOrder()'>
         <div class="form-row">
           <div class="form-group col-md-6">
@@ -78,7 +78,7 @@
                 </div>
               </form>
               <div>
-                <strong>Price: {{selectionPerItemMapping[collectionItem.id].selectedPrice.priceCents / 100.0 | currency:selectionPerItemMapping[collectionItem.id].selectedPrice.currencyCode:'symbol':'1.2-2'}}</strong>
+                <strong>{{'purchase.price' | translate}}: {{selectionPerItemMapping[collectionItem.id].selectedPrice.priceCents / 100.0 | currency:selectionPerItemMapping[collectionItem.id].selectedPrice.currencyCode:'symbol':'1.2-2'}}</strong>
               </div>
             </div>
           </div>

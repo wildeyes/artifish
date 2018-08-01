@@ -2,11 +2,15 @@ Tag.find_or_create_by!(name: :pop_art)
 Tag.find_or_create_by!(name: :kids)
 Tag.find_or_create_by!(name: :commercials)
 Tag.find_or_create_by!(name: :music)
-Tag.find_or_create_by!(name: :movies_tv)
 Tag.find_or_create_by!(name: :animals)
 Tag.find_or_create_by!(name: :nature)
 Tag.find_or_create_by!(name: :urban)
-
+Tag.find_or_create_by!(name: :movies_and_tv)
+Tag.find_or_create_by!(name: :humanity)
+Tag.find_or_create_by!(name: :abstract)
+Tag.find_or_create_by!(name: :water)
+Tag.find_or_create_by!(name: :flowers)
+Tag.find_or_create_by!(name: :childhood)
 
 # Filter colors
 def create_color_from_hex(hex_color)

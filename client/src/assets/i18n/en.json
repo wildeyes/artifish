@@ -52,7 +52,8 @@
 		"home": "Home",
 		"login": "Login",
 		"logout": "Logout",
-		"collections": "Collections"
+		"collections": "Collections",
+		"user": "User"
 	},
 	"collection": {
 		"name_is_required": "Name is required",
@@ -63,7 +64,17 @@
 		"error_saving_collection": "There was an error saving the collection",
 		"discard_unsaved_changes": "WARNING: You have unsaved changes. Press Cancel to go back and save these changes, or OK to lose these changes",
 		"save_your_work": "Save your work",
-		"login_with_this_info_to_load_collection": "You will be able to login with this information to load your saved work"
+		"login_with_this_info_to_load_collection": "You will be able to login with this information to load your saved work",
+		"loading_filters": "Loading filters",
+		"my_space": "My Space",
+		"proceed_to_purchase": "Proceed to Purchase",
+		"you_have_selected_x_items": "You have selected {{items_count}} items",
+		"choose_a_password": "Choose a password"
+	},
+	"collections": {
+		"my_collections": "My Collections",
+		"there_are_no_saved_collections": "There are not any saved collections",
+		"add_collection": "Add Collection"
 	},
 	"purchase": {
 		"pay_with_paypal": "Pay with PayPal",
@@ -72,7 +83,9 @@
 		"zip_code_is_required": "Zip Code is required",
 		"phone_number_is_required": "Phone Number is required",
 		"material": "Material",
-		"size": "Size"
+		"size": "Size",
+		"total_amount": "Total amount",
+		"price": "Price"
 	},
 	"paypal_callback": {
 		"error_has_occured_in_paypal_payment": "Error has occured in paypal payment",
@@ -86,5 +99,20 @@
 		"address": "Address",
 		"phone_number": "Phone number",
 		"items_ordered": "Items Ordered"
+	},
+	"tags": {
+		"pop_art": "Pop Art",
+		"kids": "Kids",
+		"commercials": "Commercials",
+		"music": "Music",
+		"animals": "Animals",
+		"nature": "Nature",
+		"urban": "Urban",
+		"movies_and_tv": "Movies & TV",
+		"humanity": "Humanity",
+		"abstract": "Abstract",
+		"water": "Water",
+		"flowers": "Flowers",
+		"childhood": "Childhood"
 	}
 }

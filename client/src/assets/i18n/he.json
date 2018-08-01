@@ -1,0 +1,119 @@
+{
+	"has already been taken": "כבר בשימוש",
+	"an_unexpected_error_occurred": "שגיאה לא צפויה",
+	"auth": {
+		"oauth": {
+			"must_grant_permissions": "יש להתחבר כדי לבצע פעולות"
+		}
+	},
+	"common": {
+		"cancel": "ביטול",
+		"date": "תאריך",
+		"email": "אימייל",
+		"first_name": "שם פרטי",
+		"last_name": "שם משפחה",
+		"city": "עיר",
+		"address": "כתובת",
+		"zip_code": "מיקוד",
+		"phone_number": "טלפון",
+		"login": "התחבר",
+		"sign_up": "הרשם",
+		"next": "הבא",
+		"page_was_not_found": "עמוד לא נמצא",
+		"password": "סיסמא",
+		"save": "שמירה",
+		"first_name_is_required": "יש למלא שם פרטי",
+		"last_name_is_required": "יש למלא שם משפחה"
+	},
+	"home": {
+		"welcome_to_artista": "Artifish ברוך הבא"
+	},
+	"sign_up": {
+		"a_valid_email_is_required": "יש למלא מייל חוקי",
+		"confirm_password": "סיסמא לאימות",
+		"first_name_is_required": "יש למלא שם פרטי",
+		"last_name_is_required": "יש למלא שם משפחה",
+		"password_confirmation_does_not_match_password": "סיסמאות לא תואמות",
+		"password_confirmation_is_required": "יש למלא סיסמא לאימות",
+		"password_is_required": "יש למלא סיסמא",
+		"password_should_be_at_least_x_characters": "הסיסמא צריכה לכלול לפחות {{characters}} תווים",
+		"some_of_the_input_fields_are_invalid": "חלק מהשדות אינם חוקיים"
+	},
+	"login": {
+		"email_is_required": "יש למלא מייל",
+		"invalid_credentials": "סיסמא שגויה",
+		"password_is_required": "יש למלא סיסמא"
+	},
+	"verify": {
+		"user_was_verified": "משתמש אומת בהצלחה",
+		"verification_code_is_incorrect": "קוד אימות שגוי"
+	},
+	"navbar": {
+		"contact_us": "צור קשר",
+		"home": "בית",
+		"login": "התחבר",
+		"logout": "התנתק",
+		"collections": "פרויקטים",
+		"user": "משתמש"
+	},
+	"collection": {
+		"name_is_required": "יש למלא שם",
+		"failed_to_delete_collection": "מחיקת פרויקט נכשלה",
+		"clear_collection_alert": "האם הנך בטוח שאתה מעוניין לנקות את הפרויקט?",
+		"delete_collection_alert": "האם הנך בטוח שאתה מעוניין למחוק את הפרויקט {{collection}}?",
+		"collection_was_saved": "הפרויקט נשמר!",
+		"error_saving_collection": "שגיאה בשמירת פרויקט",
+		"discard_unsaved_changes": "אזהרה: יש לך שינויים שלא נשמרו. לחץ ביטול כדי לחזור ולשמור שינויים אלה",
+		"save_your_work": "שמור את העבודה שלך",
+		"login_with_this_info_to_load_collection": "תוכל להתחבר עם פרטים אלו כדי לטעון את העבודה שלך",
+		"loading_filters": "טוען פילטרים",
+		"my_space": "החלל שלי",
+		"proceed_to_purchase": "המשך לרכישה",
+		"you_have_selected_x_items": "בחרת {{items_count}} פריטים",
+		"choose_a_password": "בחר סיסמא"
+	},
+	"collections": {
+		"my_collections": "הפרוייקטים שלי",
+		"there_are_no_saved_collections": "לא קיימים פרוייקטים שמורים",
+		"add_collection": "צור פרוייקט"
+	},
+	"purchase": {
+		"pay_with_paypal": "לתשלום",
+		"city_is_required": "יש למלא עיר",
+		"address_is_required": "יש למלא כתובת",
+		"zip_code_is_required": "יש למלא מיקוד",
+		"phone_number_is_required": "יש למלא מספר טלפון",
+		"material": "סוג חומר",
+		"size": "גודל",
+		"total_amount": "עלות כוללת",
+		"price": "מחיר"
+	},
+	"paypal_callback": {
+		"error_has_occured_in_paypal_payment": "שגיאה בתשלום",
+		"processing": "בתהליך"
+	},
+	"payment_confirmation": {
+		"thank_you_for_your_payment": "תודה על הרכישה",
+		"payment_amount": "גודל תשלום",
+		"payment_unique_id": "מזהה תשלום",
+		"name": "שם",
+		"address": "כתובת",
+		"phone_number": "מספר טלפון",
+		"items_ordered": "פריטים שהוזמנו"
+	},
+	"tags": {
+		"pop_art": "פופ ארט",
+		"kids": "ילדים",
+		"commercials": "מסחרי",
+		"music": "מוזיקה",
+		"animals": "חיות",
+		"nature": "טבע",
+		"urban": "אורבני",
+		"movies_and_tv": "טלויזיה",
+		"humanity": "אנושות",
+		"abstract": "אסטרקטי",
+		"water": "מים",
+		"flowers": "פרחים",
+		"childhood": "ילדות"
+	}
+}

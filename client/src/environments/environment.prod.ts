@@ -1,7 +1,6 @@
 export const environment = {
   production: true,
   apiHost: "https://artifish.herokuapp.com/",
-  defaultLanguage: "en",
   googleAuth: {
     clientId: "955755213129-fqsdd6v2jb7fpdffkm5egf2e1ggadqr8.apps.googleusercontent.com",
     authorizationUri: "https://accounts.google.com/o/oauth2/v2/auth",

@@ -21,4 +21,6 @@ Rails.application.routes.draw do
   resources :orders, only: [:create], defaults: {format: :json}
 
   post 'payments/paypal_transactions', to: 'payments#create', defaults: {format: :json}
+
+  get '/location/get_locale', to: 'location#get_locale'
 end

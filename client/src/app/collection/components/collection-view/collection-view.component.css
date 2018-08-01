@@ -33,14 +33,32 @@
 
 .img-upload {
   left: 5px;
+  right: unset;
+}
+
+div.rtl .img-upload {
+  right: 5px;
+  left: unset;
 }
 
 .img-save {
   left: 45px;
+  right: unset;
+}
+
+div.rtl .img-save {
+  right: 45px;
+  left: unset;
 }
 
 .img-clear {
   left: 85px;
+  right: unset;
+}
+
+div.rtl .img-clear {
+  right: 85px;
+  left: unset;
 }
 
 .img-upload:hover:not(.disabled), .img-save:hover:not(.disabled), .img-clear:hover:not(.disabled) {
@@ -112,7 +130,17 @@
   -webkit-transform: rotate(-45deg);
 }
 
+div.rtl .arrow-right {
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+
 .arrow-left {
   transform: rotate(135deg);
   -webkit-transform: rotate(135deg);
+}
+
+div.rtl .arrow-left {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
 }

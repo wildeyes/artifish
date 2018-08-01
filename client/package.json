@@ -6,12 +6,19 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod",
+    "build-rtl": "ng build --prod",
+    "prebuild-rtl": "sed -i 's#assets/css/bootstrap#assets/css/bootstrap-rtl#g' src/styles.css",
+    "postbuild-rtl": "sed -i 's#assets/css/bootstrap-rtl#assets/css/bootstrap#g' src/styles.css",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "translation": "ngx-translate-extract --input ./src --output ./src/assets/i18n/*.json --clean --sort --format namespaced-json --marker TRANSLATE",
-    "build:en": "npm run build -- --env=prod --output-path=dist/en --bh /en/ --aot",
-    "deploy:gh:en": "npm run build:en -- --base-href='https://artifish.github.io/artifish/' && ngh --dir dist/en"
+    "build:en": "npm run build -- --env=prod-en --output-path=dist/en --bh /en/ --aot",
+    "build:he": "npm run build-rtl -- --env=prod-he --output-path=dist/he --bh /he/ --aot",
+    "build-all": "for lang in en he; do npm run build:$lang; done",
+    "deploy:gh:en": "npm run build:en -- --base-href='https://artifish.github.io/artifish/' && ngh --repo https://github.com/artifish/artifish.git --dir dist/en",
+    "deploy:gh:he": "npm run build:he -- --base-href='https://artifish.github.io/artifish.il/' && ngh --repo https://github.com/artifish/artifish.il.git --dir dist/he",
+    "deploy:gh-all": "for lang in en he; do npm run deploy:gh:$lang; done"
   },
   "private": true,
   "dependencies": {

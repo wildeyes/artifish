@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
@@ -14,13 +14,16 @@ import { CollectionViewComponentCanDeactivate } from '../../services/collection-
 import { CollectionService } from '../../services/collection.service';
 import { PortfolioItemService } from '../../services/portfolio-item.service';
 import { TagService } from '../../services/tag.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-collection-view',
   templateUrl: './collection-view.component.html',
-  styleUrls: ['./collection-view.component.css']
+  styleUrls: ['./collection-view.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CollectionViewComponent implements OnInit, CollectionViewComponentCanDeactivate {
+  direction: string;
   user: any = {};
   validationErrors = {};
 
@@ -34,6 +37,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   isLoading: boolean = true;
   searchLoading: boolean = false;
   saveLoading: boolean = false;
+  purchaseNavigateLoading: boolean = false;
   signupLoading: boolean = false;
   imageLoading: boolean = false;
   loadingTags: boolean = true;
@@ -55,6 +59,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
     private modalService: NgbModal,
     private userService: UserService,
     private authService: AuthService) {
+      this.direction = environment.rtl ? "rtl" : "ltr";
       this.initializeCollection();
     }
 
@@ -73,7 +78,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   }
 
   arrowClick(toLeft) {
-    const toMove = 500;
+    const toMove = 400;
     document.getElementById('tagList').scrollLeft += toLeft ? -toMove : toMove;
   }
 
@@ -178,10 +183,16 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
           this.collectionItems = this.collection.items;
           this.alertService.success(TRANSLATE('collection.collection_was_saved'));
           this.saveLoading = false;
+          this.purchaseNavigateLoading = false;
           this.unsavedChanges = false;
-          this.router.navigate([navigateUrlOnSuccess]);
+          if (navigateUrlOnSuccess == 'purchase') {
+            this.router.navigate(['/collections/', collectionId, 'purchase']);
+          } else {
+            this.router.navigate([navigateUrlOnSuccess]);
+          }
         }, (error: AppError) => {
           this.alertService.error(TRANSLATE('collection.error_saving_collection'));
+          this.purchaseNavigateLoading = false;
           this.saveLoading = false;
         });
     } else {
@@ -191,6 +202,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
           this.collectionItems = this.collection.items;
           this.alertService.success(TRANSLATE('collection.collection_was_saved'), true);
           this.saveLoading = false;
+          this.purchaseNavigateLoading = false;
           this.clearCollection(true);
           this.unsavedChanges = false;
           if (navigateUrlOnSuccess == 'purchase') {
@@ -201,6 +213,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
         }, (error: AppError) => {
           this.alertService.error(TRANSLATE('collection.error_saving_collection'));
           this.saveLoading = false;
+          this.purchaseNavigateLoading = false;
         });
     }
 
@@ -232,11 +245,12 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   navigateToPurchase(saveModal) {
     if (this.authService.isLoggedIn()) {
       let collectionId = this.route.snapshot.paramMap.get('id');
-      if (collectionId) {
-        this.router.navigate(['/collections/', collectionId, 'purchase']);
-      } else {
+      if (this.unsavedChanges) {
         this.saveLoading = true;
+        this.purchaseNavigateLoading = true;
         this.saveCollectionToServer('purchase');
+      } else {
+        this.router.navigate(['/collections/', collectionId, 'purchase']);
       }
     } else {
       this.modalNavigateUrlOnSuccess = 'purchase';
@@ -257,7 +271,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   }
 
   private initializeCollection() {
-    this.collection = {name: "My Space"};
+    this.collection = {name: this.translate.instant(TRANSLATE('collection.my_space'))};
     this.collectionItems = [];
     this.unsavedChanges = false;
   }
