@@ -85,5 +85,9 @@ module SearchProviders
       data_price = option['data-price'].to_f
       @base_price + data_price
     end
+
+    def get_image_full_size(page)
+      page.css('div.woocommerce-product-gallery__image').first['data-thumb']
+    end
   end
 end

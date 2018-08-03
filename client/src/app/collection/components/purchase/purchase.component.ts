@@ -7,6 +7,7 @@ import { PaymentService } from '../../../payment/services/payment.service';
 import { AppError } from '../../../shared/models/app-error';
 import { CollectionItemService } from '../../services/collection-item.service';
 import { CollectionService } from '../../services/collection.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-purchase',
@@ -122,7 +123,7 @@ export class PurchaseComponent implements OnInit {
     let params = {
       // amount: amount,
       orderId: orderId,
-      returnUrl: window.location.origin + `/callback/paypal?amount=${amount}&currency_code=${currencyCode}&order=${orderId}&returnUrl=${currentUrl}`,
+      returnUrl: window.location.origin + `${environment.siteVirtualDirectory}/callback/paypal?amount=${amount}&currency_code=${currencyCode}&order=${orderId}&returnUrl=${currentUrl}`,
       cancelReturnUrl: currentUrl
     }
     this.paymentSerivce.generatePaypalLink(params).subscribe(

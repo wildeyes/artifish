@@ -4,8 +4,8 @@ module SearchProviders
     CACHE_PRICE = false
 
     def initialize
-      @material_cache ||= {}
-      @size_cache ||= {}
+      @material_cache = {}
+      @size_cache = {}
       @pricing_cache = {}
       @already_loaded_portfolios = {}
       @restrict_catalog = defined? self.class::ALLOWED_CATALOGS
@@ -16,11 +16,17 @@ module SearchProviders
     def run
       get_or_create_supplier
       # Load existing portfolios to not reprocess them
-      PortfolioItem.where(supplier_id: @supplier_id).pluck(:product_url).each { |url| @already_loaded_portfolios[url] = true }
+      tags_to_product_urls = PortfolioItem.where(supplier_id: @supplier_id).joins(:tags).select("portfolio_items.product_url, tags.name").group_by(&:name)
+      tags_to_product_urls.each do |tag_name, items|
+        @already_loaded_portfolios[tag_name.to_sym] = {}
+        items.each { |item| @already_loaded_portfolios[tag_name.to_sym][item.product_url] = true }
+      end
 
       self.class::CATEGORIES.each do |category_name, category_identifiers|
+        @category_name = category_name
+        @tag = Tag.find_or_create_by(name: @category_name)
+        @already_loaded_portfolios[category_name] ||= {}
         Array(category_identifiers).each do |category_identifier|
-          @category_name = category_name
           linked_images = build_linked_image_hashes(url(category_identifier))
           load_images_to_db(linked_images)
         end
@@ -55,9 +61,15 @@ module SearchProviders
           product_url: image_hash[:url_link],
           supplier_id: @supplier_id
         })
-        p.tags << Tag.find_or_create_by(name: @category_name)
-        p.save!
-        @already_loaded_portfolios[p.product_url] = true
+        p.tags << @tag
+        begin
+          p.save!
+        rescue ActiveRecord::RecordNotUnique => e
+          # If scraped same portfolio item under different tag, add the new tag to it
+          p = PortfolioItem.find_by(supplier_id: @supplier_id, product_identifier: image_hash[:catalog_num])
+          p.tags << @tag
+        end
+        @already_loaded_portfolios[@category_name][p.product_url] = true
         attach_image(p, image_hash[:image_url])
         create_purchase_options(p, image_hash[:pricing])
         count += 1
@@ -87,7 +99,7 @@ module SearchProviders
       puts "-- Getting prices"
       c = 0
       linked_images_hashes.each do |image_hash|
-        image_hash[:pricing] = get_prices_hash_for_product(image_hash[:url_link])
+        image_hash[:pricing] = get_prices_hash_for_product(image_hash)
         c += 1
         puts "-- #{c}/#{total_count} Getting prices"
       end
@@ -95,11 +107,14 @@ module SearchProviders
       [linked_images_hashes, next_page_link]
     end
 
-    def get_prices_hash_for_product(url)
+    def get_prices_hash_for_product(image_hash)
       pricing = []
+      url = image_hash[:url_link]
 
       response = HTTParty.get(URI.encode(url))
       page = Nokogiri::HTML(response.body)
+      full_image_link = get_image_full_size(page)
+      image_hash[:image_url] = full_image_link if full_image_link
       materials_with_sizes_hashes = get_materials_with_sizes(page)
       materials_with_sizes_hashes.reject! {|m_hash| !self.class::ALLOWED_MATERIALS_IDS.include?(m_hash[:material_id])} if defined? self.class::ALLOWED_MATERIALS_IDS
       materials_with_sizes_hashes.each do |m_hash|
@@ -176,12 +191,16 @@ module SearchProviders
         return true
       end
 
-      if @already_loaded_portfolios[image_hash[:url_link]]
+      if @already_loaded_portfolios[@category_name][image_hash[:url_link]]
         puts "Skipping already loaded item"
         return true
       end
 
       false
+    end
+
+    def get_image_full_size(page)
+      nil
     end
   end
 end

@@ -159,3 +159,7 @@ div.rtl .arrow-left {
   line-height: 1.7em;
   /* width: 100%; */
 }
+
+.workspace-image {
+  width: 100%;
+}

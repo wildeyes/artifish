@@ -14,12 +14,14 @@
 class PortfolioItem < ApplicationRecord
   has_one_attached :image
   belongs_to :supplier
-  has_many :purchase_options
+  has_many :purchase_options, dependent: :destroy
   has_and_belongs_to_many :tags
   has_and_belongs_to_many :colors
 
   def purchase_options_formatted
-    purchase_options.group_by(&:material_id)
+    group = purchase_options.group_by(&:material_id)
+    group.each{|material_id, purchase_options| purchase_options.sort_by!(&:size_id)}
+    group
   end
 
   def calculate_starting_price

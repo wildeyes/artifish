@@ -39,7 +39,7 @@ class AuthenticateOauthUser
       first_name: user_info[@auth_provider.get_field_name(:first_name)],
       last_name: user_info[@auth_provider.get_field_name(:last_name)],
     }
-    user = User.new(user_data.merge(provider: @provider))
+    user = User.new(user_data.merge(provider: @provider, is_verified: true))
     # Skip validation to not fail on missing password
     user.save!(validate: false)
     user

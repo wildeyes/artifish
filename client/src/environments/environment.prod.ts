@@ -2,14 +2,14 @@ export const environment = {
   production: true,
   apiHost: "https://artifish.herokuapp.com/",
   googleAuth: {
-    clientId: "955755213129-fqsdd6v2jb7fpdffkm5egf2e1ggadqr8.apps.googleusercontent.com",
+    clientId: "569091726571-bvso1l18162d0oukl39utgbbd7j1kjjm.apps.googleusercontent.com",
     authorizationUri: "https://accounts.google.com/o/oauth2/v2/auth",
     redirectUri: "https://artifish.github.io/artifish/auth/google",
     scopes: ['email', 'profile']
   },
   facebookAuth: {
-    clientId: "252902028645479",
-    authorizationUri: "https://www.facebook.com/v3.0/dialog/oauth",
+    clientId: "2157048681220034",
+    authorizationUri: "https://www.facebook.com/v3.1/dialog/oauth",
     redirectUri: "https://artifish.github.io/artifish/auth/facebook",
     scopes: ['email', 'public_profile']
   }

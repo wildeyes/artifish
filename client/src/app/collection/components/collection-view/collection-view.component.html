@@ -24,7 +24,7 @@
       <div class="sticky-top">
         <div class="position-relative">
           <img src="assets/images/placeholder_loading.png" [ngClass]="{ 'd-none': !imageLoading }" class="img-fluid" [alt]="collection.name">
-          <img [src]="collection.workspaceImageUrl || 'assets/images/placeholder.png'" [ngClass]="{ 'd-none': imageLoading }" class="img-fluid"
+          <img [src]="collection.workspaceImageUrl || 'assets/images/placeholder.png'" [ngClass]="{ 'd-none': imageLoading }" class="workspace-image img-fluid"
             [alt]="collection.name">
           <i *ngIf="imageLoading" class="img-loader position-absolute fa fa-spinner fa-spin fa-3x"></i>
           <i class="fa fa-upload position-absolute img-upload clickable" [class.disabled]="saveLoading" (click)="!saveLoading && imageFile.click()"
@@ -88,9 +88,10 @@
       </div>
       <div class="row">
         <div *ngFor="let portfolioItem of portfolioItems" class="col-3 mb-2">
-          <img [src]="portfolioItem.imageUrl" class="img-fluid clickable" [ngClass]="{ 'selected-image': portfolioItem.selected }"
+          <img [src]="portfolioItem.thumbUrl" class="img-fluid clickable" [ngClass]="{ 'selected-image': portfolioItem.selected }"
             (click)="imageSelected(portfolioItem)" alt="">
-          <p>{{'collection.starting_at' | translate}}: {{portfolioItem.startingPriceFormatted}}</p>
+          <p class="mb-0">{{'collection.starting_at' | translate}}: {{portfolioItem.startingPriceFormatted}}</p>
+          <a [href]="portfolioItem.imageUrl" target="_blank">Full image</a>
         </div>
       </div>
     </div>
@@ -101,7 +102,7 @@
   <div [attr.dir]="direction" [ngClass]="direction">
     <div class="modal-header">
       <div>
-        <h4 class="modal-title" id="modal-basic-title">{{'collection.save_your_work' | translate}}</h4>
+        <h4 class="modal-title" id="modal-basic-title">{{'collection.create_user_to_continue' | translate}}</h4>
         <div class="help-block">{{'collection.login_with_this_info_to_load_collection' | translate}}</div>
       </div>
       <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
