@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthService } from '../../../auth/services/auth.service';
 import { OrderService } from '../../../payment/services/order.service';
@@ -8,6 +8,9 @@ import { AppError } from '../../../shared/models/app-error';
 import { CollectionItemService } from '../../services/collection-item.service';
 import { CollectionService } from '../../services/collection.service';
 import { environment } from '../../../../environments/environment';
+import { NotFoundError } from '../../../shared/models/not-found-error';
+import { TRANSLATE } from '../../../translation-marker';
+import { AlertService } from '../../../shared/services/alert.service';
 
 @Component({
   selector: 'app-purchase',
@@ -26,10 +29,12 @@ export class PurchaseComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private authService: AuthService,
     private collectionService: CollectionService,
     private collectionItemService: CollectionItemService,
     private orderService: OrderService,
+    private alertService: AlertService,
     private paymentSerivce: PaymentService) { }
 
   ngOnInit() {
@@ -42,6 +47,10 @@ export class PurchaseComponent implements OnInit {
       this.collectionItemService.getAll(this.collection.id)
         .subscribe(items => {
           this.collectionItems = items;
+          if (items.length == 0) {
+            this.router.navigate(['/collections', this.collection.id]);
+            return;
+          }
           for (let i = 0; i < items.length; i++) {
             const item = items[i];
             const firstPurchaseOption = item.purchaseOptions[0]
@@ -103,6 +112,31 @@ export class PurchaseComponent implements OnInit {
       }
     }
     this.sumTotalAmount();
+  }
+
+  removeCollectionItem(collectionItem) {
+    let index = this.collectionItems.indexOf(collectionItem);
+    if (index == -1) return;
+    this.collectionItems.splice(index, 1);
+    let selectionMapping = this.selectionPerItemMapping[collectionItem.id];
+    delete this.selectionPerItemMapping[collectionItem.id];
+    this.sumTotalAmount();
+    this.collectionItemService.delete(this.collection.id, collectionItem.id).subscribe(
+      res => {
+        if (this.collectionItems.length == 0) {
+          this.router.navigate(['/collections', this.collection.id]);
+        }
+      },
+      (error: AppError) => {
+        if (error instanceof NotFoundError) {
+          // Do nothing
+        } else {
+          this.alertService.error(TRANSLATE("purchase.failed_to_remove_item"), false);
+          this.collectionItems.splice(index, 0, collectionItem);
+          this.selectionPerItemMapping[collectionItem.id] = selectionMapping;
+        }
+      }
+    );
   }
 
   private sumTotalAmount() {

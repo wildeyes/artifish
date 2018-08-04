@@ -88,7 +88,8 @@
 		"material": "Material",
 		"size": "Size",
 		"total_amount": "Total amount",
-		"price": "Price"
+		"price": "Price",
+		"failed_to_remove_item": "Failed to remove item"
 	},
 	"paypal_callback": {
 		"error_has_occured_in_paypal_payment": "Error has occured in paypal payment",

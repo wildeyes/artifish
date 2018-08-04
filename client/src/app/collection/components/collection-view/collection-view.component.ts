@@ -149,6 +149,11 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
     }
   }
 
+  onBlurCollectionName() {
+    this.editName(false);
+    this.updateCollectionName();
+  }
+
   editName(isEditName) {
     this.isEditName = isEditName;
   }

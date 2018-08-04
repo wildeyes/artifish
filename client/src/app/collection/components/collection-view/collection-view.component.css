@@ -7,11 +7,12 @@
 }
 
 .img-close {
-  top: 5px;
-  right: 5px;
+  top: 1px;
+  right: 10px;
+  font-size: 20px;
 }
 
-.collection-image:hover+.img-close {
+.collection-image:hover+.img-close, .img-close:hover {
   color: antiquewhite;
 }
 
@@ -116,7 +117,7 @@ div.rtl .img-clear {
   height: 25px;
 }
 
-.arrow {
+.app-arrow {
   border: solid black;
   border-width: 0 3px 3px 0;
   display: inline-block;

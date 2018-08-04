@@ -2,6 +2,7 @@ if collection_item.portfolio_item_id.present?
   json.extract! collection_item, :id, :portfolio_item_id, :collection_id
   json.extract! collection_item.portfolio_item, :name, :created_at, :updated_at
   json.image_url rails_blob_url(collection_item.portfolio_item.image) if collection_item.portfolio_item.image.attached?
+  json.thumb_url rails_representation_url(collection_item.portfolio_item.image.variant(resize: "166")) if collection_item.portfolio_item.image.attached?
   json.purchase_options collection_item.portfolio_item.purchase_options_formatted do |material_id, purchase_options|
     json.material_id material_id
     json.material purchase_options.first.material.name

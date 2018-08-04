@@ -3,24 +3,17 @@
   <div class="row">
     <div class="col-lg-5 collection-panel pb-5">
       <h3 class="mt-2 text-center">{{'collection.project_board' | translate}}</h3>
-      <!-- <h5 class="collection-name editable-text mb-0" [ngClass]="{ 'd-none': isEditName, 'd-inline-block': !isEditName }" (click)="editName(true)">{{collection.name}}</h5> -->
+
       <div class="collection-name">
-        <i class="collection-edit pr-2 fa fa-pencil float-right clickable" [ngClass]="{ 'd-none': isEditName }" (click)="editName(true)" aria-hidden="true"></i>
-        <i class="collection-edit pr-2 fa fa-floppy-o float-right clickable" [ngClass]="{ 'd-none': !isEditName }" (click)="editName(true)" aria-hidden="true"></i>
-        <input type="text" autofocus (blur)="editName(false)" (blur)="updateCollectionName()" [(ngModel)]="collection.name" name="name"
+        <i class="collection-edit pr-2 fa fa-pencil float-right clickable" [ngClass]="{ 'd-none': isEditName }" (click)="editName(true)"
+           placement="top" ngbTooltip="Edit name" aria-hidden="true"></i>
+        <i class="collection-edit pr-2 fa fa-floppy-o float-right clickable" [ngClass]="{ 'd-none': !isEditName }" (click)="editName(false)"
+          placement="top" ngbTooltip="Save" aria-hidden="true"></i>
+        <input type="text" autofocus (keyup.enter)="onBlurCollectionName()" (blur)="onBlurCollectionName()" [(ngModel)]="collection.name" name="name"
           #name id="name" class="form-control" [ngClass]="{ 'd-none': !isEditName }">
         <h5 class=" editable-text mb-0" [ngClass]="{ 'd-none': isEditName, 'd-inline-block': !isEditName }">{{collection.name}}</h5>
       </div>
-      <!-- <div class="row no-gutters collection-name">
-        <div class="col-9">
-          <input type="text" autofocus (blur)="editName(false)" (blur)="updateCollectionName()" [(ngModel)]="collection.name" name="name"
-            #name id="name" class="form-control" [ngClass]="{ 'd-none': !isEditName }">
-          <h5 class=" editable-text mb-0" [ngClass]="{ 'd-none': isEditName, 'd-inline-block': !isEditName }">{{collection.name}}</h5>
-        </div>
-        <div class="col-3">
-          <i class="collection-edit pr-2 text-right fa fa-pencil align-middle clickable" (click)="editName(true)" aria-hidden="true"></i>
-        </div>
-      </div> -->
+
       <div class="sticky-top">
         <div class="position-relative">
           <img src="assets/images/placeholder_loading.png" [ngClass]="{ 'd-none': !imageLoading }" class="img-fluid" [alt]="collection.name">
@@ -28,12 +21,12 @@
             [alt]="collection.name">
           <i *ngIf="imageLoading" class="img-loader position-absolute fa fa-spinner fa-spin fa-3x"></i>
           <i class="fa fa-upload position-absolute img-upload clickable" [class.disabled]="saveLoading" (click)="!saveLoading && imageFile.click()"
-            aria-hidden="true"></i>
+             placement="top" ngbTooltip="Upload space image" aria-hidden="true"></i>
           <i class="fa fa-floppy-o position-absolute img-save clickable" [class.disabled]="saveLoading || collectionItems.length == 0"
             (click)="!saveLoading && collectionItems.length > 0 && saveCollection(saveModal)" [ngClass]="{ 'fa-spinner fa-spin': saveLoading }"
-            aria-hidden="true"></i>
+            placement="top" ngbTooltip="Save collection" aria-hidden="true"></i>
           <i class="fa fa-trash-o position-absolute img-clear clickable" [class.disabled]="saveLoading" (click)="!saveLoading && clearCollection()"
-            aria-hidden="true"></i>
+             placement="top" ngbTooltip="Clear collection" aria-hidden="true"></i>
           <input type="file" (change)="readURL($event)" name="imageFile" #imageFile class="form-control-file d-none" id="inputWorkspaceImage">
         </div>
         <div *ngIf="collectionItems.length > 0" class="row no-gutters mt-2">
@@ -47,7 +40,7 @@
         </div>
         <div *ngIf="collectionItems.length > 0" class="row no-gutters mt-2">
           <div *ngFor="let collectionItem of collectionItems" class="col-md-4 mb-4 px-2 position-relative">
-            <img [src]="collectionItem.imageUrl" class="img-fluid collection-image" alt="">
+            <img [src]="collectionItem.thumbUrl" class="img-fluid collection-image" alt="">
             <i class="fa fa-times-circle position-absolute img-close clickable" (click)="removeCollectionItemById(collectionItem)" aria-hidden="true"></i>
             <p>{{'collection.starting_at' | translate}}: {{collectionItem.startingPriceFormatted}}</p>
           </div>
@@ -62,7 +55,7 @@
       <ng-container *ngIf="!loadingTags">
         <div class="mt-2 mb-3 tag-chooser">
           <div class="arrow-wrapper" (click)="arrowClick(direction == 'rtl' ? false : true)">
-            <div class="arrow arrow-left float-left"></div>
+            <div class="app-arrow arrow-left float-left"></div>
           </div>
 
           <div *ngIf="!loadingTags" class="horizontal-slide tag-list" id="tagList">
@@ -72,7 +65,7 @@
           </div>
 
           <div class="arrow-wrapper" (click)="arrowClick(direction == 'rtl' ? true : false)">
-            <div class="arrow arrow-right float-right"></div>
+            <div class="app-arrow arrow-right float-right"></div>
           </div>
         </div>
 

@@ -89,7 +89,8 @@
 		"material": "סוג חומר",
 		"size": "גודל",
 		"total_amount": "עלות כוללת",
-		"price": "מחיר"
+		"price": "מחיר",
+		"failed_to_remove_item": "הסרת הפריט נכשלה"
 	},
 	"paypal_callback": {
 		"error_has_occured_in_paypal_payment": "שגיאה בתשלום",

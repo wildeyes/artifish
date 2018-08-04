@@ -14,12 +14,14 @@ import { SaveCollectionDataGuard } from './services/collection-view-can-deactiva
 import { CollectionService } from './services/collection.service';
 import { PortfolioItemService } from './services/portfolio-item.service';
 import { TagService } from './services/tag.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
     AuthModule,
+    NgbModule.forRoot(),
     RouterModule.forChild([
       { path: '', component: CollectionViewComponent, canDeactivate: [SaveCollectionDataGuard] },
       { path: 'collections', component: CollectionsComponent, canActivate: [AuthGuard, VerifiedUserGuard] },

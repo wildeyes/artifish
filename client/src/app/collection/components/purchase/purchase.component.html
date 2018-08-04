@@ -56,6 +56,7 @@
               <img [src]="collectionItem.imageUrl" class="img-fluid" alt="">
             </div>
             <div class="col-sm-8">
+              <i class="fa fa-times-circle image-remove float-right clickable" (click)="removeCollectionItem(collectionItem)" aria-hidden="true"></i>
               <p><strong>{{collectionItem.name}}</strong></p>
               <form>
                 <div class="form-group row">
