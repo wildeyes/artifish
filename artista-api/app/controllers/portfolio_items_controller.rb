@@ -17,13 +17,17 @@ class PortfolioItemsController < ApplicationController
       @portfolio_items = PortfolioItem.where(:id => portfolio_items_ids)
     end
 
+    per_page = params[:per_page].to_i if params[:per_page]
+    @portfolio_items = @portfolio_items.paginate(page: params[:page], per_page: [(per_page || 20), 100].min)
+    @total_entries = @portfolio_items.total_entries
+
     # Getting starting price
     @portfolio_items = @portfolio_items.joins(:purchase_options)
     .select("MIN(purchase_options.price_cents) as starting_price")
     .select("purchase_options.price_currency")
     .select("portfolio_items.*").group('portfolio_items.id, purchase_options.price_currency') if @portfolio_items
 
-    @portfolio_items
+    @portfolio_items = @portfolio_items.preload(image_attachment: :blob)
   end
 
   private

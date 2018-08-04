@@ -30,6 +30,11 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   collection: any = {};
   collectionItems: any[] = [];
   portfolioItems: any[];
+
+  portfolioItemsPage: number = 1;
+  portfolioItemsTotalEntries: number;
+  portfolioItemsPageSize: number = 40;
+
   filters: { tags: any[]; color: string } = { tags: [], color: null}
   tags: any[];
   hexColors: any[] = ['#bcb7b0', '#000000', '#0c2c53', '#444a6d', '#1797b8', '#00a7ed', '#0e59e1', '#2f29e7', '#7327e7', '#c55c9c', '#cd3846', '#e1947f', '#e69f55', '#efd05e', '#9abe45', '#1ec6b7', '#bdfdfc'];//, '#ff0000', '#00ff00', '#0000ff']
@@ -72,7 +77,8 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
     this.loadCollection();
     this.loadTags();
     this.portfolioItemService.getRandomly().subscribe(res => {
-      this.portfolioItems = res;
+      this.portfolioItems = res.portfolioItems;
+      this.portfolioItemsTotalEntries = res.totalEntries;
       this.searchLoading = false;
     })
   }
@@ -88,8 +94,9 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
 
   externalSearch() {
     this.searchLoading = true;
-    this.portfolioItemService.search(this.filters).subscribe(res => {
-      this.portfolioItems = res;
+    this.portfolioItemService.search(this.filters, this.portfolioItemsPage, this.portfolioItemsPageSize).subscribe(res => {
+      this.portfolioItems = res.portfolioItems;
+      this.portfolioItemsTotalEntries = res.totalEntries;
       this.searchLoading = false;
     })
   }
@@ -112,6 +119,11 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
       this.filters.color = hexColor;
     }
 
+    this.externalSearch();
+  }
+
+  pageChanged(event) {
+    this.portfolioItems = [];
     this.externalSearch();
   }
 

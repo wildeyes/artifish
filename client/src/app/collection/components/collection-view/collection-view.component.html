@@ -87,6 +87,10 @@
           <a [href]="portfolioItem.imageUrl" target="_blank">Full image</a>
         </div>
       </div>
+      <div *ngIf="portfolioItemsTotalEntries / portfolioItemsPageSize > 1" class="text-center mt-3">
+        <ngb-pagination class="d-inline-block" [collectionSize]="portfolioItemsTotalEntries" [pageSize]="portfolioItemsPageSize" [(page)]="portfolioItemsPage"
+          (pageChange)="pageChanged($event)" aria-label="Default pagination"></ngb-pagination>
+      </div>
     </div>
   </div>
 </ng-container>
