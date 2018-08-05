@@ -6,6 +6,7 @@ class PortfolioItemsController < ApplicationController
     query_tags = []
     query_tags = params[:tags].split(' ') if params[:tags]
     color = hex_to_color(params[:color]) if params[:color]
+    material_id = Material.where(name: params[:material]).pluck(:id).first if params[:material]
 
     @portfolio_items = PortfolioItem.joins(:tags).where.has{ tags.name.in query_tags } if query_tags.present?
     @portfolio_items = (@portfolio_items || PortfolioItem).joins(:portfolio_item_colors).where.has{ portfolio_item_colors.color_id == color.id }
@@ -26,7 +27,9 @@ class PortfolioItemsController < ApplicationController
     @portfolio_items = @portfolio_items.joins(:purchase_options)
     .select("MIN(purchase_options.price_cents) as starting_price")
     .select("purchase_options.price_currency")
-    .select("portfolio_items.*").group('portfolio_items.id, purchase_options.price_currency') if @portfolio_items
+    .select("portfolio_items.*").group("portfolio_items.id, purchase_options.price_currency #{', portfolio_item_colors.dominance_index, portfolio_item_colors.dominance_weight' if color.present?}") if @portfolio_items
+
+    @portfolio_items = @portfolio_items.where.has{purchase_options.material_id == material_id} if material_id
 
     @portfolio_items = @portfolio_items.preload(image_attachment: :blob)
   end

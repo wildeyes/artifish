@@ -105,6 +105,10 @@ div.rtl .img-save {
   overflow-x: hidden;
 }
 
+.filters-list {
+  margin: 0 32px;
+}
+
 .color {
   width: 30px;
   height: 30px;

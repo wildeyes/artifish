@@ -62,9 +62,21 @@
         {{'collection.explore_artworks' | translate}}
       </h2>
       <p class="text-center porject-board-help-block mb-1">{{'collection.explore_artworks_hint' | translate}}</p>
-      <p *ngIf="loadingTags">{{'collection.loading_filters' | translate}}... <i class="fa fa-spinner fa-spin fa-2x"></i></p>
+
+      <p *ngIf="loadingTags">{{'collection.loading_filters' | translate}}...<i class="fa fa-spinner fa-spin fa-2x"></i></p>
+
+      <div class="filters-list mt-4">
+        <div ngbDropdown class="d-inline-block">
+          <button class="btn btn-light" id="dropdownBasic1" ngbDropdownToggle>{{'collection.type' | translate}}{{ selectedMaterial ? ': ' + ('materials.' + selectedMaterial?.name | translate) : '' }}</button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button *ngFor="let material of materials" (click)="selectArtType(material)" class="dropdown-item">{{'materials.' + material.name | translate}}</button>
+          </div>
+        </div>
+      </div>
+
+
       <ng-container *ngIf="!loadingTags">
-        <div class="mt-4 mb-3 tag-chooser">
+        <div class="mb-3 tag-chooser">
           <div class="arrow-wrapper" (click)="arrowClick(direction == 'rtl' ? false : true)">
             <div class="app-arrow arrow-left float-left"></div>
           </div>

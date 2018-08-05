@@ -7,6 +7,6 @@ import { environment } from '../../../environments/environment';
 import { FilterService } from './filter.service';
 
 @Injectable()
-export class TagService extends FilterService {
-  protected baseUrl: string = environment.apiHost + "/tags/"
+export class MaterialService extends FilterService {
+  protected baseUrl: string = environment.apiHost + "/materials/"
 }

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
 
   resources :portfolio_items, only: [:index], defaults: {format: :json}
   resources :tags, only: [:index], defaults: {format: :json}
+  resources :materials, only: [:index], defaults: {format: :json}
 
   post 'payments/generate_paypal_link', to: 'payments#generate_paypal_link'
 

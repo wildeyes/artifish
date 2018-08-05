@@ -17,6 +17,7 @@ import { TagService } from '../../services/tag.service';
 import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs/Observable';
 import { OAuthAccessDenied, OAuthCanceled } from '../../../auth/models/oauth-errors';
+import { MaterialService } from '../../services/material.service';
 
 @Component({
   selector: 'app-collection-view',
@@ -37,9 +38,11 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   portfolioItemsTotalEntries: number;
   portfolioItemsPageSize: number = 40;
 
-  filters: { tags: any[]; color: string } = { tags: [], color: null}
-  tags: any[];
+  filters: { tags: any[]; color: string, material: any } = { tags: [], color: null, material: null}
+  tags: any[] = [];
+  materials: any[] = [];
   hexColors: any[] = ['#bcb7b0', '#000000', '#0c2c53', '#444a6d', '#1797b8', '#00a7ed', '#0e59e1', '#2f29e7', '#7327e7', '#c55c9c', '#cd3846', '#e1947f', '#e69f55', '#efd05e', '#9abe45', '#1ec6b7', '#bdfdfc'];//, '#ff0000', '#00ff00', '#0000ff']
+  selectedMaterial: any;
 
   isLoading: boolean = true;
   searchLoading: boolean = true;
@@ -65,6 +68,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
     private collectionService: CollectionService,
     private portfolioItemService: PortfolioItemService,
     private tagService: TagService,
+    private materialService: MaterialService,
     private dataService: DataService,
     private translate: TranslateService,
     private modalService: NgbModal,
@@ -82,6 +86,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   ngOnInit() {
     this.loadCollection();
     this.loadTags();
+    this.loadMaterials();
     this.portfolioItemService.getRandomly().subscribe(res => {
       this.portfolioItems = res.portfolioItems;
       this.portfolioItemsTotalEntries = res.totalEntries;
@@ -108,6 +113,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   }
 
   selectTagFilter(tagObj) {
+    this.portfolioItemsPage = 1;
     let selectedTagIndex = this.filters.tags.indexOf(tagObj);
     if (selectedTagIndex == -1) {
       this.filters.tags.push(tagObj);
@@ -119,12 +125,19 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   }
 
   selectColorFilter(hexColor) {
+    this.portfolioItemsPage = 1;
     if (this.filters.color == hexColor) {
       this.filters.color = null;
     } else {
       this.filters.color = hexColor;
     }
 
+    this.externalSearch();
+  }
+
+  selectArtType(materialObj) {
+    this.selectedMaterial = materialObj;
+    this.filters.material = materialObj.name;
     this.externalSearch();
   }
 
@@ -355,9 +368,16 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   }
 
   private loadTags() {
-    this.tags = []
     this.tagService.getAll().subscribe(res => {
       this.tags = res;
+      this.loadingTags = false;
+    });
+  }
+
+  private loadMaterials() {
+    this.materialService.getAll().subscribe(res => {
+      this.materials = res;
+      if (this.materials.length == 1) this.selectedMaterial = this.materials[0]
       this.loadingTags = false;
     });
   }

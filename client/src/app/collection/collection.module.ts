@@ -16,6 +16,7 @@ import { PortfolioItemService } from './services/portfolio-item.service';
 import { TagService } from './services/tag.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImageModalComponent } from '../shared/components/image-modal/image-modal.component';
+import { MaterialService } from './services/material.service';
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import { ImageModalComponent } from '../shared/components/image-modal/image-moda
     CollectionItemService,
     PortfolioItemService,
     TagService,
+    MaterialService,
     SaveCollectionDataGuard
   ]
 })
