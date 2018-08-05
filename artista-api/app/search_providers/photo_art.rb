@@ -53,6 +53,11 @@ module SearchProviders
     end
 
     def get_materials_with_sizes(page)
+      # REMOVE THIS CODE WHEN NOT LIMITED ONLY TO JACKIE'S PHOTOS
+      photographer = page.css('div.product_meta').css('p').last.text
+      raise "Could not find photographer" if !photographer.include?('צלם')
+      return nil if !photographer.include?("ג'קי סויקיס")
+      # END OF REMOVE
       sections = page.css('div.cpf-section[data-logic]').reject{|x| !x['data-logic'].present?}
       materials_with_sizes = sections.map do |section|
         next if section.css('div.cpf-type-select').last.nil?

@@ -103,6 +103,7 @@ module SearchProviders
         c += 1
         puts "-- #{c}/#{total_count} Getting prices"
       end
+      linked_images_hashes.reject! { |image_hash| image_hash[:pricing].nil? }
       next_page_link = get_next_page_link(page)
       [linked_images_hashes, next_page_link]
     end
@@ -116,6 +117,7 @@ module SearchProviders
       full_image_link = get_image_full_size(page)
       image_hash[:image_url] = full_image_link if full_image_link
       materials_with_sizes_hashes = get_materials_with_sizes(page)
+      return nil if materials_with_sizes_hashes.nil?
       materials_with_sizes_hashes.reject! {|m_hash| !self.class::ALLOWED_MATERIALS_IDS.include?(m_hash[:material_id])} if defined? self.class::ALLOWED_MATERIALS_IDS
       materials_with_sizes_hashes.each do |m_hash|
         m_hash[:sizes].each do |size|
