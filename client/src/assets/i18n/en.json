@@ -52,7 +52,7 @@
 		"home": "Home",
 		"login": "Login",
 		"logout": "Logout",
-		"collections": "Collections",
+		"collections": "My Saved Projects",
 		"user": "User"
 	},
 	"collection": {
@@ -66,7 +66,7 @@
 		"create_user_to_continue": "Create user to continue",
 		"login_with_this_info_to_load_collection": "You will be able to login with this information to load your saved work",
 		"loading_filters": "Loading filters",
-		"my_space": "My Space",
+		"my_project": "My Project (Choose name)",
 		"proceed_to_purchase": "Proceed to Purchase",
 		"you_have_selected_x_items": "You have selected {{items_count}} items",
 		"choose_a_password": "Choose a password",
@@ -78,14 +78,14 @@
 		"edit_name": "Edit name",
 		"upload_space_image": "Upload space image",
 		"save_collection": "Save collection",
-		"clear_collection": "Clear collection",
+		"reset_project": "Reset project",
 		"filter_by": "Filter by",
 		"more_details": "More details"
 	},
 	"collections": {
-		"my_collections": "My Collections",
-		"there_are_no_saved_collections": "There are not any saved collections",
-		"add_collection": "Add Collection"
+		"my_collections": "My Saved Projects",
+		"there_are_no_saved_collections": "There are not any saved projects",
+		"add_collection": "New project"
 	},
 	"purchase": {
 		"pay_with_paypal": "Make a Payment",

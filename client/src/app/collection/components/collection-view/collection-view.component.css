@@ -27,23 +27,24 @@
 
 .img-button {
   border-radius: 40px;
-  background-color: #c8c9ff;
-  padding: 8px;
+  background-color: #efefef;
+  padding: 6px;
 }
 
 .img-button:hover:not(.disabled) {
-  background-color: #81b3ff;
+  background-color: #dbdbdb;
 }
 
-.img-upload, .img-save, .img-clear {
-  top: 5px;
+.img-upload, .img-save, .img-clear, .img-edit-name, .img-save-name {
+  margin-left: 2px;
+  margin-right: 2px;
 }
 
 .img-upload.disabled, .img-save.disabled, .img-clear.disabled {
-  color: #808080
+  color: #b2b2b2
 }
 
-.img-upload {
+/* .img-upload {
   left: 5px;
   right: unset;
 }
@@ -61,19 +62,19 @@ div.rtl .img-upload {
 div.rtl .img-save {
   right: 45px;
   left: unset;
-}
+} */
 
 .img-clear {
-  left: 85px;
-  right: unset;
-  width: 29px;
+  /* left: 85px; */
+  /* right: unset; */
+  width: 26px;
   padding: 5px;
 }
 
-div.rtl .img-clear {
+/* div.rtl .img-clear {
   right: 85px;
   left: unset;
-}
+} */
 
 .editable-text {
   border: 1px solid transparent;
@@ -150,14 +151,19 @@ div.rtl .arrow-left {
   -webkit-transform: rotate(-45deg);
 }
 
+.project-toolbar {
+  background-color: #7b7b7b;
+  width: 100%;
+  padding: 3px;
+}
+
 .collection-panel {
   background-color: #f3f3f3;
 }
 
 .collection-name {
-  background-color: #7b7b7b;
   color: #ffffff;
-  width: 100%;
+  font-size: 17px;
 }
 
 .collection-edit {
@@ -168,6 +174,8 @@ div.rtl .arrow-left {
 
 .workspace-image {
   width: 100%;
+  border: 3px solid #7b7b7b;
+  border-top: 0px;
 }
 
 .full-image-button:hover {
@@ -176,4 +184,8 @@ div.rtl .arrow-left {
 
 .porject-board-help-block {
   font-size: 13px;
+}
+
+.project-section {
+  border-top: 3px solid #7b7b7b;
 }

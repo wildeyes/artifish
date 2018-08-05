@@ -166,6 +166,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   }
 
   onBlurCollectionName() {
+    this.unsavedChanges = true;
     this.editName(false);
     this.updateCollectionName();
   }
@@ -306,7 +307,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   }
 
   private initializeCollection() {
-    this.collection = {name: this.translate.instant(TRANSLATE('collection.my_space'))};
+    this.collection = {name: this.translate.instant(TRANSLATE('collection.my_project'))};
     this.collectionItems = [];
     this.unsavedChanges = false;
   }

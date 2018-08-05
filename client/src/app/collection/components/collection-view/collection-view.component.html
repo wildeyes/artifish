@@ -5,46 +5,54 @@
       <h3 class="mt-2 mb-0 text-center">{{'collection.project_board' | translate}}</h3>
       <p class="text-center porject-board-help-block mb-1">{{'collection.project_board_hint' | translate}}</p>
 
-      <div class="collection-name mt-3">
-        <i class="collection-edit pr-2 fa fa-pencil float-right clickable" [ngClass]="{ 'd-none': isEditName }" (click)="editName(true)"
-           placement="top" ngbTooltip="{{'collection.edit_name' | translate}}" aria-hidden="true"></i>
-        <i class="collection-edit pr-2 fa fa-floppy-o float-right clickable" [ngClass]="{ 'd-none': !isEditName }" (click)="editName(false)"
-          placement="top" ngbTooltip="Save" aria-hidden="true"></i>
-        <input type="text" autofocus (keyup.enter)="onBlurCollectionName()" (blur)="onBlurCollectionName()" [(ngModel)]="collection.name" name="name"
-          #name id="name" class="form-control" [ngClass]="{ 'd-none': !isEditName }">
-        <h5 class=" editable-text mb-0" [ngClass]="{ 'd-none': isEditName, 'd-inline-block': !isEditName }">{{collection.name}}</h5>
-      </div>
+      <div class="project-section mt-3">
+        <div class="project-toolbar">
 
-      <div class="sticky-top">
-        <div class="position-relative">
-          <img src="assets/images/placeholder_loading.png" [ngClass]="{ 'd-none': !imageLoading }" class="img-fluid" [alt]="collection.name">
-          <img [src]="collection.workspaceImageUrl || 'assets/images/placeholder.png'" [ngClass]="{ 'd-none': imageLoading }" class="workspace-image img-fluid"
-            [alt]="collection.name">
-          <i *ngIf="imageLoading" class="img-loader position-absolute fa fa-spinner fa-spin fa-3x"></i>
-          <i class="fa fa-upload position-absolute img-button img-upload clickable" [class.disabled]="saveLoading" (click)="!saveLoading && imageFile.click()"
-             placement="top" ngbTooltip="{{'collection.upload_space_image' | translate}}" aria-hidden="true"></i>
-          <i class="fa fa-floppy-o position-absolute img-button img-save clickable" [class.disabled]="saveLoading || collectionItems.length == 0"
-            (click)="!saveLoading && collectionItems.length > 0 && saveCollection(saveModal)" [ngClass]="{ 'fa-spinner fa-spin': saveLoading }"
+          <i class="img-button img-edit-name fa fa-pencil float-right clickable" [ngClass]="{ 'd-none': isEditName }" (click)="editName(true)"
+            placement="top" ngbTooltip="{{'collection.edit_name' | translate}}" aria-hidden="true"></i>
+
+          <i class="float-right img-button img-save-name fa fa-check float-right clickable" [ngClass]="{ 'd-none': !isEditName }" (click)="editName(false)"
+            placement="top" ngbTooltip="{{'common.save' | translate}}" aria-hidden="true"></i>
+
+          <i class="fa fa-upload img-button float-right img-upload clickable" [class.disabled]="saveLoading" (click)="!saveLoading && imageFile.click()"
+            placement="top" ngbTooltip="{{'collection.upload_space_image' | translate}}" [ngClass]="{ 'd-none': isEditName }" aria-hidden="true"></i>
+
+          <i class="fa fa-floppy-o img-button float-right img-save clickable" [class.disabled]="saveLoading || !unsavedChanges"
+            (click)="!saveLoading && saveCollection(saveModal)" [ngClass]="{ 'fa-spinner fa-spin': saveLoading, 'd-none': isEditName }"
             placement="top" ngbTooltip="{{'collection.save_collection' | translate}}" aria-hidden="true"></i>
-          <img src="assets/images/clean-icon.png" class="position-absolute img-button img-clear clickable" [class.disabled]="saveLoading" (click)="!saveLoading && clearCollection()"
-             placement="top" ngbTooltip="{{'collection.clear_collection' | translate}}" aria-hidden="true">
-          <input type="file" (change)="readURL($event)" name="imageFile" #imageFile class="form-control-file d-none" id="inputWorkspaceImage">
+
+          <img *ngIf="!authService.isLoggedIn()" src="assets/images/clean-icon.png" class="img-button float-right img-clear clickable" [class.disabled]="saveLoading"
+            (click)="!saveLoading && clearCollection()" placement="top" ngbTooltip="{{'collection.reset_project' | translate}}" [ngClass]="{ 'd-none': isEditName }" aria-hidden="true">
+
+          <input type="text" autofocus (keyup.enter)="onBlurCollectionName()" (blur)="onBlurCollectionName()" [(ngModel)]="collection.name" name="name"
+            #name id="name" class="form-control" [ngClass]="{ 'd-none': !isEditName }">
+          <h5 class="collection-name editable-text mb-0" [ngClass]="{ 'd-none': isEditName, 'd-inline-block': !isEditName }">{{collection.name}}</h5>
         </div>
-        <div *ngIf="collectionItems.length > 0" class="row no-gutters mt-2">
-          <div class="col-6 pt-2">
-            {{ 'collection.you_have_selected_x_items' | translate:{'items_count':collectionItems.length} }}
+
+        <div class="sticky-top">
+          <div class="position-relative">
+            <img src="assets/images/placeholder_loading.png" [ngClass]="{ 'd-none': !imageLoading }" class="img-fluid" [alt]="collection.name">
+            <img [src]="collection.workspaceImageUrl || 'assets/images/placeholder.png'" [ngClass]="{ 'd-none': imageLoading }" class="workspace-image img-fluid"
+              [alt]="collection.name">
+            <i *ngIf="imageLoading" class="img-loader position-absolute fa fa-spinner fa-spin fa-3x"></i>
+            <input type="file" (change)="readURL($event)" name="imageFile" #imageFile class="form-control-file d-none" id="inputWorkspaceImage">
           </div>
-          <div class="col-3 offset-1">
-            <i *ngIf="purchaseNavigateLoading" class="fa fa-spinner fa-spin fa-2x"></i>
-            <button *ngIf="!purchaseNavigateLoading" class="btn btn-primary" (click)="navigateToPurchase(saveModal)">{{'collection.proceed_to_purchase' | translate}}</button>
+          <div *ngIf="collectionItems.length > 0" class="row no-gutters mt-2">
+            <div class="col-6 pt-2">
+              {{ 'collection.you_have_selected_x_items' | translate:{'items_count':collectionItems.length} }}
+            </div>
+            <div class="col-3 offset-1">
+              <i *ngIf="purchaseNavigateLoading" class="fa fa-spinner fa-spin fa-2x"></i>
+              <button *ngIf="!purchaseNavigateLoading" class="btn btn-primary" (click)="navigateToPurchase(saveModal)">{{'collection.proceed_to_purchase' | translate}}</button>
+            </div>
           </div>
-        </div>
-        <div *ngIf="collectionItems.length > 0" class="row no-gutters mt-2">
-          <div *ngFor="let collectionItem of collectionItems" class="col-md-4 mb-4 px-2 position-relative">
-            <img [src]="collectionItem.thumbUrl" class="img-fluid collection-image" alt="">
-            <i class="fa fa-times-circle position-absolute img-close clickable" (click)="removeCollectionItemById(collectionItem)" aria-hidden="true"></i>
-            <i class="fa fa-search full-image-button clickable float-right" (click)="openImageModal(collectionItem)" aria-hidden="true"></i>
-            <p>{{'collection.starting_at' | translate}}: {{collectionItem.startingPriceFormatted}}</p>
+          <div *ngIf="collectionItems.length > 0" class="row no-gutters mt-2">
+            <div *ngFor="let collectionItem of collectionItems" class="col-md-4 mb-4 px-2 position-relative">
+              <img [src]="collectionItem.thumbUrl" class="img-fluid collection-image" alt="">
+              <i class="fa fa-times-circle position-absolute img-close clickable" (click)="removeCollectionItemById(collectionItem)" aria-hidden="true"></i>
+              <i class="fa fa-search full-image-button clickable float-right" (click)="openImageModal(collectionItem)" aria-hidden="true"></i>
+              <p>{{'collection.starting_at' | translate}}: {{collectionItem.startingPriceFormatted}}</p>
+            </div>
           </div>
         </div>
       </div>
