@@ -52,6 +52,9 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   modalErrorMessage: string;
   modalNavigateUrlOnSuccess: string;
 
+  openModalWindow: boolean = false;
+  modalImage: any[] = [];
+
   constructor(
     private alertService: AlertService,
     private router: Router,
@@ -142,6 +145,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
     if (index == -1) return;
     this.collectionItems.splice(index, 1);
     this.unsavedChanges = true;
+    portfolioItem.selected = false;
   }
 
   readURL(event): void {
@@ -289,6 +293,16 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
 
   isTagSelected(tag) {
     return this.filters.tags.indexOf(tag) != -1;
+  }
+
+  openImageModal(item) {
+    this.modalImage.pop()
+    this.modalImage.push({ thumb: item.thumbUrl, img: item.imageUrl, description: item.name });
+    this.openModalWindow = true;
+  }
+
+  cancelImageModel() {
+    this.openModalWindow = false;
   }
 
   private initializeCollection() {

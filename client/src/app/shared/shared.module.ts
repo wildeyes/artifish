@@ -8,6 +8,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AlertComponent } from './components/alert/alert.component';
 import { AlertService } from './services/alert.service';
 import { DataService } from './services/data.service';
+import { ImageModalComponent } from './components/image-modal/image-modal.component';
 
 @NgModule({
   imports: [
@@ -27,10 +28,12 @@ import { DataService } from './services/data.service';
     DataService
   ],
   declarations: [
-    AlertComponent
+    AlertComponent,
+    ImageModalComponent
   ],
   exports: [
     AlertComponent,
+    ImageModalComponent,
     CommonModule,
     HttpClientModule,
     FormsModule,

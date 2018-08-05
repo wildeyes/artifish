@@ -27,6 +27,9 @@ export class PurchaseComponent implements OnInit {
   order: any = {};
   selectionPerItemMapping = new Object();
 
+  openModalWindow: boolean = false;
+  modalImage: any[] = [];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -137,6 +140,16 @@ export class PurchaseComponent implements OnInit {
         }
       }
     );
+  }
+
+  openImageModal(item) {
+    this.modalImage.pop()
+    this.modalImage.push({ thumb: item.thumbUrl, img: item.imageUrl, description: item.name });
+    this.openModalWindow = true;
+  }
+
+  cancelImageModel() {
+    this.openModalWindow = false;
   }
 
   private sumTotalAmount() {

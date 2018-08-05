@@ -20,12 +20,12 @@
           <img [src]="collection.workspaceImageUrl || 'assets/images/placeholder.png'" [ngClass]="{ 'd-none': imageLoading }" class="workspace-image img-fluid"
             [alt]="collection.name">
           <i *ngIf="imageLoading" class="img-loader position-absolute fa fa-spinner fa-spin fa-3x"></i>
-          <i class="fa fa-upload position-absolute img-upload clickable" [class.disabled]="saveLoading" (click)="!saveLoading && imageFile.click()"
+          <i class="fa fa-upload position-absolute img-button img-upload clickable" [class.disabled]="saveLoading" (click)="!saveLoading && imageFile.click()"
              placement="top" ngbTooltip="Upload space image" aria-hidden="true"></i>
-          <i class="fa fa-floppy-o position-absolute img-save clickable" [class.disabled]="saveLoading || collectionItems.length == 0"
+          <i class="fa fa-floppy-o position-absolute img-button img-save clickable" [class.disabled]="saveLoading || collectionItems.length == 0"
             (click)="!saveLoading && collectionItems.length > 0 && saveCollection(saveModal)" [ngClass]="{ 'fa-spinner fa-spin': saveLoading }"
             placement="top" ngbTooltip="Save collection" aria-hidden="true"></i>
-          <i class="fa fa-trash-o position-absolute img-clear clickable" [class.disabled]="saveLoading" (click)="!saveLoading && clearCollection()"
+          <i class="fa fa-trash-o position-absolute img-button img-clear clickable" [class.disabled]="saveLoading" (click)="!saveLoading && clearCollection()"
              placement="top" ngbTooltip="Clear collection" aria-hidden="true"></i>
           <input type="file" (change)="readURL($event)" name="imageFile" #imageFile class="form-control-file d-none" id="inputWorkspaceImage">
         </div>
@@ -42,6 +42,7 @@
           <div *ngFor="let collectionItem of collectionItems" class="col-md-4 mb-4 px-2 position-relative">
             <img [src]="collectionItem.thumbUrl" class="img-fluid collection-image" alt="">
             <i class="fa fa-times-circle position-absolute img-close clickable" (click)="removeCollectionItemById(collectionItem)" aria-hidden="true"></i>
+            <i class="fa fa-search full-image-button clickable float-right" (click)="openImageModal(collectionItem)" aria-hidden="true"></i>
             <p>{{'collection.starting_at' | translate}}: {{collectionItem.startingPriceFormatted}}</p>
           </div>
         </div>
@@ -83,8 +84,8 @@
         <div *ngFor="let portfolioItem of portfolioItems" class="col-3 mb-2">
           <img [src]="portfolioItem.thumbUrl" class="img-fluid clickable" [ngClass]="{ 'selected-image': portfolioItem.selected }"
             (click)="imageSelected(portfolioItem)" alt="">
+          <i class="fa fa-search full-image-button clickable float-right" (click)="openImageModal(portfolioItem)" aria-hidden="true"></i>
           <p class="mb-0">{{'collection.starting_at' | translate}}: {{portfolioItem.startingPriceFormatted}}</p>
-          <a [href]="portfolioItem.imageUrl" target="_blank">Full image</a>
         </div>
       </div>
       <div *ngIf="portfolioItemsTotalEntries / portfolioItemsPageSize > 1" class="text-center mt-3">
@@ -92,6 +93,9 @@
           (pageChange)="pageChanged($event)" aria-label="Default pagination"></ngb-pagination>
       </div>
     </div>
+  </div>
+  <div *ngIf="openModalWindow">
+    <ImageModal [modalImages]="modalImage" [imagePointer]="0" (cancelEvent)="cancelImageModel()"></ImageModal>
   </div>
 </ng-container>
 

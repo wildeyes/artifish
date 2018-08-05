@@ -25,11 +25,18 @@
   display: table;
 }
 
-.img-upload, .img-save, .img-clear {
-  top: 5px;
+.img-button {
   border-radius: 40px;
   background-color: #c8c9ff;
   padding: 8px;
+}
+
+.img-button:hover:not(.disabled) {
+  background-color: #81b3ff;
+}
+
+.img-upload, .img-save, .img-clear {
+  top: 5px;
 }
 
 .img-upload.disabled, .img-save.disabled, .img-clear.disabled {
@@ -64,10 +71,6 @@ div.rtl .img-save {
 div.rtl .img-clear {
   right: 85px;
   left: unset;
-}
-
-.img-upload:hover:not(.disabled), .img-save:hover:not(.disabled), .img-clear:hover:not(.disabled) {
-  background-color: #81b3ff;
 }
 
 .editable-text {
@@ -163,4 +166,8 @@ div.rtl .arrow-left {
 
 .workspace-image {
   width: 100%;
+}
+
+.full-image-button:hover {
+  color: #6d3fec
 }

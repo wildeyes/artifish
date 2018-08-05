@@ -54,6 +54,7 @@
           <div *ngFor="let collectionItem of collectionItems" class="row mb-4">
             <div class="col-sm-4">
               <img [src]="collectionItem.imageUrl" class="img-fluid" alt="">
+              <i class="fa fa-search full-image-button clickable float-right" (click)="openImageModal(collectionItem)" aria-hidden="true"></i>
             </div>
             <div class="col-sm-8">
               <i class="fa fa-times-circle image-remove float-right clickable" (click)="removeCollectionItem(collectionItem)" aria-hidden="true"></i>
@@ -86,5 +87,8 @@
         </div>
       </div>
     </div>
+  </div>
+  <div *ngIf="openModalWindow">
+    <ImageModal [modalImages]="modalImage" [imagePointer]="0" (cancelEvent)="cancelImageModel()"></ImageModal>
   </div>
 </ng-container>
