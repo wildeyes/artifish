@@ -8,7 +8,8 @@ class PortfolioItemsController < ApplicationController
     color = hex_to_color(params[:color]) if params[:color]
 
     @portfolio_items = PortfolioItem.joins(:tags).where.has{ tags.name.in query_tags } if query_tags.present?
-    @portfolio_items = (@portfolio_items || PortfolioItem).joins(:colors).where.has{ colors.id == color.id } if color.present?
+    @portfolio_items = (@portfolio_items || PortfolioItem).joins(:portfolio_item_colors).where.has{ portfolio_item_colors.color_id == color.id }
+                                                          .order("portfolio_item_colors.dominance_index ASC, portfolio_item_colors.dominance_weight ASC") if color.present?
 
     if @portfolio_items.nil?
       random_tags = Tag.all.sample(5)

@@ -12,7 +12,8 @@
 #
 
 class Color < ApplicationRecord
-  has_and_belongs_to_many :portfolio_items
+  has_many :portfolio_item_colors
+  has_many :portfolio_items, :through => :portfolio_item_colors
 
   def to_hex
     Camalian::Color.new(self.r, self.g, self.b).to_hex

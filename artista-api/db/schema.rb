@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_01_204929) do
+ActiveRecord::Schema.define(version: 2018_08_05_052537) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -64,13 +64,6 @@ ActiveRecord::Schema.define(version: 2018_08_01_204929) do
     t.float "l"
   end
 
-  create_table "colors_portfolio_items", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "portfolio_item_id", null: false
-    t.bigint "color_id", null: false
-    t.index ["color_id", "portfolio_item_id"], name: "index_colors_portfolio_items_on_color_id_and_portfolio_item_id"
-    t.index ["portfolio_item_id", "color_id"], name: "index_colors_portfolio_items_on_portfolio_item_id_and_color_id", unique: true
-  end
-
   create_table "materials", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
@@ -117,6 +110,15 @@ ActiveRecord::Schema.define(version: 2018_08_01_204929) do
     t.datetime "updated_at", null: false
     t.index ["order_id"], name: "index_paypal_transactions_on_order_id"
     t.index ["token"], name: "index_paypal_transactions_on_token", unique: true
+  end
+
+  create_table "portfolio_item_colors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "portfolio_item_id", null: false
+    t.bigint "color_id", null: false
+    t.integer "dominance_index", null: false
+    t.integer "dominance_weight", null: false
+    t.index ["color_id", "portfolio_item_id"], name: "index_portfolio_item_colors_on_color_id_and_portfolio_item_id"
+    t.index ["portfolio_item_id", "color_id"], name: "index_portfolio_item_colors_on_portfolio_item_id_and_color_id", unique: true
   end
 
   create_table "portfolio_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
