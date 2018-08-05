@@ -62,10 +62,11 @@
               <form>
                 <div class="form-group row">
                   <label for="materialSelect" class="col-form-label col-sm-2">{{'purchase.material' | translate}}</label>
-                  <select class="form-control col-sm-10" id="materialSelect"
+                  <select class="form-control col-sm-10" id="materialSelect" name="selectedMaterial"
+                           [(ngModel)]="selectionPerItemMapping[collectionItem.id].selectedMaterial.materialId"
                           (change)="materialSelected(collectionItem, $event.target.value)">
                     <option *ngFor="let purchaseOption of collectionItem.purchaseOptions"
-                            [value]="purchaseOption.materialId">{{purchaseOption.material}}
+                            [value]="purchaseOption.materialId">{{'materials.' + purchaseOption.material | translate}}
                     </option>
                   </select>
                 </div>

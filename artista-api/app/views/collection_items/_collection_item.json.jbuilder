@@ -5,7 +5,7 @@ if collection_item.portfolio_item_id.present?
   json.thumb_url rails_representation_url(collection_item.portfolio_item.image.variant(resize: "166")) if collection_item.portfolio_item.image.attached?
   json.purchase_options collection_item.portfolio_item.purchase_options_formatted do |material_id, purchase_options|
     json.material_id material_id
-    json.material purchase_options.first.material.name
+    json.material purchase_options.first.material.material_type
     json.prices purchase_options do |purchase_option|
       json.size_id purchase_option.size_id
       json.size purchase_option.size.name

@@ -11,6 +11,7 @@ import { environment } from '../../../../environments/environment';
 import { NotFoundError } from '../../../shared/models/not-found-error';
 import { TRANSLATE } from '../../../translation-marker';
 import { AlertService } from '../../../shared/services/alert.service';
+import { DataService } from '../../../shared/services/data.service';
 
 @Component({
   selector: 'app-purchase',
@@ -38,6 +39,7 @@ export class PurchaseComponent implements OnInit {
     private collectionItemService: CollectionItemService,
     private orderService: OrderService,
     private alertService: AlertService,
+    private dataService: DataService,
     private paymentSerivce: PaymentService) { }
 
   ngOnInit() {
@@ -63,7 +65,20 @@ export class PurchaseComponent implements OnInit {
           }
           for (let i = 0; i < items.length; i++) {
             const item = items[i];
-            const firstPurchaseOption = item.purchaseOptions[0]
+            let firstPurchaseOption = item.purchaseOptions[0];
+
+            // Auto select material from list by the filtered selected material from the items search page
+            if (this.dataService.data && this.dataService.data.selectedMaterialType) {
+              let selectedMaterialType = this.dataService.data.selectedMaterialType;
+              for (let i = 0; i < item.purchaseOptions.length; i++) {
+                const purchaseOption = item.purchaseOptions[i];
+                if (purchaseOption.material == selectedMaterialType) {
+                  firstPurchaseOption = purchaseOption;
+                  break;
+                }
+              }
+            }
+
             this.selectionPerItemMapping[item.id] = {
               selectedMaterial: firstPurchaseOption,
               selectedPrice: firstPurchaseOption.prices[0],

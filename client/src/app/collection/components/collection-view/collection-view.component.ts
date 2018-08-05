@@ -42,7 +42,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   tags: any[] = [];
   materials: any[] = [];
   hexColors: any[] = ['#bcb7b0', '#000000', '#0c2c53', '#444a6d', '#1797b8', '#00a7ed', '#0e59e1', '#2f29e7', '#7327e7', '#c55c9c', '#cd3846', '#e1947f', '#e69f55', '#efd05e', '#9abe45', '#1ec6b7', '#bdfdfc'];//, '#ff0000', '#00ff00', '#0000ff']
-  selectedMaterial: any;
+  selectedMaterialType: any;
 
   isLoading: boolean = true;
   searchLoading: boolean = true;
@@ -75,7 +75,6 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
     private userService: UserService,
     private authService: AuthService) {
       this.direction = environment.rtl ? "rtl" : "ltr";
-      this.initializeCollection();
     }
 
   @HostListener('window:beforeunload')
@@ -84,6 +83,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   }
 
   ngOnInit() {
+    this.initializeCollection();
     this.loadCollection();
     this.loadTags();
     this.loadMaterials();
@@ -136,8 +136,9 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   }
 
   selectArtType(materialObj) {
-    this.selectedMaterial = materialObj;
-    this.filters.material = materialObj.name;
+    this.selectedMaterialType = materialObj.materialType;
+    this.filters.material = materialObj.materialType;
+    this.dataService.data.selectedMaterialType = materialObj.materialType;
     this.externalSearch();
   }
 
@@ -198,9 +199,10 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
 
       localStorage.removeItem('collectionData');
       this.initializeCollection();
-      this.dataService.data = {
+      this.dataService.data.collectionData = {
         collection: this.collection,
-        collectionItems: this.collectionItems
+        collectionItems: this.collectionItems,
+        selectedMaterialType: this.selectedMaterialType
       };
     });
   }
@@ -353,18 +355,18 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   }
 
   private loadCollectionFromLocalStorage() {
-    let data: any = localStorage.getItem('collectionData');
-    if (!data || data.indexOf('"collection":') == 0) {
-      data = {
+    let collectionData: any = localStorage.getItem('collectionData');
+    if (!collectionData || collectionData.indexOf('"collection":') == 0) {
+      collectionData = {
         collection: this.collection,
         collectionItems: this.collectionItems
       };
     } else {
-      data = JSON.parse(data);
-      this.collection = data.collection;
-      this.collectionItems = data.collectionItems;
+      collectionData = JSON.parse(collectionData);
+      this.collection = collectionData.collection;
+      this.collectionItems = collectionData.collectionItems;
     }
-    this.dataService.data = data
+    this.dataService.data.collectionData = collectionData;
   }
 
   private loadTags() {
@@ -377,7 +379,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   private loadMaterials() {
     this.materialService.getAll().subscribe(res => {
       this.materials = res;
-      if (this.materials.length == 1) this.selectedMaterial = this.materials[0]
+      if (this.materials.length == 1) this.selectedMaterialType = this.materials[0].materialType;
       this.loadingTags = false;
     });
   }
@@ -386,8 +388,8 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
     if (this.authService.isLoggedIn() && this.unsavedChanges) {
       return confirm(this.translate.instant(TRANSLATE("collection.discard_unsaved_changes")));
     } else {
-      if (this.dataService.data) {
-        localStorage.setItem('collectionData', JSON.stringify(this.dataService.data));
+      if (this.dataService.data.collectionData) {
+        localStorage.setItem('collectionData', JSON.stringify(this.dataService.data.collectionData));
       }
       return true;
     }

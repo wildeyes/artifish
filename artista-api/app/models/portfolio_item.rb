@@ -20,7 +20,7 @@ class PortfolioItem < ApplicationRecord
   has_many :colors, :through => :portfolio_item_colors
 
   def purchase_options_formatted
-    group = purchase_options.group_by(&:material_id)
+    group = purchase_options.joins(:material).group_by(&:material_id)
     group.each{|material_id, purchase_options| purchase_options.sort_by!(&:size_id)}
     group
   end

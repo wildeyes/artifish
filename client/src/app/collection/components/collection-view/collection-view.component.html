@@ -67,9 +67,11 @@
 
       <div class="filters-list mt-4">
         <div ngbDropdown class="d-inline-block">
-          <button class="btn btn-light" id="dropdownBasic1" ngbDropdownToggle>{{'collection.type' | translate}}{{ selectedMaterial ? ': ' + ('materials.' + selectedMaterial?.name | translate) : '' }}</button>
+          <button placement="top" ngbTooltip="{{'collection.filter_by_artwork_type' | translate}}"
+                  class="btn btn-light" id="dropdownBasic1" ngbDropdownToggle>{{'collection.type' | translate}}{{ selectedMaterialType ? ': ' + ('materials.' + selectedMaterialType | translate) : '' }}</button>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button *ngFor="let material of materials" (click)="selectArtType(material)" class="dropdown-item">{{'materials.' + material.name | translate}}</button>
+            <button *ngIf="materials.length > 1" (click)="selectArtType({materialType: 'all', name: 'all'})" class="dropdown-item">{{'collection.all' | translate}}</button>
+            <button *ngFor="let material of materials" (click)="selectArtType(material)" class="dropdown-item">{{'materials.' + material.materialType | translate}}</button>
           </div>
         </div>
       </div>
