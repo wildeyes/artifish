@@ -72,7 +72,15 @@
 		"choose_a_password": "Choose a password",
 		"starting_at": "Starting at",
 		"project_board": "Project board",
-		"explore_new_art": "Explore new Art"
+		"project_board_hint": "Here you see the artworks you chose alongside the picture of your space",
+		"explore_artworks": "Explore Artworks",
+		"explore_artworks_hint": "Here you discover and choose artworks to your project",
+		"edit_name": "Edit name",
+		"upload_space_image": "Upload space image",
+		"save_collection": "Save collection",
+		"clear_collection": "Clear collection",
+		"filter_by": "Filter by",
+		"more_details": "More details"
 	},
 	"collections": {
 		"my_collections": "My Collections",

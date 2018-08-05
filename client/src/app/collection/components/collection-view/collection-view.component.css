@@ -66,6 +66,8 @@ div.rtl .img-save {
 .img-clear {
   left: 85px;
   right: unset;
+  width: 29px;
+  padding: 5px;
 }
 
 div.rtl .img-clear {
@@ -149,7 +151,7 @@ div.rtl .arrow-left {
 }
 
 .collection-panel {
-  background-color: #e2e2e2;
+  background-color: #f3f3f3;
 }
 
 .collection-name {
@@ -170,4 +172,8 @@ div.rtl .arrow-left {
 
 .full-image-button:hover {
   color: #6d3fec
+}
+
+.porject-board-help-block {
+  font-size: 13px;
 }

@@ -2,11 +2,12 @@
 <ng-container *ngIf="!isLoading && collection">
   <div class="row">
     <div class="col-lg-5 collection-panel pb-5">
-      <h3 class="mt-2 text-center">{{'collection.project_board' | translate}}</h3>
+      <h3 class="mt-2 mb-0 text-center">{{'collection.project_board' | translate}}</h3>
+      <p class="text-center porject-board-help-block mb-1">{{'collection.project_board_hint' | translate}}</p>
 
-      <div class="collection-name">
+      <div class="collection-name mt-3">
         <i class="collection-edit pr-2 fa fa-pencil float-right clickable" [ngClass]="{ 'd-none': isEditName }" (click)="editName(true)"
-           placement="top" ngbTooltip="Edit name" aria-hidden="true"></i>
+           placement="top" ngbTooltip="{{'collection.edit_name' | translate}}" aria-hidden="true"></i>
         <i class="collection-edit pr-2 fa fa-floppy-o float-right clickable" [ngClass]="{ 'd-none': !isEditName }" (click)="editName(false)"
           placement="top" ngbTooltip="Save" aria-hidden="true"></i>
         <input type="text" autofocus (keyup.enter)="onBlurCollectionName()" (blur)="onBlurCollectionName()" [(ngModel)]="collection.name" name="name"
@@ -21,12 +22,12 @@
             [alt]="collection.name">
           <i *ngIf="imageLoading" class="img-loader position-absolute fa fa-spinner fa-spin fa-3x"></i>
           <i class="fa fa-upload position-absolute img-button img-upload clickable" [class.disabled]="saveLoading" (click)="!saveLoading && imageFile.click()"
-             placement="top" ngbTooltip="Upload space image" aria-hidden="true"></i>
+             placement="top" ngbTooltip="{{'collection.upload_space_image' | translate}}" aria-hidden="true"></i>
           <i class="fa fa-floppy-o position-absolute img-button img-save clickable" [class.disabled]="saveLoading || collectionItems.length == 0"
             (click)="!saveLoading && collectionItems.length > 0 && saveCollection(saveModal)" [ngClass]="{ 'fa-spinner fa-spin': saveLoading }"
-            placement="top" ngbTooltip="Save collection" aria-hidden="true"></i>
-          <i class="fa fa-trash-o position-absolute img-button img-clear clickable" [class.disabled]="saveLoading" (click)="!saveLoading && clearCollection()"
-             placement="top" ngbTooltip="Clear collection" aria-hidden="true"></i>
+            placement="top" ngbTooltip="{{'collection.save_collection' | translate}}" aria-hidden="true"></i>
+          <img src="assets/images/clean-icon.png" class="position-absolute img-button img-clear clickable" [class.disabled]="saveLoading" (click)="!saveLoading && clearCollection()"
+             placement="top" ngbTooltip="{{'collection.clear_collection' | translate}}" aria-hidden="true">
           <input type="file" (change)="readURL($event)" name="imageFile" #imageFile class="form-control-file d-none" id="inputWorkspaceImage">
         </div>
         <div *ngIf="collectionItems.length > 0" class="row no-gutters mt-2">
@@ -49,19 +50,20 @@
       </div>
     </div>
     <div class="col-lg-7">
-      <h2 class="mt-2 mb-3 text-center">
-        {{'collection.explore_new_art' | translate}}
+      <h2 class="mt-2 mb-0 text-center">
+        {{'collection.explore_artworks' | translate}}
       </h2>
+      <p class="text-center porject-board-help-block mb-1">{{'collection.explore_artworks_hint' | translate}}</p>
       <p *ngIf="loadingTags">{{'collection.loading_filters' | translate}}... <i class="fa fa-spinner fa-spin fa-2x"></i></p>
       <ng-container *ngIf="!loadingTags">
-        <div class="mt-2 mb-3 tag-chooser">
+        <div class="mt-4 mb-3 tag-chooser">
           <div class="arrow-wrapper" (click)="arrowClick(direction == 'rtl' ? false : true)">
             <div class="app-arrow arrow-left float-left"></div>
           </div>
 
           <div *ngIf="!loadingTags" class="horizontal-slide tag-list" id="tagList">
             <div *ngFor="let tag of tags" class="tag">
-              <button class="btn btn-light" [ngClass]="{ 'btn-dark': isTagSelected(tag) }" (click)="selectTagFilter(tag)">{{'tags.' + tag.name | translate}}</button>
+              <button class="btn btn-light" [ngClass]="{ 'btn-dark': isTagSelected(tag) }" placement="top" ngbTooltip="{{'collection.filter_by' | translate}} {{'tags.' + tag.name | translate}}" (click)="selectTagFilter(tag)">{{'tags.' + tag.name | translate}}</button>
             </div>
           </div>
 
@@ -84,7 +86,7 @@
         <div *ngFor="let portfolioItem of portfolioItems" class="col-3 mb-2">
           <img [src]="portfolioItem.thumbUrl" class="img-fluid clickable" [ngClass]="{ 'selected-image': portfolioItem.selected }"
             (click)="imageSelected(portfolioItem)" alt="">
-          <i class="fa fa-search full-image-button clickable float-right" (click)="openImageModal(portfolioItem)" aria-hidden="true"></i>
+          <i class="fa fa-search full-image-button clickable float-right" placement="top" ngbTooltip="{{'collection.more_details' | translate}}" (click)="openImageModal(portfolioItem)" aria-hidden="true"></i>
           <p class="mb-0">{{'collection.starting_at' | translate}}: {{portfolioItem.startingPriceFormatted}}</p>
         </div>
       </div>
