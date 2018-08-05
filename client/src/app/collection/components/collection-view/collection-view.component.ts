@@ -15,6 +15,8 @@ import { CollectionService } from '../../services/collection.service';
 import { PortfolioItemService } from '../../services/portfolio-item.service';
 import { TagService } from '../../services/tag.service';
 import { environment } from '../../../../environments/environment';
+import { Observable } from 'rxjs/Observable';
+import { OAuthAccessDenied, OAuthCanceled } from '../../../auth/models/oauth-errors';
 
 @Component({
   selector: 'app-collection-view',
@@ -46,6 +48,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   signupLoading: boolean = false;
   imageLoading: boolean = false;
   loadingTags: boolean = true;
+  loginLoading: boolean = false;
 
   isEditName: boolean = false;
   unsavedChanges: boolean = false;
@@ -207,7 +210,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
         .subscribe(res => {
           this.collection = res;
           this.collectionItems = this.collection.items;
-          this.alertService.success(TRANSLATE('collection.collection_was_saved'));
+          this.alertService.success(TRANSLATE('collection.collection_was_saved'), true);
           this.saveLoading = false;
           this.purchaseNavigateLoading = false;
           this.unsavedChanges = false;
@@ -306,6 +309,16 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
     this.openModalWindow = false;
   }
 
+  loginWithGooglePopup(callback: () => void) {
+    this.loginLoading = true;
+    this.loginWithPopup(this.authService.loginWithGooglePopup(), callback);
+  }
+
+  loginWithFacebookPopup(callback: () => void) {
+    this.loginLoading = true;
+    this.loginWithPopup(this.authService.loginWithFacebookPopup(), callback);
+  }
+
   private initializeCollection() {
     this.collection = {name: this.translate.instant(TRANSLATE('collection.my_project'))};
     this.collectionItems = [];
@@ -358,5 +371,22 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
       }
       return true;
     }
+  }
+
+  private loginWithPopup(login$: Observable<void>, callback: () => void) {
+    login$.subscribe(
+      () => {
+        this.loginLoading = false;
+        callback();
+        this.saveCollectionToServer(this.modalNavigateUrlOnSuccess);
+      },
+      error => {
+        this.loginLoading = false;
+        if (error instanceof OAuthAccessDenied ||
+          error instanceof OAuthCanceled) {
+          this.alertService.error('You must grant permissions to this application in order to login');
+        } else throw error
+      }
+    );
   }
 }

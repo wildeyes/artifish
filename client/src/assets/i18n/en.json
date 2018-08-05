@@ -6,6 +6,7 @@
 		}
 	},
 	"common": {
+		"or": "Or",
 		"cancel": "Cancel",
 		"date": "Date",
 		"email": "Email",
@@ -41,7 +42,9 @@
 	"login": {
 		"email_is_required": "Email is required",
 		"invalid_credentials": "Invalid credentials",
-		"password_is_required": "Password is required"
+		"password_is_required": "Password is required",
+		"login_with_facebook": "Login with Facebook",
+		"login_with_google": "Login with Google"
 	},
 	"verify": {
 		"user_was_verified": "User was verified",

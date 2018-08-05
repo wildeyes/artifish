@@ -41,10 +41,17 @@ export class PurchaseComponent implements OnInit {
     private paymentSerivce: PaymentService) { }
 
   ngOnInit() {
+    const component = this;
     this.order.firstName = this.authService.currentUser.first_name;
     this.order.lastName = this.authService.currentUser.last_name;
 
     let id = this.route.snapshot.paramMap.get('id');
+    history.pushState(null, null, window.location.href);
+    window.addEventListener('popstate', function (event) {
+      component.router.navigate(['/collections/', id]);
+      window.location.assign(window.location.href.replace("/purchase", ""));
+    });
+
     this.collectionService.get(id).subscribe(res => {
       this.collection = res;
       this.collectionItemService.getAll(this.collection.id)

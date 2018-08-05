@@ -7,6 +7,7 @@
 		}
 	},
 	"common": {
+		"or": "או",
 		"cancel": "ביטול",
 		"date": "תאריך",
 		"email": "אימייל",
@@ -42,7 +43,9 @@
 	"login": {
 		"email_is_required": "יש למלא מייל",
 		"invalid_credentials": "סיסמא שגויה",
-		"password_is_required": "יש למלא סיסמא"
+		"password_is_required": "יש למלא סיסמא",
+		"login_with_facebook": "התחבר באמצעות פייסבוק",
+		"login_with_google": "התחבר באמצעות גוגל"
 	},
 	"verify": {
 		"user_was_verified": "משתמש אומת בהצלחה",

@@ -17,7 +17,7 @@
           <i class="fa fa-upload img-button float-right img-upload clickable" [class.disabled]="saveLoading" (click)="!saveLoading && imageFile.click()"
             placement="top" ngbTooltip="{{'collection.upload_space_image' | translate}}" [ngClass]="{ 'd-none': isEditName }" aria-hidden="true"></i>
 
-          <i class="fa fa-floppy-o img-button float-right img-save clickable" [class.disabled]="saveLoading || !unsavedChanges"
+          <i class="fa fa-floppy-o img-button float-right img-save clickable" [class.disabled]="(saveLoading || !unsavedChanges) && (collectionItems.length == 0 && !authService.isLoggedIn())"
             (click)="!saveLoading && saveCollection(saveModal)" [ngClass]="{ 'fa-spinner fa-spin': saveLoading, 'd-none': isEditName }"
             placement="top" ngbTooltip="{{'collection.save_collection' | translate}}" aria-hidden="true"></i>
 
@@ -145,6 +145,15 @@
             <div *ngFor="let error of validationErrors.password" class="help-block text-danger">{{'common.password' | translate}} {{error}}</div>
           </div>
         </div>
+
+        <p>{{'common.or' | translate}}</p>
+
+        <button type="button" class="btn btn-social btn-facebook" (click)='loginWithFacebookPopup(c)'>
+          <span class="fa fa-facebook"></span> {{'login.login_with_facebook' | translate}}
+        </button>
+        <button type="button" class="btn btn-social btn-google" (click)='loginWithGooglePopup(c)'>
+          <span class="fa fa-google"></span> {{'login.login_with_google' | translate}}
+        </button>
 
       </div>
       <div class="modal-footer" >
