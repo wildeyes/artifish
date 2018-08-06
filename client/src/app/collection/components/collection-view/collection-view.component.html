@@ -104,18 +104,27 @@
       <div *ngIf="searchLoading" class="row">
         <i class="fa fa-spinner fa-spin fa-3x"></i>
       </div>
-      <div class="row">
-        <div *ngFor="let portfolioItem of portfolioItems" class="col-3 mb-2">
-          <img [src]="portfolioItem.thumbUrl" class="img-fluid clickable" [ngClass]="{ 'selected-image': portfolioItem.selected }"
-            (click)="imageSelected(portfolioItem)" alt="">
-          <i class="fa fa-search full-image-button clickable float-right" placement="top" ngbTooltip="{{'collection.more_details' | translate}}" (click)="openImageModal(portfolioItem)" aria-hidden="true"></i>
-          <p class="mb-0">{{'collection.starting_at' | translate}}: {{portfolioItem.startingPriceFormatted}}</p>
+      <ng-container *ngIf="portfolioItems && portfolioItems.length > 0; else noResults">
+        <div class="row">
+          <div *ngFor="let portfolioItem of portfolioItems" class="col-3 mb-2">
+            <img [src]="portfolioItem.thumbUrl" class="img-fluid clickable" [ngClass]="{ 'selected-image': portfolioItem.selected }"
+              (click)="imageSelected(portfolioItem)" alt="">
+            <i class="fa fa-search full-image-button clickable float-right" placement="top" ngbTooltip="{{'collection.more_details' | translate}}" (click)="openImageModal(portfolioItem)" aria-hidden="true"></i>
+            <p class="mb-0">{{'collection.starting_at' | translate}}: {{portfolioItem.startingPriceFormatted}}</p>
+          </div>
         </div>
-      </div>
-      <div *ngIf="portfolioItemsTotalEntries / portfolioItemsPageSize > 1" class="text-center mt-3">
-        <ngb-pagination class="d-inline-block" [collectionSize]="portfolioItemsTotalEntries" [pageSize]="portfolioItemsPageSize" [(page)]="portfolioItemsPage"
-          (pageChange)="pageChanged($event)" aria-label="Default pagination"></ngb-pagination>
-      </div>
+        <div *ngIf="portfolioItemsTotalEntries / portfolioItemsPageSize > 1" class="text-center mt-3">
+          <ngb-pagination class="d-inline-block" [collectionSize]="portfolioItemsTotalEntries" [pageSize]="portfolioItemsPageSize" [(page)]="portfolioItemsPage"
+            (pageChange)="pageChanged($event)" aria-label="Default pagination"></ngb-pagination>
+        </div>
+      </ng-container>
+      <ng-template #noResults>
+        <div *ngIf="!searchLoading" class="text-center mt-5 text-secondary">
+          <h2>{{'collection.no_results' | translate}}</h2>
+          <p>{{'collection.try_searching_again' | translate}}</p>
+          <img src="assets/images/sad_baby.png" width="170px" alt="No results">
+        </div>
+      </ng-template>
     </div>
   </div>
   <div *ngIf="openModalWindow">

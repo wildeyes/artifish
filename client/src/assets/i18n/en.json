@@ -86,7 +86,9 @@
 		"more_details": "More details",
 		"type": "Type",
 		"all": "All",
-		"filter_by_artwork_type": "Filter by artwork type"
+		"filter_by_artwork_type": "Filter by artwork type",
+		"no_results": "No results",
+		"try_searching_again": "Try searching again or removing filters"
 	},
 	"collections": {
 		"my_collections": "My Saved Projects",
