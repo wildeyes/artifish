@@ -2,6 +2,7 @@ module SearchProviders
   class BaseProvider
     TEMP_IMAGES_DIR = "#{Rails.root}/tmp/images"
     CACHE_PRICE = false
+    MATERIAL_NAME_TO_TYPE = {}
 
     def initialize
       @material_cache = {}
@@ -102,6 +103,7 @@ module SearchProviders
         image_hash[:pricing] = get_prices_hash_for_product(image_hash)
         c += 1
         puts "-- #{c}/#{total_count} Getting prices"
+        break if c == 5
       end
       linked_images_hashes.reject! { |image_hash| image_hash[:pricing].nil? }
       next_page_link = get_next_page_link(page)
@@ -163,7 +165,8 @@ module SearchProviders
       pricing_list.each do |pricing|
         material = @material_cache[pricing[:material_name]]
         if material.nil?
-          material = Material.find_or_create_by!(name: pricing[:material_name])
+          material = Material.where(name: pricing[:material_name]).first
+          material = Material.create!(material_type: self.class::MATERIAL_NAME_TO_TYPE[pricing[:material_name]] || 'unknown', name: pricing[:material_name]) if material.nil?
           @material_cache[pricing[:material_name]] = material
         end
 

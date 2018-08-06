@@ -16,6 +16,12 @@ module SearchProviders
       :humanity => ["photosk/%D7%A2%D7%99%D7%A8%D7%95%D7%9D", "photosc/people"],
       :abstract => ["photosc/abstract", "photosc/still-life", "photosk/photos-for-dining-room"]
     }
+    MATERIAL_NAME_TO_TYPE = {
+      "קנבס" => "canvas",
+      "הדפסת התמונה על קנבס" => "canvas",
+      "זכוכית אקרילית (פרספקס)" => "acrylic_glass",
+      "אלומיניום" => "aluminum"
+    }
 
     def initialize
       super

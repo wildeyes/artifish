@@ -20,6 +20,12 @@ module SearchProviders
       :commercials => 838
     }
     ALLOWED_MATERIALS_IDS = [2, 1]
+    MATERIAL_NAME_TO_TYPE = {
+      "קנבס מתוח על פרופיל עץ" => "canvas",
+      "נייר צילום" => "photo_paper",
+      "פרספקס" => "acrylic_glass",
+      "מדבקה" => "sticker"
+    }
 
     def initialize
       super

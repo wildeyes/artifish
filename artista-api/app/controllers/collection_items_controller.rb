@@ -4,7 +4,7 @@ class CollectionItemsController < ApplicationController
 
   # GET /collections
   def index
-    @collection_items = @collection.items.preload([:portfolio_item, {:portfolio_item => [:purchase_options => [:material, :size]]}])
+    @collection_items = @collection.items.preload([:portfolio_item, {:portfolio_item => [:purchase_options => [:material, :size], :image_attachment => :blob]}])
   end
 
   # POST /collections

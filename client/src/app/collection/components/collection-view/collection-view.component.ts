@@ -348,6 +348,8 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
         this.collection = res;
         this.collectionItems = res.items;
         this.isLoading = false;
+      }, error => {
+        this.router.navigate(['/collections']);
       });
     } else {
       this.loadCollectionFromLocalStorage();

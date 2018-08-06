@@ -20,8 +20,8 @@ class PortfolioItem < ApplicationRecord
   has_many :colors, :through => :portfolio_item_colors
 
   def purchase_options_formatted
-    group = purchase_options.joins(:material).where.has{material.enabled == true}.group_by(&:material_id)
-    group.each{|material_id, purchase_options| purchase_options.sort_by!(&:size_id)}
+    group = purchase_options.preload(:size).joins(:material).where.has{material.enabled == true}.group_by(&:material_id)
+    group.each{|material_id, purchase_options| purchase_options.sort_by!{|opt| opt.size.name.downcase.split('x').first.to_i}}
     group
   end
 
