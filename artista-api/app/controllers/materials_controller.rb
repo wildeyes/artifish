@@ -3,6 +3,6 @@ class MaterialsController < ApplicationController
 
   # GET /tags.json
   def index
-    @materials = Material.all
+    @materials = Material.enabled
   end
 end
