@@ -65,19 +65,19 @@
 
       <p *ngIf="loadingTags">{{'collection.loading_filters' | translate}}...<i class="fa fa-spinner fa-spin fa-2x"></i></p>
 
-      <div class="filters-list mt-4">
-        <div ngbDropdown class="d-inline-block">
-          <button placement="top" ngbTooltip="{{'collection.filter_by_artwork_type' | translate}}"
-                  class="btn btn-light" id="dropdownBasic1" ngbDropdownToggle>{{'collection.type' | translate}}{{ selectedMaterialType ? ': ' + ('materials.' + selectedMaterialType | translate) : '' }}</button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button *ngIf="materialTypes.length > 1" (click)="selectArtType({materialType: 'all', name: 'all'})" class="dropdown-item">{{'collection.all' | translate}}</button>
-            <button *ngFor="let materialType of materialTypes" (click)="selectArtType(materialType)" class="dropdown-item">{{'materials.' + materialType | translate}}</button>
+      <ng-container *ngIf="!loadingTags">
+        <div class="filters-list mt-4">
+          <div ngbDropdown class="d-inline-block">
+            <button placement="top" ngbTooltip="{{'collection.filter_by_artwork_type' | translate}}" class="btn btn-light" id="dropdownBasic1"
+              ngbDropdownToggle>{{'collection.type' | translate}}{{ selectedMaterialType ? ': ' + ('materials.' + selectedMaterialType | translate) :
+              '' }}</button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button *ngIf="materialTypes.length > 1" (click)="selectArtType({materialType: 'all', name: 'all'})" class="dropdown-item">{{'collection.all' | translate}}</button>
+              <button *ngFor="let materialType of materialTypes" (click)="selectArtType(materialType)" class="dropdown-item">{{'materials.' + materialType | translate}}</button>
+            </div>
           </div>
         </div>
-      </div>
 
-
-      <ng-container *ngIf="!loadingTags">
         <div class="mb-3 tag-chooser">
           <div class="arrow-wrapper" (click)="arrowClick(direction == 'rtl' ? false : true)">
             <div class="app-arrow arrow-left float-left"></div>

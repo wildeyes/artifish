@@ -14,7 +14,7 @@ module SearchProviders
       :flowers => ["photosc/flowers", "photosk/%D7%A4%D7%A8%D7%97%D7%99%D7%9D-%D7%A2%D7%9C-%D7%9C%D7%91%D7%9F", "photosk/%D7%90%D7%91%D7%99%D7%91"],
       :childhood => 'photosk/childrens-room',
       :humanity => ["photosk/%D7%A2%D7%99%D7%A8%D7%95%D7%9D", "photosc/people"],
-      :abstract => ["photosc/urban", "photosc/still-life", "photosk/photos-for-dining-room"]
+      :abstract => ["photosc/abstract", "photosc/still-life", "photosk/photos-for-dining-room"]
     }
 
     def initialize
@@ -55,7 +55,8 @@ module SearchProviders
     def get_materials_with_sizes(page)
       # REMOVE THIS CODE WHEN NOT LIMITED ONLY TO JACKIE'S PHOTOS
       photographer = page.css('div.product_meta').css('p').last.text
-      raise "Could not find photographer" if !photographer.include?('צלם')
+      puts "Could not find photographer for photo #{page.css('h1.product_title').last.text}" if !photographer.include?('צלם')
+      return nil if !photographer.include?('צלם')
       return nil if !photographer.include?("ג'קי סויקיס")
       # END OF REMOVE
       sections = page.css('div.cpf-section[data-logic]').reject{|x| !x['data-logic'].present?}

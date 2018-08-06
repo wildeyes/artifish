@@ -56,16 +56,16 @@
 		"home": "בית",
 		"login": "התחבר",
 		"logout": "התנתק",
-		"collections": "פרויקטים",
+		"collections": "פרוייקטים",
 		"user": "משתמש"
 	},
 	"collection": {
 		"name_is_required": "יש למלא שם",
-		"failed_to_delete_collection": "מחיקת פרויקט נכשלה",
-		"clear_collection_alert": "האם הנך בטוח שאתה מעוניין לנקות את הפרויקט?",
-		"delete_collection_alert": "האם הנך בטוח שאתה מעוניין למחוק את הפרויקט {{collection}}?",
-		"collection_was_saved": "הפרויקט נשמר!",
-		"error_saving_collection": "שגיאה בשמירת פרויקט",
+		"failed_to_delete_collection": "מחיקת פרוייקט נכשלה",
+		"clear_collection_alert": "האם הנך בטוח שאתה מעוניין לנקות את הפרוייקט?",
+		"delete_collection_alert": "האם הנך בטוח שאתה מעוניין למחוק את הפרוייקט {{collection}}?",
+		"collection_was_saved": "הפרוייקט נשמר!",
+		"error_saving_collection": "שגיאה בשמירת פרוייקט",
 		"discard_unsaved_changes": "אזהרה: יש לך שינויים שלא נשמרו. לחץ ביטול כדי לחזור ולשמור שינויים אלה",
 		"create_user_to_continue": "צור משתמש על מנת להמשיך",
 		"login_with_this_info_to_load_collection": "תוכל להתחבר עם פרטים אלו כדי לטעון את העבודה שלך",
@@ -76,8 +76,18 @@
 		"choose_a_password": "בחר סיסמא",
 		"starting_at": "החל מ",
 		"project_board": "עריכת פרוייקט",
-		"explore_new_art": "גלה אמנות חדשה",
-		"all": "הכל"
+		"project_board_hint": "כאן אתה רואה את הפריטים שבחרת לצד תמונת החדר",
+		"explore_artworks": "מצא פריטים",
+		"explore_artworks_hint": "כאן את מוצא ובוחר אמנות לפרוייקט שלך",
+		"edit_name": "ערוך שם",
+		"upload_space_image": "העלאת תמונה של החלל",
+		"save_collection": "שמור פרוייקט",
+		"reset_project": "נקה פרוייקט",
+		"filter_by": "סנן לפי",
+		"more_details": "פרטים נוספים",
+		"type": "סוג",
+		"all": "הכל",
+		"filter_by_artwork_type": "סנן לפי סוג אמנות"
 	},
 	"collections": {
 		"my_collections": "הפרוייקטים שלי",
@@ -127,7 +137,7 @@
 	"materials": {
 		"all": "הכל",
 		"canvas": "קנבס",
-		"acrylic glass": "זכוכית אקרילית (פרספקס)",
-		"aluminium": "אלומיניום"
+		"acrylic_glass": "זכוכית אקרילית (פרספקס)",
+		"aluminum": "אלומיניום"
 	}
 }
