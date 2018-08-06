@@ -1,1 +1,1 @@
-json.extract! material, :id, :material_type, :name
+json.extract! material, :id, :material_type

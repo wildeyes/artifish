@@ -11,5 +11,5 @@
 #
 
 class Material < ApplicationRecord
-  default_scope { where(:enabled => true) }
+  scope :enabled, -> { where(enabled: true) }
 end

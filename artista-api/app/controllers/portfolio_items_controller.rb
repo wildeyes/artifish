@@ -24,7 +24,7 @@ class PortfolioItemsController < ApplicationController
     @total_entries = @portfolio_items.total_entries
 
     # Getting starting price
-    @portfolio_items = @portfolio_items.joins(:purchase_options => :material)
+    @portfolio_items = @portfolio_items.joins(:purchase_options => :material).where.has{purchase_options.material.enabled == true}
     .select("MIN(purchase_options.price_cents) as starting_price")
     .select("purchase_options.price_currency")
     .select("portfolio_items.*").group("portfolio_items.id, purchase_options.price_currency #{', portfolio_item_colors.dominance_index, portfolio_item_colors.dominance_weight' if color.present?}") if @portfolio_items

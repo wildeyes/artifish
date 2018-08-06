@@ -70,8 +70,8 @@
           <button placement="top" ngbTooltip="{{'collection.filter_by_artwork_type' | translate}}"
                   class="btn btn-light" id="dropdownBasic1" ngbDropdownToggle>{{'collection.type' | translate}}{{ selectedMaterialType ? ': ' + ('materials.' + selectedMaterialType | translate) : '' }}</button>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button *ngIf="materials.length > 1" (click)="selectArtType({materialType: 'all', name: 'all'})" class="dropdown-item">{{'collection.all' | translate}}</button>
-            <button *ngFor="let material of materials" (click)="selectArtType(material)" class="dropdown-item">{{'materials.' + material.materialType | translate}}</button>
+            <button *ngIf="materialTypes.length > 1" (click)="selectArtType({materialType: 'all', name: 'all'})" class="dropdown-item">{{'collection.all' | translate}}</button>
+            <button *ngFor="let materialType of materialTypes" (click)="selectArtType(materialType)" class="dropdown-item">{{'materials.' + materialType | translate}}</button>
           </div>
         </div>
       </div>

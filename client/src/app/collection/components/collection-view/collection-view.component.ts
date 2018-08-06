@@ -40,7 +40,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
 
   filters: { tags: any[]; color: string, material: any } = { tags: [], color: null, material: null}
   tags: any[] = [];
-  materials: any[] = [];
+  materialTypes: any[] = [];
   hexColors: any[] = ['#bcb7b0', '#000000', '#0c2c53', '#444a6d', '#1797b8', '#00a7ed', '#0e59e1', '#2f29e7', '#7327e7', '#c55c9c', '#cd3846', '#e1947f', '#e69f55', '#efd05e', '#9abe45', '#1ec6b7', '#bdfdfc'];//, '#ff0000', '#00ff00', '#0000ff']
   selectedMaterialType: any;
 
@@ -135,10 +135,11 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
     this.externalSearch();
   }
 
-  selectArtType(materialObj) {
-    this.selectedMaterialType = materialObj.materialType;
-    this.filters.material = materialObj.materialType;
-    this.dataService.data.selectedMaterialType = materialObj.materialType;
+  selectArtType(materialType) {
+    if (this.selectedMaterialType == materialType) return
+    this.selectedMaterialType = materialType;
+    this.filters.material = materialType;
+    this.dataService.data.selectedMaterialType = materialType;
     this.externalSearch();
   }
 
@@ -378,8 +379,12 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
 
   private loadMaterials() {
     this.materialService.getAll().subscribe(res => {
-      this.materials = res;
-      if (this.materials.length == 1) this.selectedMaterialType = this.materials[0].materialType;
+      for (let i = 0; i < res.length; i++) {
+        const materialObj = res[i];
+        if (this.materialTypes.indexOf(materialObj.materialType) == -1)
+          this.materialTypes.push(materialObj.materialType);
+      }
+      if (this.materialTypes.length == 1) this.selectedMaterialType = this.materialTypes[0];
       this.loadingTags = false;
     });
   }
