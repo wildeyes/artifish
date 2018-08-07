@@ -37,5 +37,22 @@ module ArtistaApi
 
     # Transforms responses data from snake_case to camelCaseLower
     Jbuilder.key_format camelize: :lower
+
+    # ActionMailer Config
+    config.action_mailer.smtp_settings = {
+        address:              'smtp.gmail.com',
+        port:                 587,
+        domain:               'gmail.com',
+        user_name:            ENV['SMTP_USERNAME'],
+        password:             ENV['SMTP_PASSWORD'],
+        authentication:       :plain,
+        enable_starttls_auto: true
+    }
+    config.action_mailer.delivery_method = :smtp
+    # change to true to allow email to be sent during development
+    config.action_mailer.perform_deliveries = true
+    config.action_mailer.raise_delivery_errors = true
+    config.action_mailer.default :charset => "utf-8"
+
   end
 end

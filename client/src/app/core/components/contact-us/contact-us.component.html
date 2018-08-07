@@ -1,0 +1,33 @@
+<div class="col-md-6 offset-md-3">
+  <h2 class="mb-4">{{'contact_us.get_in_touch' | translate}}</h2>
+  <form name="form" (ngSubmit)="f.form.valid && sendContactUs()" #f="ngForm" novalidate>
+    <div class="form-group">
+      <input type="text" placeholder="{{'common.name' | translate}}" [ngClass]="{ 'is-invalid': f.submitted && !name.valid }" class="form-control" name="name" [(ngModel)]="model.name"
+        #name="ngModel" required />
+      <div *ngIf="f.submitted && !name.valid" class="help-block text-danger">{{'common.name_is_required' | translate}}</div>
+    </div>
+    <div class="form-group">
+      <input type="text" placeholder="{{'common.email' | translate}}" [ngClass]="{ 'is-invalid': f.submitted && !email.valid }" class="form-control"
+        name="email" [(ngModel)]="model.email" #email="ngModel" required email />
+      <div *ngIf="f.submitted && !email.valid" class="help-block text-danger">{{'common.a_valid_email_is_required' | translate}}</div>
+    </div>
+    <div class="form-group">
+      <input type="text" placeholder="{{'common.phone_number' | translate}}" class="form-control" id="phoneNumber"
+        name="phoneNumber" [(ngModel)]="model.phoneNumber" #phoneNumber="ngModel" />
+    </div>
+    <div class="form-group">
+      <input type="text" placeholder="{{'contact_us.title' | translate}}" [ngClass]="{ 'is-invalid': f.submitted && !title.valid }" class="form-control" id="title" name="title"
+        [(ngModel)]="model.title" #title="ngModel" required />
+      <div *ngIf="f.submitted && !title.valid" class="help-block text-danger">{{'contact_us.title_is_required' | translate}}</div>
+    </div>
+    <div class="form-group">
+      <textarea type="text" rows="5" placeholder="{{'contact_us.your_message' | translate}}" [ngClass]="{ 'is-invalid': f.submitted && !message.valid }" class="form-control" id="message" name="message"
+        [(ngModel)]="model.message" #message="ngModel" required></textarea>
+      <div *ngIf="f.submitted && !message.valid" class="help-block text-danger">{{'contact_us.message_is_required' | translate}}</div>
+    </div>
+
+    <div class="form-group text-center">
+      <button [disabled]="loading" class="btn btn-contact-us">{{'contact_us.lets_talk' | translate}} <i *ngIf="loading" class="fa fa-spinner fa-spin align-middle"></i></button>
+    </div>
+  </form>
+</div>

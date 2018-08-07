@@ -11,6 +11,7 @@
 		"cancel": "ביטול",
 		"date": "תאריך",
 		"email": "אימייל",
+		"name": "שם",
 		"first_name": "שם פרטי",
 		"last_name": "שם משפחה",
 		"city": "עיר",
@@ -24,13 +25,24 @@
 		"password": "סיסמא",
 		"save": "שמירה",
 		"first_name_is_required": "יש למלא שם פרטי",
-		"last_name_is_required": "יש למלא שם משפחה"
+		"last_name_is_required": "יש למלא שם משפחה",
+		"name_is_required": "יש למלא שם",
+		"a_valid_email_is_required": "יש למלא מייל חוקי",
+		"phone_number_is_required": "יש למלא מספר טלפון"
+	},
+	"contact_us": {
+		"get_in_touch": "צור קשר",
+		"get_in_touch_subtext": "אם יש לך שאלה בנוגע למה אנחנו עושים או למה אנחנו עושים זאת",
+		"title": "נושא",
+		"your_message": "ההודעה שלך",
+		"lets_talk": "בואו נדבר",
+		"title_is_required": "יש לכתוב נושא",
+		"message_is_required": "יש לכתוב הודעה"
 	},
 	"home": {
-		"welcome_to_artista": "Artifish ברוך הבא"
+		"welcome_to_artista": "ברוך הבא ל Artifish"
 	},
 	"sign_up": {
-		"a_valid_email_is_required": "יש למלא מייל חוקי",
 		"confirm_password": "סיסמא לאימות",
 		"first_name_is_required": "יש למלא שם פרטי",
 		"last_name_is_required": "יש למלא שם משפחה",
@@ -101,7 +113,6 @@
 		"city_is_required": "יש למלא עיר",
 		"address_is_required": "יש למלא כתובת",
 		"zip_code_is_required": "יש למלא מיקוד",
-		"phone_number_is_required": "יש למלא מספר טלפון",
 		"material": "סוג חומר",
 		"size": "גודל",
 		"total_amount": "עלות כוללת",

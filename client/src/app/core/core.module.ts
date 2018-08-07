@@ -11,6 +11,8 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { UserService } from './services/user.service';
 import { VerifiedUserGuard } from './services/verified-user-guard.service';
 import { LocationService } from './services/location.service';
+import { ContactUsComponent } from './components/contact-us/contact-us.component';
+import { ContactUsService } from './services/contact-us.service';
 
 @NgModule({
   imports: [
@@ -21,17 +23,20 @@ import { LocationService } from './services/location.service';
     RouterModule.forChild([
       { path: 'login', component: LoginComponent },
       { path: 'signup', component: SignUpComponent },
+      { path: 'contact-us', component: ContactUsComponent },
     ])
   ],
   declarations: [
     NavbarComponent,
     LoginComponent,
-    SignUpComponent
+    SignUpComponent,
+    ContactUsComponent
   ],
   providers: [
     UserService,
     VerifiedUserGuard,
-    LocationService
+    LocationService,
+    ContactUsService
   ],
   exports: [
     NavbarComponent,

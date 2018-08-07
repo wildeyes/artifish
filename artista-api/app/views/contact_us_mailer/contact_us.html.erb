@@ -1,0 +1,16 @@
+<dl>
+  <dt>Name</dt>
+  <dd><%= @contact_us_params[:name] %></dd>
+  <br>
+  <dt>Email</dt>
+  <dd><%= @contact_us_params[:email] %></dd>
+  <br>
+  <dt>Phone Number</dt>
+  <dd><%= @contact_us_params[:phone_number] %></dd>
+  <br>
+  <dt>Title</dt>
+  <dd><%= @contact_us_params[:title] %></dd>
+  <br>
+  <dt>Message</dt>
+  <dd><%= @contact_us_params[:message].split("\n").map{|msg_part| h(msg_part)}.join('<br>').html_safe %></dd>
+</dl>

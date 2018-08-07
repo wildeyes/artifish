@@ -24,4 +24,6 @@ Rails.application.routes.draw do
   post 'payments/paypal_transactions', to: 'payments#create', defaults: {format: :json}
 
   get '/location/get_locale', to: 'location#get_locale'
+
+  post 'contact_us', to: 'contact_us#create'
 end
