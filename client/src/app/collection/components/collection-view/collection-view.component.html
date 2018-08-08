@@ -8,8 +8,8 @@
       <div class="project-section mt-3">
         <div class="project-toolbar">
 
-          <i class="img-button img-edit-name fa fa-pencil float-right clickable" [ngClass]="{ 'd-none': isEditName }" (click)="editName(true)"
-            placement="top" ngbTooltip="{{'collection.edit_name' | translate}}" aria-hidden="true"></i>
+          <i class="img-button img-edit-name fa fa-arrows float-right clickable" [ngClass]="{ 'd-none': isEditName }" (click)="openCanvasModal()"
+            placement="top" ngbTooltip="{{'collection.see_pictures_on_wall' | translate}}" aria-hidden="true"></i>
 
           <i class="float-right img-button img-save-name fa fa-check float-right clickable" [ngClass]="{ 'd-none': !isEditName }" (click)="editName(false)"
             placement="top" ngbTooltip="{{'common.save' | translate}}" aria-hidden="true"></i>
@@ -24,6 +24,9 @@
           <img *ngIf="!authService.isLoggedIn()" src="assets/images/clean-icon.png" class="img-button float-right img-clear clickable" [class.disabled]="saveLoading"
             (click)="!saveLoading && clearCollection()" placement="top" ngbTooltip="{{'collection.reset_project' | translate}}" [ngClass]="{ 'd-none': isEditName }" aria-hidden="true">
 
+          <i class="img-button img-edit-name fa fa-pencil float-right clickable" [ngClass]="{ 'd-none': isEditName }" (click)="editName(true)"
+            placement="top" ngbTooltip="{{'collection.edit_name' | translate}}" aria-hidden="true"></i>
+
           <input type="text" autofocus (keyup.enter)="onBlurCollectionName()" (blur)="onBlurCollectionName()" [(ngModel)]="collection.name" name="name"
             #name id="name" class="form-control" [ngClass]="{ 'd-none': !isEditName }">
           <h5 class="collection-name editable-text mb-0" [ngClass]="{ 'd-none': isEditName, 'd-inline-block': !isEditName }">{{collection.name}}</h5>
@@ -32,8 +35,11 @@
         <div class="sticky-top">
           <div class="position-relative">
             <img src="assets/images/placeholder_loading.png" [ngClass]="{ 'd-none': !imageLoading }" class="img-fluid" [alt]="collection.name">
-            <img [src]="collection.workspaceImageUrl || 'assets/images/placeholder.png'" [ngClass]="{ 'd-none': imageLoading }" class="workspace-image img-fluid"
+            <img [src]="collection.workspaceImageUrl || 'assets/images/workspace_placeholder.jpeg'" [ngClass]="{ 'd-none': imageLoading }" class="workspace-image img-fluid"
               [alt]="collection.name">
+            <p class="clickable position-absolute workspace-image-text" (click)="!saveLoading && imageFile.click()">
+              {{'collection.upload_a_photo_of_your_room' | translate}}
+            </p>
             <i *ngIf="imageLoading" class="img-loader position-absolute fa fa-spinner fa-spin fa-3x"></i>
             <input type="file" (change)="readURL($event)" name="imageFile" #imageFile class="form-control-file d-none" id="inputWorkspaceImage">
           </div>

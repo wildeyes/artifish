@@ -101,7 +101,9 @@
 		"all": "הכל",
 		"filter_by_artwork_type": "סנן לפי סוג אמנות",
 		"no_results": "אין תוצאות",
-		"try_searching_again": "נסה לחפש שוב או להסיר חלק מהפילטרים"
+		"try_searching_again": "נסה לחפש שוב או להסיר חלק מהפילטרים",
+		"see_pictures_on_wall": "הצג תמונות על הקיר",
+		"upload_a_photo_of_your_room": "העלה תמונה של החדר שלך"
 	},
 	"collections": {
 		"my_collections": "הפרוייקטים שלי",
