@@ -336,9 +336,13 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   }
 
   private initializeCollection() {
-    this.collection = {name: this.translate.instant(TRANSLATE('collection.my_project'))};
+    this.collection = {};
     this.collectionItems = [];
     this.unsavedChanges = false;
+    this.translate.get(TRANSLATE('collection.my_project')).subscribe(res => {
+      debugger;
+      this.collection.name = this.collection.name || res;
+    });
   }
 
   private loadCollection() {
