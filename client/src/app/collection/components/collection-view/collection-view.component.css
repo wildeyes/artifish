@@ -178,8 +178,6 @@ div.rtl .arrow-left {
 
 .workspace-image {
   width: 100%;
-  border: 3px solid #7b7b7b;
-  border-top: 0px;
 }
 
 .full-image-button:hover {
@@ -192,4 +190,11 @@ div.rtl .arrow-left {
 
 .project-section {
   border-top: 3px solid #7b7b7b;
+}
+
+.workspace-image-text {
+  left: 10%;
+  top: 10px;
+  font-size: 26px;
+  font-weight: bold;
 }

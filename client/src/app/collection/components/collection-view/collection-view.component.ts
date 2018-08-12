@@ -38,7 +38,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   portfolioItemsTotalEntries: number;
   portfolioItemsPageSize: number = 40;
 
-  filters: { tags: any[]; color: string, material: any } = { tags: [], color: null, material: null}
+  filters: { tags: any[]; color: string, material: any } = { tags: [], color: null, material: null }
   tags: any[] = [];
   materialTypes: any[] = [];
   hexColors: any[] = ['#bcb7b0', '#000000', '#0c2c53', '#444a6d', '#1797b8', '#00a7ed', '#0e59e1', '#2f29e7', '#7327e7', '#c55c9c', '#cd3846', '#e1947f', '#e69f55', '#efd05e', '#9abe45', '#1ec6b7', '#bdfdfc'];//, '#ff0000', '#00ff00', '#0000ff']
@@ -58,8 +58,8 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   modalErrorMessage: string;
   modalNavigateUrlOnSuccess: string;
 
-  openModalWindow: boolean = false;
-  modalImage: any[] = [];
+  openModalImage: boolean = false;
+  modalImages: any[] = [];
 
   constructor(
     private alertService: AlertService,
@@ -74,8 +74,8 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
     private modalService: NgbModal,
     private userService: UserService,
     private authService: AuthService) {
-      this.direction = environment.rtl ? "rtl" : "ltr";
-    }
+    this.direction = environment.rtl ? "rtl" : "ltr";
+  }
 
   @HostListener('window:beforeunload')
   saveCollectionToLocalStorage() {
@@ -316,13 +316,13 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   }
 
   openImageModal(item) {
-    this.modalImage.pop()
-    this.modalImage.push({ thumb: item.thumbUrl, img: item.imageUrl, description: item.name });
-    this.openModalWindow = true;
+    this.modalImages.pop()
+    this.modalImages.push({ thumb: item.thumbUrl, img: item.imageUrl, description: item.name });
+    this.openModalImage = true;
   }
 
-  cancelImageModel() {
-    this.openModalWindow = false;
+  cancelImageModal() {
+    this.openModalImage = false;
   }
 
   loginWithGooglePopup(callback: () => void) {
@@ -340,7 +340,6 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
     this.collectionItems = [];
     this.unsavedChanges = false;
     this.translate.get(TRANSLATE('collection.my_project')).subscribe(res => {
-      debugger;
       this.collection.name = this.collection.name || res;
     });
   }

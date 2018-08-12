@@ -19,7 +19,7 @@
         <label for="email">{{'common.email' | translate}}</label>
         <input type="text" [ngClass]="{ 'is-invalid': f.submitted && (!email.valid || validationErrors.email) }" class="form-control"
           name="email" [(ngModel)]="model.email" #email="ngModel" required email />
-        <div *ngIf="f.submitted && !email.valid" class="help-block text-danger">{{'sign_up.a_valid_email_is_required' | translate}}</div>
+        <div *ngIf="f.submitted && !email.valid" class="help-block text-danger">{{'common.a_valid_email_is_required' | translate}}</div>
         <div *ngIf="validationErrors.email">
           <div *ngFor="let error of validationErrors.email" class="help-block text-danger">{{'common.email' | translate}} {{error}}</div>
           <!-- TODO: translate the error message comes from the server -->
