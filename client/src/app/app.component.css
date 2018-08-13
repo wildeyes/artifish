@@ -3,3 +3,8 @@
   top: 48%;
   left: 48%;
 }
+
+.container-fluid.app-container {
+  padding-left: 50px;
+  padding-right: 50px;
+}

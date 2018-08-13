@@ -1,3 +1,4 @@
+import * as Konva from 'konva';
 import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -34,8 +35,8 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   collection: any = {};
   collectionItems: any[] = [];
   portfolioItems: any[];
-  
-  withinIntro: boolean = false;
+
+  canvasImageDataUrl: string;
 
   portfolioItemsPage: number = 1;
   portfolioItemsTotalEntries: number;
@@ -62,7 +63,10 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   modalNavigateUrlOnSuccess: string;
 
   openModalImage: boolean = false;
+  openModalCanvas: boolean = false;
   modalImages: any[] = [];
+  canvasImages: any[] = [];
+  konvaCollection = {konvaImages: [], htmlImages: []}
 
   introCollectionItems = [{
       portfolioItemId: 0,
@@ -96,6 +100,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   }
 
   ngOnInit() {
+    this.newVersionInitialization();
     this.initializeCollection();
     this.loadCollection();
     this.loadTags();
@@ -188,6 +193,12 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
       reader.onload = e => {
         this.collection.workspaceImageContents = reader.result;
         this.collection.workspaceImageUrl = reader.result;
+        this.collection.workspaceImageBareContents = reader.result;
+        this.collection.workspaceImageBareUrl = reader.result;
+
+        this.canvasImageDataUrl = null;
+        this.clearCollectionItemsPositions();
+
         this.imageLoading = false;
       };
 
@@ -335,8 +346,23 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
     this.openModalImage = true;
   }
 
-  cancelImageModal() {
+  openCanvasModal() {
+    this.canvasImages = [];
+    for (let i = 0; i < this.collectionItems.length; i++) {
+      const item = this.collectionItems[i];
+      this.canvasImages.push({ img: item.imageUrl, positionAttributes: item.positionAttributes || {}, collectionItem: item });
+    }
+    this.openModalCanvas = true;
+  }
+
+  closeImageModal() {
     this.openModalImage = false;
+  }
+
+  closeCanvasModal(canvasImageDataUrl) {
+    this.openModalCanvas = false;
+    this.canvasImageDataUrl = canvasImageDataUrl;
+    this.collection.workspaceImageContents = canvasImageDataUrl;
   }
 
   loginWithGooglePopup(callback: () => void) {
@@ -347,6 +373,20 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
   loginWithFacebookPopup(callback: () => void) {
     this.loginLoading = true;
     this.loginWithPopup(this.authService.loginWithFacebookPopup(), callback);
+  }
+
+  private clearCollectionItemsPositions() {
+    for (let i = 0; i < this.collectionItems.length; i++) {
+      const item = this.collectionItems[i];
+      item.positionAttributes = {};
+    }
+  }
+
+  private newVersionInitialization() {
+    if (localStorage.getItem('version') !== 'v1') {
+      localStorage.clear();
+    }
+    localStorage.setItem('version', 'v1');
   }
 
   private initializeCollection() {
@@ -376,7 +416,7 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
 
   private loadCollectionFromLocalStorage() {
     let collectionData: any = localStorage.getItem('collectionData');
-    if (!collectionData || collectionData.indexOf('"collection":') == 0) {
+    if (!collectionData || collectionData.indexOf('"collection":') == -1) {
       collectionData = {
         collection: this.collection,
         collectionItems: this.collectionItems
@@ -385,6 +425,9 @@ export class CollectionViewComponent implements OnInit, CollectionViewComponentC
       collectionData = JSON.parse(collectionData);
       this.collection = collectionData.collection;
       this.collectionItems = collectionData.collectionItems;
+      for (let i = 0; i < this.collectionItems.length; i++) {
+        const item = this.collectionItems[i];
+      }
     }
     this.dataService.data.collectionData = collectionData;
   }

@@ -5,12 +5,11 @@
       <h3 class="mt-2 mb-0 text-center">{{'collection.project_board' | translate}}</h3>
       <p class="text-center porject-board-help-block mb-1">{{'collection.project_board_hint' | translate}}</p>
 
-      <div class="project-section mt-3">
-        <div class="top">
-          <div class="project-toolbar">
+      <div class="project-section mt-3 sticky-top">
+        <div class="project-toolbar">
 
-            <!-- <i *ngIf="collection.workspaceImageUrl" class="img-button img-edit-name fa fa-arrows float-right clickable" [ngClass]="{ 'd-none': isEditName }" (click)="openCanvasModal()"
-              placement="top" ngbTooltip="{{'collection.see_pictures_on_wall' | translate}}" aria-hidden="true"></i> -->
+          <i *ngIf="canvasImageDataUrl || collection.workspaceImageUrl" class="img-button img-edit-name fa fa-arrows float-right clickable" [ngClass]="{ 'd-none': isEditName }"
+            (click)="openCanvasModal()" placement="top" ngbTooltip="{{'collection.see_pictures_on_wall' | translate}}" aria-hidden="true"></i>
 
             <i class="float-right img-button img-save-name fa fa-check float-right clickable" [ngClass]="{ 'd-none': !isEditName }" (click)="editName(false)"
               placement="top" ngbTooltip="{{'common.save' | translate}}" aria-hidden="true"></i>
@@ -37,49 +36,47 @@
             <h5 class="collection-name editable-text mb-0" [ngClass]="{ 'd-none': isEditName, 'd-inline-block': !isEditName }">{{collection.name}}</h5>
           </div>
 
-          <div class="sticky-top">
-            <div class="position-relative introjs-daniel" data-step="1"
-              [attr.data-intro]="'intro.step1' | translate"
-              >
-              <img src="assets/images/placeholder_loading.png" [ngClass]="{ 'd-none': !imageLoading }" class="img-fluid" [alt]="collection.name">
-              <img [src]="collection.workspaceImageUrl || 'assets/images/workspace_placeholder.jpeg'" [ngClass]="{ 'd-none': imageLoading }"
-                class="workspace-image img-fluid" [alt]="collection.name">
-              <p *ngIf="!collection.workspaceImageUrl" class="clickable position-absolute workspace-image-text" (click)="!saveLoading && imageFile.click()">
-                {{'collection.upload_a_photo_of_your_room' | translate}}
-              </p>
-              <i *ngIf="imageLoading" class="img-loader position-absolute fa fa-spinner fa-spin fa-3x"></i>
-              <input type="file" (change)="readURL($event)" name="imageFile" #imageFile class="form-control-file d-none" id="inputWorkspaceImage">
+          <div class="position-relative introjs-daniel" data-step="1"
+            [attr.data-intro]="'intro.step1' | translate"
+            >
+            <img src="assets/images/placeholder_loading.png" [ngClass]="{ 'd-none': !imageLoading }" class="img-fluid" [alt]="collection.name">
+            <img [src]="collection.workspaceImageUrl || 'assets/images/workspace_placeholder.jpeg'" [ngClass]="{ 'd-none': imageLoading }"
+              class="workspace-image img-fluid" [alt]="collection.name">
+            <p *ngIf="!collection.workspaceImageUrl" class="clickable position-absolute workspace-image-text" (click)="!saveLoading && imageFile.click()">
+              {{'collection.upload_a_photo_of_your_room' | translate}}
+            </p>
+            <i *ngIf="imageLoading" class="img-loader position-absolute fa fa-spinner fa-spin fa-3x"></i>
+            <input type="file" (change)="readURL($event)" name="imageFile" #imageFile class="form-control-file d-none" id="inputWorkspaceImage">
+          </div>
+          <div class="purchase-zone introjs-daniel" data-step="5" [attr.data-intro]="'intro.step5' | translate" >
+            <div class="row no-gutters mt-2">
+              <div class="col-6 pt-2">
+                {{ 'collection.you_have_selected_x_items' | translate:{'items_count':(introService.isWithinIntro() ? introCollectionItems : collectionItems).length} }}
+              </div>
+              <div class="col-3 offset-1">
+                <i *ngIf="purchaseNavigateLoading" class="fa fa-spinner fa-spin fa-2x"></i>
+                <button *ngIf="!purchaseNavigateLoading" class="btn btn-primary introjs-daniel" (click)="navigateToPurchase(saveModal)">{{'collection.proceed_to_purchase' | translate}}</button>
+              </div>
             </div>
-            <div class="purchase-zone introjs-daniel" data-step="5" [attr.data-intro]="'intro.step5' | translate" >
-              <div class="row no-gutters mt-2">
-                <div class="col-6 pt-2">
-                  {{ 'collection.you_have_selected_x_items' | translate:{'items_count':(introService.isWithinIntro() ? introCollectionItems : collectionItems).length} }}
+            <div class="row no-gutters mt-2"
+            >
+              <ng-container *ngIf="introService.isWithinIntro()">
+                <div *ngFor="let collectionItem of introCollectionItems" class="col-md-4 mb-4 px-2 position-relative">
+                  <img [src]="collectionItem.thumbUrl" class="img-fluid collection-image" alt="">
+                  <i class="fa fa-times-circle position-absolute img-close clickable" (click)="removeCollectionItemById(collectionItem)" aria-hidden="true"></i>
+                  <i class="fa fa-search full-image-button clickable float-right" (click)="openImageModal(collectionItem)" aria-hidden="true"></i>
+                  <p>{{'collection.starting_at' | translate}}: {{collectionItem.startingPriceFormatted}}</p>
                 </div>
-                <div class="col-3 offset-1">
-                  <i *ngIf="purchaseNavigateLoading" class="fa fa-spinner fa-spin fa-2x"></i>
-                  <button *ngIf="!purchaseNavigateLoading" class="btn btn-primary introjs-daniel" (click)="navigateToPurchase(saveModal)">{{'collection.proceed_to_purchase' | translate}}</button>
+              </ng-container>
+              
+              <ng-container *ngIf="!introService.isWithinIntro()">
+                <div *ngFor="let collectionItem of collectionItems" class="col-md-4 mb-4 px-2 position-relative">
+                  <img [src]="collectionItem.thumbUrl" class="img-fluid collection-image" alt="">
+                  <i class="fa fa-times-circle position-absolute img-close clickable" (click)="removeCollectionItemById(collectionItem)" aria-hidden="true"></i>
+                  <i class="fa fa-search full-image-button clickable float-right" (click)="openImageModal(collectionItem)" aria-hidden="true"></i>
+                  <p>{{'collection.starting_at' | translate}}: {{collectionItem.startingPriceFormatted}}</p>
                 </div>
-              </div>
-              <div class="row no-gutters mt-2"
-              >
-                <ng-container *ngIf="introService.isWithinIntro()">
-                  <div *ngFor="let collectionItem of introCollectionItems" class="col-md-4 mb-4 px-2 position-relative">
-                    <img [src]="collectionItem.thumbUrl" class="img-fluid collection-image" alt="">
-                    <i class="fa fa-times-circle position-absolute img-close clickable" (click)="removeCollectionItemById(collectionItem)" aria-hidden="true"></i>
-                    <i class="fa fa-search full-image-button clickable float-right" (click)="openImageModal(collectionItem)" aria-hidden="true"></i>
-                    <p>{{'collection.starting_at' | translate}}: {{collectionItem.startingPriceFormatted}}</p>
-                  </div>
-                </ng-container>
-                
-                <ng-container *ngIf="!introService.isWithinIntro()">
-                  <div *ngFor="let collectionItem of collectionItems" class="col-md-4 mb-4 px-2 position-relative">
-                    <img [src]="collectionItem.thumbUrl" class="img-fluid collection-image" alt="">
-                    <i class="fa fa-times-circle position-absolute img-close clickable" (click)="removeCollectionItemById(collectionItem)" aria-hidden="true"></i>
-                    <i class="fa fa-search full-image-button clickable float-right" (click)="openImageModal(collectionItem)" aria-hidden="true"></i>
-                    <p>{{'collection.starting_at' | translate}}: {{collectionItem.startingPriceFormatted}}</p>
-                  </div>
-                </ng-container>
-              </div>
+              </ng-container>
             </div>
           </div>
         </div>
@@ -166,11 +163,11 @@
     </div>
   </div>
   <div *ngIf="openModalImage">
-    <ImageModal [modalImages]="modalImages" [imagePointer]="0" (cancelEvent)="cancelImageModal()"></ImageModal>
+    <ImageModal [modalImages]="modalImages" [imagePointer]="0" (cancelEvent)="closeImageModal()"></ImageModal>
   </div>
-  <!-- <div *ngIf="openModalCanvas">
-    <CanvasModal [backgroundImage]="collection.workspaceImageUrl" [modalImages]="canvasImages" (cancelEvent)="cancelCanvasModal()"></CanvasModal>
-  </div> -->
+  <div *ngIf="openModalCanvas">
+    <CanvasModal [backgroundImage]="collection.workspaceImageBareUrl" [modalImages]="canvasImages" (cancelEvent)="closeCanvasModal($event)"></CanvasModal>
+  </div>
 </ng-container>
 
 <ng-template #saveModal let-c="close" let-d="dismiss">
@@ -228,12 +225,3 @@
     </form>
   </div>
 </ng-template>
-
-
-
-
-<!-- <div class="row">
-  <div class="col-12">
-    <div id="canvasContainer"></div>
-  </div>
-</div> -->

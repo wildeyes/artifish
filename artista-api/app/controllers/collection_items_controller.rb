@@ -33,6 +33,6 @@ class CollectionItemsController < ApplicationController
     end
 
     def collection_item_params
-      params.require(:collection_item).permit(:name, :image_url, :item_url).merge(params.permit(:price))
+      params.require(:collection_item).permit(:name, :image_url, :item_url, :position_attributes => [:x, :y, :scale_x, :scale_y, :rotation]).merge(params.permit(:price))
     end
 end
