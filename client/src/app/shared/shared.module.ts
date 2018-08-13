@@ -9,6 +9,7 @@ import { AlertComponent } from './components/alert/alert.component';
 import { AlertService } from './services/alert.service';
 import { DataService } from './services/data.service';
 import { ImageModalComponent } from './components/image-modal/image-modal.component';
+import { CanvasModalComponent } from './components/canvas-modal/canvas-modal.component';
 
 @NgModule({
   imports: [
@@ -29,11 +30,13 @@ import { ImageModalComponent } from './components/image-modal/image-modal.compon
   ],
   declarations: [
     AlertComponent,
-    ImageModalComponent
+    ImageModalComponent,
+    CanvasModalComponent
   ],
   exports: [
     AlertComponent,
     ImageModalComponent,
+    CanvasModalComponent,
     CommonModule,
     HttpClientModule,
     FormsModule,

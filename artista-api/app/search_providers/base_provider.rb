@@ -103,7 +103,7 @@ module SearchProviders
         image_hash[:pricing] = get_prices_hash_for_product(image_hash)
         c += 1
         puts "-- #{c}/#{total_count} Getting prices"
-        break if c == 5
+        # break if c == 5
       end
       linked_images_hashes.reject! { |image_hash| image_hash[:pricing].nil? }
       next_page_link = get_next_page_link(page)
@@ -123,8 +123,8 @@ module SearchProviders
       materials_with_sizes_hashes.reject! {|m_hash| !self.class::ALLOWED_MATERIALS_IDS.include?(m_hash[:material_id])} if defined? self.class::ALLOWED_MATERIALS_IDS
       materials_with_sizes_hashes.each do |m_hash|
         m_hash[:sizes].each do |size|
+          size.downcase!
           w, h = size.split('x')
-          w, h = size.split('X') if w.nil? || h.nil?
 
           material_id = m_hash[:material_id]
           if self.class::CACHE_PRICE && @pricing_cache[material_id].present? && @pricing_cache[material_id]["#{w}x#{h}"].present?
